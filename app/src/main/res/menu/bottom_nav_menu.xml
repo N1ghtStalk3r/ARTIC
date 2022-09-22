@@ -2,11 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/artworksListFragment"
-        android:icon="@drawable/ic_collection"
+        android:icon="@android:drawable/ic_btn_speak_now"
         android:title="Коллекция" />
-
-    <item
-        android:id="@+id/exhibitionsListFragment"
-        android:icon="@drawable/ic_museum"
-        android:title="Выставки" />
+<!--    <item-->
+<!--        android:id="@+id/artworksDetailsFragment"-->
+<!--        android:title="Коллекция" />-->
+<!--    <item-->
+<!--        android:id="@+id/artworksListFragment"-->
+<!--        android:title="Коллекция" />-->
 </menu>

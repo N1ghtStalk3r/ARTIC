@@ -2,8 +2,8 @@ package com.nightstalker.artic.features.artwork.presentation.ui
 
 import androidx.lifecycle.*
 import com.nightstalker.artic.features.artwork.domain.Artwork
-import com.nightstalker.artic.features.artwork.domain.ArtworkManifest
 import com.nightstalker.artic.features.artwork.domain.repo.ArtWorkRepo
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
@@ -21,9 +21,6 @@ class ArtworkViewModel(
     private var _artworksLoaded = MutableLiveData<List<Artwork>>()
     val artworksLoaded: LiveData<List<Artwork>> get() = _artworksLoaded
 
-    private var _artworkManifestLoaded = MutableLiveData<ArtworkManifest>()
-    val artworkManifestLoaded: LiveData<ArtworkManifest> get() = _artworkManifestLoaded
-
     fun getArtwork(id: Int) {
         viewModelScope.launch {
             _artworkLoaded.postValue(repo.getArtworkById(id))
@@ -33,12 +30,6 @@ class ArtworkViewModel(
     fun getArtworks() {
         viewModelScope.launch() {
             _artworksLoaded.postValue(repo.getArtworks())
-        }
-    }
-
-    fun getManifest(id: Int) {
-        viewModelScope.launch() {
-            _artworkManifestLoaded.postValue(repo.getArtworkManifest(id))
         }
     }
 }

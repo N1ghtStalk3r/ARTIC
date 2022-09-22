@@ -12,11 +12,10 @@ package com.nightstalker.artic.features.exhibition.domain
  * @author Tamerlan Mamukhov
  */
 data class Exhibition(
-    val id: Int,
-    val imageUrl: String?,
-    val galleryTitle: String?,
-    val title: String?,
-    val altImageIds: List<String>?,
-    val status: String?,
-    val shortDescription: String?
+    val imageUrl: String,
+    val galleryTitle: String,
+    val title: String,
+    val altImageIds: List<String>,
+    val status: String,
+    val shortDescription: String
 )

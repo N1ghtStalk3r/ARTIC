@@ -4,7 +4,7 @@ package com.nightstalker.artic.core.data.model.agent
 import com.google.gson.annotations.SerializedName
 import com.nightstalker.artic.core.data.model.common.SuggestAutocompleteAll
 
-data class AgentData(
+data class Data(
     @SerializedName("alt_titles")
     val altTitles: List<String>,
     @SerializedName("api_link")

@@ -1,7 +1,6 @@
 package com.nightstalker.artic.features.artwork.data
 
 import com.nightstalker.artic.features.artwork.domain.Artwork
-import com.nightstalker.artic.features.artwork.domain.ArtworkManifest
 import com.nightstalker.artic.features.artwork.domain.repo.ArtWorkRepo
 import com.nightstalker.artic.network.ArtworksApiMapper
 
@@ -12,6 +11,4 @@ class ArtWorkRepoImpl(
         apiMapper.getArtWorkById(id)
 
     override suspend fun getArtworks(): List<Artwork> = apiMapper.getArtworks()
-
-    override suspend fun getArtworkManifest(id: Int): ArtworkManifest = apiMapper.getArtworkManifest(id)
 }

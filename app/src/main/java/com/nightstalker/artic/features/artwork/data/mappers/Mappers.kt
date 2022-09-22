@@ -1,12 +1,9 @@
 package com.nightstalker.artic.features.artwork.data.mappers
 
-import com.nightstalker.artic.core.data.model.artwork.detail.ArtworkModel
-import com.nightstalker.artic.core.data.model.artwork.detail.ArtworkData
-import com.nightstalker.artic.core.data.model.artwork.detail.manifest.ArtworkManifestModel
-import com.nightstalker.artic.core.data.model.exhibition.detail.ExhibitionData
-import com.nightstalker.artic.core.data.model.exhibition.detail.ExhibitionModel
+import com.nightstalker.artic.core.data.model.artwork.ArtworkModel
+import com.nightstalker.artic.core.data.model.artwork.Data
+import com.nightstalker.artic.core.data.model.exhibition.ExhibitionModel
 import com.nightstalker.artic.features.artwork.domain.Artwork
-import com.nightstalker.artic.features.artwork.domain.ArtworkManifest
 import com.nightstalker.artic.features.exhibition.domain.Exhibition
 
 /**
@@ -15,37 +12,19 @@ import com.nightstalker.artic.features.exhibition.domain.Exhibition
  * @author Tamerlan Mamukhov
  */
 
-fun ArtworkModel.toArtwork(): Artwork =
-    Artwork(id = data.id, title = data.title, imageId = data.imageId, artist = data.artistDisplay)
+fun ArtworkModel.toDomain(): Artwork =
+    Artwork(id = data.id, title = data.title, imageId = data.imageId)
 
-fun List<ArtworkData>.toListOfArtworks(): List<Artwork> =
-    map { Artwork(id = it.id, title = it.title, imageId = it.imageId, artist = it.artistDisplay) }
+fun List<Data>.toDomain(): List<Artwork> =
+    map { Artwork(id = it.id, title = it.title, imageId = it.imageId) }
 
-fun ArtworkManifestModel.toArtworkManifest(): ArtworkManifest =
-    ArtworkManifest(
-        description = description.first()?.value
-    )
-
-fun ExhibitionModel.toExhibition(): Exhibition =
+fun ExhibitionModel.toDomain(): Exhibition =
     Exhibition(
-        id = data.id,
         imageUrl = data.imageUrl,
         galleryTitle = data.galleryTitle,
         title = data.title,
         altImageIds = listOf(),
         status = data.status,
-        shortDescription = data.shortDescription
+//        shortDescription = data.shortDescription.toString()
+        shortDescription = ""
     )
-
-fun List<ExhibitionData>.toListOfExhibitions(): List<Exhibition> =
-    map {
-        Exhibition(
-            id = it.id,
-            imageUrl = it.imageUrl,
-            galleryTitle = it.galleryTitle,
-            title = it.title,
-            altImageIds = listOf(),
-            status = it.status,
-            shortDescription = it.shortDescription
-        )
-    }

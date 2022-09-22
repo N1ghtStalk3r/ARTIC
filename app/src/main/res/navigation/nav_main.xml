@@ -24,23 +24,4 @@
             app:argType="integer"
             android:defaultValue="-1" />
     </fragment>
-    <fragment
-        android:id="@+id/exhibitionsListFragment"
-        android:name="com.nightstalker.artic.features.exhibition.presentation.ui.list.ExhibitionsListFragment"
-        android:label="fragment_exhibitions_list"
-        tools:layout="@layout/fragment_exhibitions_list" >
-        <action
-            android:id="@+id/toExhibitionDetailsFragment"
-            app:destination="@id/exhibitionDetailsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/exhibitionDetailsFragment"
-        android:name="com.nightstalker.artic.features.exhibition.presentation.ui.detail.ExhibitionDetailsFragment"
-        android:label="fragment_exhibition_details"
-        tools:layout="@layout/fragment_exhibition_details" >
-        <argument
-            android:name="exhibition_id"
-            app:argType="integer"
-            android:defaultValue="-1" />
-    </fragment>
 </navigation>

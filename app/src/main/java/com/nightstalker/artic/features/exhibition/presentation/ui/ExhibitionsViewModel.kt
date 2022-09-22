@@ -20,18 +20,9 @@ class ExhibitionsViewModel(
     private var _exhibitionLoaded = MutableLiveData<Exhibition>()
     val exhibitionLoaded: LiveData<Exhibition> get() = _exhibitionLoaded
 
-    private var _exhibitionsLoaded = MutableLiveData<List<Exhibition>>()
-    val exhibitionsLoaded: LiveData<List<Exhibition>> get() = _exhibitionsLoaded
-
     fun getExhibition(id: Int) {
         viewModelScope.launch {
             _exhibitionLoaded.postValue(repo.getExhibitionById(id))
-        }
-    }
-
-    fun getExhibitions() {
-        viewModelScope.launch {
-            _exhibitionsLoaded.postValue(repo.getExhibitions())
         }
     }
 }

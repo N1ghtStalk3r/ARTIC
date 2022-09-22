@@ -1,4 +1,4 @@
-package com.nightstalker.artic.core.data.model.exhibition.detail
+package com.nightstalker.artic.core.data.model.exhibition
 
 
 import com.google.gson.annotations.SerializedName
@@ -14,7 +14,7 @@ data class ExhibitionModel(
     @SerializedName("config")
     val config: Config,
     @SerializedName("data")
-    val `data`: ExhibitionData,
+    val `data`: Data,
     @SerializedName("info")
     val info: Info
 )

@@ -18,7 +18,6 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
- * Фрагмент для отображения списка эспонатов
  * @author Tamerlan Mamukhov
  * @created 2022-09-18
  */
@@ -43,16 +42,20 @@ class ArtworksListFragment : Fragment() {
         with(binding) {
             rvArtworks.layoutManager =
                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+
             adapter = ArtworksListAdapter { id -> onItemClick(id) }
+
             rvArtworks.adapter = adapter
 
             initObservers()
+
             viewModel.getArtworks()
+
         }
     }
 
     private fun onItemClick(id: Int) {
-        ArtworksListFragmentDirections
+        val action = ArtworksListFragmentDirections
             .toArtworkDetailsFragment(id)
             .run { findNavController().navigate(this) }
     }
@@ -62,6 +65,9 @@ class ArtworksListFragment : Fragment() {
     }
 
     private fun setData(list: List<Artwork>) {
+        Log.d("TAG", "setData: $list")
         adapter.setData(list)
+        Log.d("TAG2", "setData: ${adapter.data}")
     }
 }
+
