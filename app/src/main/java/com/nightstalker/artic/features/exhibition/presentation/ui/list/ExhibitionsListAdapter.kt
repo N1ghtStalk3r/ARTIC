@@ -46,6 +46,7 @@ class ExhibitionsListAdapter(
     fun setData(data: List<Exhibition>) {
         if (data.isNotEmpty()) {
             this._data = data
+            notifyDataSetChanged()
         }
     }
 

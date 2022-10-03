@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="ListItemsTitle" parent="TextAppearance.AppCompat">
+
+    <style name="BaseTextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textAlignment">textStart</item>
+    </style>
+
+    <style name="ListItemsTitle" parent="BaseTextStyle">
         <item name="android:textSize">24dp</item>
-        <item name="android:textAlignment">textStart</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="ListItemsShortDescription" parent="TextAppearance.AppCompat">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">18dp</item>
-        <item name="android:textAlignment">textStart</item>
+    <style name="ListItemsShortDescription" parent="BaseTextStyle">
+        <item name="android:textSize">16dp</item>
     </style>
 
-    <style name="DetailOfListItemTitle" parent="TextAppearance.AppCompat">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">28dp</item>
+    <style name="DetailOfListItemTitle" parent="BaseTextStyle">
+        <item name="android:textSize">24dp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
 
-    <style name="DetailOfListItemDescription" parent="TextAppearance.AppCompat">
-        <item name="android:textColor">@color/black</item>
+    <style name="DetailOfListItemDescription" parent="BaseTextStyle">
         <item name="android:textSize">16dp</item>
     </style>
 </resources>

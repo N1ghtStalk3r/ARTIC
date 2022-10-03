@@ -35,4 +35,6 @@ class MainActivity : AppCompatActivity() {
         botNavView.setupWithNavController(navController)
     }
 
+    override fun onSupportNavigateUp(): Boolean =
+        findNavController(R.id.navHostFragment).navigateUp() || super.onSupportNavigateUp()
 }

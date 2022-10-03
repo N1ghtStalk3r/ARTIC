@@ -1,5 +1,6 @@
 package com.nightstalker.artic.features.exhibition.presentation.ui.list
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.nightstalker.artic.R
 import com.nightstalker.artic.databinding.FragmentExhibitionsListBinding
 import com.nightstalker.artic.features.exhibition.domain.Exhibition
 import com.nightstalker.artic.features.exhibition.presentation.ui.ExhibitionsViewModel
@@ -32,10 +34,13 @@ class ExhibitionsListFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("NewApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
+            ivFilterExh.tooltipText = getString(R.string.iv_filter)
+
             rvExhibitions.layoutManager =
                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             adapter = ExhibitionsListAdapter { id -> onItemClicked(id) }

@@ -4,4 +4,7 @@
     <string name="label_frag_art_det">Экспонат</string>
     <string name="label_frag_exi_list">Выставки</string>
     <string name="label_frag_exi_det">Выставка</string>
+    <string name="fab_scan_qr_tooltip">Сканировать QR-код</string>
+    <string name="iv_filter">Фильтровать</string>
+    <string name="btn_buy_ticket">Купить билет</string>
 </resources>

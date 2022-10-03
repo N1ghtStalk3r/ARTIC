@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.nightstalker.artic.R
-import com.nightstalker.artic.core.utils.ImageLinkConstructor
+import com.nightstalker.artic.core.utils.ImageLinkCreator
 import com.nightstalker.artic.databinding.ItemArtworkBinding
 import com.nightstalker.artic.features.artwork.domain.Artwork
 
@@ -33,7 +33,7 @@ class ArtworksListAdapter(
         with(holder.binding) {
             textTitle.text = item.title
 
-            val imageUrl = item.imageId?.let { ImageLinkConstructor.createImageDefaultLink(it) }
+            val imageUrl = item.imageId?.let { ImageLinkCreator.createImageDefaultLink(it) }
             Glide.with(context).load(imageUrl).into(placeImage)
 
             root.setOnClickListener {
@@ -47,6 +47,7 @@ class ArtworksListAdapter(
     fun setData(data: List<Artwork>) {
         if (data.isNotEmpty()) {
             this._data = data
+            notifyDataSetChanged()
         }
     }
 
