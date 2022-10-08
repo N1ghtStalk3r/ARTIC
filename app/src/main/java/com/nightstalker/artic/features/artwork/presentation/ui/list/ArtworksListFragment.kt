@@ -1,11 +1,10 @@
 package com.nightstalker.artic.features.artwork.presentation.ui.list
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,9 +12,7 @@ import com.nightstalker.artic.R
 import com.nightstalker.artic.databinding.FragmentArtworksListBinding
 import com.nightstalker.artic.features.artwork.domain.Artwork
 import com.nightstalker.artic.features.artwork.presentation.ui.ArtworkViewModel
-import com.nightstalker.artic.features.artwork.presentation.ui.detail.ArtworkDetailsFragment
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * Фрагмент для отображения списка эспонатов
@@ -37,10 +34,13 @@ class ArtworksListFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("NewApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
+                fabScanQr.tooltipText = getString(R.string.fab_scan_qr_tooltip)
+                ivFilterArts.tooltipText = getString(R.string.iv_filter)
             rvArtworks.layoutManager =
                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             adapter = ArtworksListAdapter { id -> onItemClick(id) }

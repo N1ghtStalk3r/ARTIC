@@ -10,19 +10,19 @@ data class ExhibitionData(
     @SerializedName("aic_start_at")
     val aicStartAt: String,
     @SerializedName("alt_image_ids")
-    val altImageIds: List<Any>,
+    val altImageIds: List<String> = listOf(),
     @SerializedName("api_link")
     val apiLink: String,
     @SerializedName("api_model")
     val apiModel: String,
     @SerializedName("artist_ids")
-    val artistIds: List<Int>,
+    val artistIds: List<Int> = listOf(),
     @SerializedName("artwork_ids")
-    val artworkIds: List<Int>,
+    val artworkIds: List<Int> = listOf(),
     @SerializedName("artwork_titles")
-    val artworkTitles: List<String>,
+    val artworkTitles: List<String> = listOf(),
     @SerializedName("document_ids")
-    val documentIds: List<Any>,
+    val documentIds: List<String> = listOf(),
     @SerializedName("gallery_id")
     val galleryId: Int,
     @SerializedName("gallery_title")
@@ -30,7 +30,7 @@ data class ExhibitionData(
     @SerializedName("id")
     val id: Int,
     @SerializedName("image_id")
-    val imageId: Any,
+    val imageId: String,
     @SerializedName("image_url")
     val imageUrl: String,
     @SerializedName("is_featured")
@@ -38,7 +38,7 @@ data class ExhibitionData(
     @SerializedName("short_description")
     val shortDescription: String,
     @SerializedName("site_ids")
-    val siteIds: List<Any>,
+    val siteIds: List<String> = listOf(),
     @SerializedName("source_updated_at")
     val sourceUpdatedAt: String,
     @SerializedName("status")

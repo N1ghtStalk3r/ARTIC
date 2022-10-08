@@ -5,21 +5,21 @@ import com.nightstalker.artic.core.data.model.common.SuggestAutocompleteAll
 
 data class ArtworkData(
     @SerializedName("alt_artist_ids")
-    val altArtistIds: List<Any>,
+    val altArtistIds: List<String> = listOf(),
     @SerializedName("alt_classification_ids")
-    val altClassificationIds: List<String>,
+    val altClassificationIds: List<String> = listOf(),
     @SerializedName("alt_image_ids")
-    val altImageIds: List<Any>,
+    val altImageIds: List<String> = listOf(),
     @SerializedName("alt_material_ids")
-    val altMaterialIds: List<Any>,
+    val altMaterialIds: List<String> = listOf(),
     @SerializedName("alt_style_ids")
-    val altStyleIds: List<Any>,
+    val altStyleIds: List<String> = listOf(),
     @SerializedName("alt_subject_ids")
-    val altSubjectIds: List<String>,
+    val altSubjectIds: List<String> = listOf(),
     @SerializedName("alt_technique_ids")
-    val altTechniqueIds: List<Any>,
+    val altTechniqueIds: List<String> = listOf(),
     @SerializedName("alt_titles")
-    val altTitles: Any,
+    val altTitles: String,
     @SerializedName("api_link")
     val apiLink: String,
     @SerializedName("api_model")
@@ -29,31 +29,31 @@ data class ArtworkData(
     @SerializedName("artist_id")
     val artistId: Int,
     @SerializedName("artist_ids")
-    val artistIds: List<Int>,
+    val artistIds: List<Int> = listOf(),
     @SerializedName("artist_title")
     val artistTitle: String,
     @SerializedName("artist_titles")
-    val artistTitles: List<String>,
+    val artistTitles: List<String> = listOf(),
     @SerializedName("artwork_type_id")
     val artworkTypeId: Int,
     @SerializedName("artwork_type_title")
     val artworkTypeTitle: String,
     @SerializedName("boost_rank")
-    val boostRank: Any,
+    val boostRank: String,
     @SerializedName("catalogue_display")
-    val catalogueDisplay: Any,
+    val catalogueDisplay: String,
     @SerializedName("category_ids")
-    val categoryIds: List<String>,
+    val categoryIds: List<String> = listOf(),
     @SerializedName("category_titles")
-    val categoryTitles: List<String>,
+    val categoryTitles: List<String> = listOf(),
     @SerializedName("classification_id")
     val classificationId: String,
     @SerializedName("classification_ids")
-    val classificationIds: List<String>,
+    val classificationIds: List<String> = listOf(),
     @SerializedName("classification_title")
     val classificationTitle: String,
     @SerializedName("classification_titles")
-    val classificationTitles: List<String>,
+    val classificationTitles: List<String> = listOf(),
     @SerializedName("color")
     val color: Color,
     @SerializedName("colorfulness")
@@ -67,7 +67,7 @@ data class ArtworkData(
     @SerializedName("date_end")
     val dateEnd: Int,
     @SerializedName("date_qualifier_id")
-    val dateQualifierId: Any,
+    val dateQualifierId: String,
     @SerializedName("date_qualifier_title")
     val dateQualifierTitle: String,
     @SerializedName("date_start")
@@ -79,17 +79,17 @@ data class ArtworkData(
     @SerializedName("dimensions")
     val dimensions: String,
     @SerializedName("document_ids")
-    val documentIds: List<Any>,
+    val documentIds: List<String> = listOf(),
     @SerializedName("exhibition_history")
     val exhibitionHistory: String,
     @SerializedName("fiscal_year")
     val fiscalYear: Int,
     @SerializedName("fiscal_year_deaccession")
-    val fiscalYearDeaccession: Any,
+    val fiscalYearDeaccession: String,
     @SerializedName("gallery_id")
-    val galleryId: Any,
+    val galleryId: String,
     @SerializedName("gallery_title")
-    val galleryTitle: Any,
+    val galleryTitle: String,
     @SerializedName("has_educational_resources")
     val hasEducationalResources: Boolean,
     @SerializedName("has_multimedia_resources")
@@ -113,25 +113,25 @@ data class ArtworkData(
     @SerializedName("is_zoomable")
     val isZoomable: Boolean,
     @SerializedName("latitude")
-    val latitude: Any,
+    val latitude: String,
     @SerializedName("latlon")
-    val latlon: Any,
+    val latlon: String,
     @SerializedName("longitude")
-    val longitude: Any,
+    val longitude: String,
     @SerializedName("main_reference_number")
     val mainReferenceNumber: String,
     @SerializedName("material_id")
-    val materialId: Any,
+    val materialId: String,
     @SerializedName("material_ids")
-    val materialIds: List<Any>,
+    val materialIds: List<String> = listOf(),
     @SerializedName("material_titles")
-    val materialTitles: List<Any>,
+    val materialTitles: List<String> = listOf(),
     @SerializedName("max_zoom_window_size")
     val maxZoomWindowSize: Int,
     @SerializedName("medium_display")
     val mediumDisplay: String,
     @SerializedName("on_loan_display")
-    val onLoanDisplay: Any,
+    val onLoanDisplay: String,
     @SerializedName("place_of_origin")
     val placeOfOrigin: String,
     @SerializedName("provenance_text")
@@ -140,44 +140,42 @@ data class ArtworkData(
     val publicationHistory: String,
     @SerializedName("publishing_verification_level")
     val publishingVerificationLevel: String,
-    @SerializedName("section_ids")
-    val sectionIds: List<Int>,
     @SerializedName("section_titles")
-    val sectionTitles: List<String>,
+    val sectionTitles: List<String> = listOf(),
     @SerializedName("site_ids")
-    val siteIds: List<Any>,
+    val siteIds: List<String> = listOf(),
     @SerializedName("sound_ids")
-    val soundIds: List<Any>,
+    val soundIds: List<String> = listOf(),
     @SerializedName("source_updated_at")
     val sourceUpdatedAt: String,
     @SerializedName("style_id")
-    val styleId: Any,
+    val styleId: String,
     @SerializedName("style_ids")
-    val styleIds: List<Any>,
+    val styleIds: List<String> = listOf(),
     @SerializedName("style_title")
-    val styleTitle: Any,
+    val styleTitle: String,
     @SerializedName("style_titles")
-    val styleTitles: List<Any>,
+    val styleTitles: List<String> = listOf(),
     @SerializedName("subject_id")
     val subjectId: String,
     @SerializedName("subject_ids")
-    val subjectIds: List<String>,
+    val subjectIds: List<String> = listOf(),
     @SerializedName("subject_titles")
-    val subjectTitles: List<String>,
+    val subjectTitles: List<String> = listOf(),
     @SerializedName("suggest_autocomplete_all")
-    val suggestAutocompleteAll: List<SuggestAutocompleteAll>,
+    val suggestAutocompleteAll: List<SuggestAutocompleteAll> = listOf(),
     @SerializedName("technique_id")
     val techniqueId: String,
     @SerializedName("technique_ids")
-    val techniqueIds: List<String>,
+    val techniqueIds: List<String> = listOf(),
     @SerializedName("technique_titles")
-    val techniqueTitles: List<String>,
+    val techniqueTitles: List<String> = listOf(),
     @SerializedName("term_titles")
-    val termTitles: List<String>,
+    val termTitles: List<String> = listOf(),
     @SerializedName("text_ids")
-    val textIds: List<Any>,
+    val textIds: List<String> = listOf(),
     @SerializedName("theme_titles")
-    val themeTitles: List<Any>,
+    val themeTitles: List<String> = listOf(),
     @SerializedName("thumbnail")
     val thumbnail: Thumbnail,
     @SerializedName("timestamp")
@@ -187,5 +185,5 @@ data class ArtworkData(
     @SerializedName("updated_at")
     val updatedAt: String,
     @SerializedName("video_ids")
-    val videoIds: List<Any>
+    val videoIds: List<String> = listOf()
 )

@@ -7,7 +7,7 @@ package com.nightstalker.artic.core.utils
  * @author Tamerlan Mamukhov
  * @created 2022-09-16
  */
-object ImageLinkConstructor {
+object ImageLinkCreator {
     fun createImageDefaultLink(imageId: String): String {
         return "https://www.artic.edu/iiif/2/$imageId/full/200,/0/default.jpg"
     }

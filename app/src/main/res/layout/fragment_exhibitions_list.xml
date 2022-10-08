@@ -7,14 +7,24 @@
     android:layout_height="match_parent"
     tools:context=".features.exhibition.presentation.ui.list.ExhibitionsListFragment">
 
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_filter_list"
+        android:id="@+id/ivFilterExh" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:listitem="@layout/item_exhibition"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivFilterExh"
         android:id="@+id/rvExhibitions" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
