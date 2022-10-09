@@ -1,6 +1,5 @@
 package com.nightstalker.artic.features.artwork.presentation.ui.list
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +20,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  */
 class ArtworksListFragment : Fragment() {
 
-    private lateinit var binding: FragmentArtworksListBinding
+    private var binding: FragmentArtworksListBinding? = null
     private lateinit var adapter: ArtworksListAdapter
     private val viewModel by sharedViewModel<ArtworkViewModel>()
 
@@ -29,26 +28,33 @@ class ArtworksListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentArtworksListBinding.inflate(inflater, container, false)
-        return binding.root
+    ): View {
+        return inflater.inflate(R.layout.fragment_artworks_list, container, false)
     }
 
-    @SuppressLint("NewApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = FragmentArtworksListBinding.bind(view)
 
         with(binding) {
-                fabScanQr.tooltipText = getString(R.string.fab_scan_qr_tooltip)
-                ivFilterArts.tooltipText = getString(R.string.iv_filter)
-            rvArtworks.layoutManager =
+            this?.rvArtworks?.layoutManager =
                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             adapter = ArtworksListAdapter { id -> onItemClick(id) }
-            rvArtworks.adapter = adapter
+            this?.rvArtworks?.adapter = adapter
 
             initObservers()
             viewModel.getArtworks()
+
+            this?.ivFilterArts?.setOnClickListener {
+                findNavController().navigate(R.id.filterArtworksDialogFragment)
+            }
+
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
     private fun onItemClick(id: Int) {

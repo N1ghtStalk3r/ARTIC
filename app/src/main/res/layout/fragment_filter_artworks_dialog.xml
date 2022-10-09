@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:padding="16dp"
+    tools:context=".features.exhibition.presentation.ui.dialog.FilterExhibitionsDialogFragment">
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="recentAcquisition, educationalResources, publicDomain"
+        app:flow_horizontalAlign="start"
+        app:flow_horizontalBias="0"
+        app:flow_maxElementsWrap="1"
+        app:flow_verticalBias="0"
+        app:flow_verticalGap="8dp"
+        app:flow_wrapMode="chain"
+        app:layout_constraintBottom_toTopOf="@id/btnClose"
+        app:layout_constraintTop_toBottomOf="@id/tvFilterTitle" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnClose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Закрыть"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvFilterTitle"
+        style="@style/TextAppearance.Material3.HeadlineMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Фильтр"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/educationalResources"
+        layout="@layout/item_filter_w_cb" />
+
+    <include
+        android:id="@+id/publicDomain"
+        layout="@layout/item_filter_w_cb" />
+
+    <include
+        android:id="@+id/recentAcquisition"
+        layout="@layout/item_filter_w_cb" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

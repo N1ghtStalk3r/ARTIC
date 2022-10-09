@@ -1,6 +1,5 @@
 package com.nightstalker.artic.features.exhibition.presentation.ui.list
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,31 +22,39 @@ class ExhibitionsListFragment : Fragment() {
 
     private lateinit var adapter: ExhibitionsListAdapter
     private val exhibitionsViewModel by viewModel<ExhibitionsViewModel>()
-    private lateinit var binding: FragmentExhibitionsListBinding
+    private var binding: FragmentExhibitionsListBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentExhibitionsListBinding.inflate(inflater, container, false)
-        return binding.root
+
+        return inflater.inflate(R.layout.fragment_exhibitions_list, container, false)
     }
 
-    @SuppressLint("NewApi")
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            ivFilterExh.tooltipText = getString(R.string.iv_filter)
 
-            rvExhibitions.layoutManager =
+            this?.rvExhibitions?.layoutManager =
                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             adapter = ExhibitionsListAdapter { id -> onItemClicked(id) }
-            rvExhibitions.adapter = adapter
+            this?.rvExhibitions?.adapter = adapter
+
+            exhibitionsViewModel.getExhibitions()
 
             initObserver()
-            exhibitionsViewModel.getExhibitions()
+
+            this?.ivFilterExh?.setOnClickListener {
+                findNavController().navigate(R.id.filterExhibitionsDialogFragment)
+            }
         }
     }
 

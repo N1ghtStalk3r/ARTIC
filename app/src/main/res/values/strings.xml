@@ -7,4 +7,7 @@
     <string name="fab_scan_qr_tooltip">Сканировать QR-код</string>
     <string name="iv_filter">Фильтровать</string>
     <string name="btn_buy_ticket">Купить билет</string>
+    <string name="filter_content_recent">Недавное появившееся</string>
+    <string name="filter_content_pub_dom">Public domain</string>
+    <string name="filter_content_has_materials">Есть материалы</string>
 </resources>

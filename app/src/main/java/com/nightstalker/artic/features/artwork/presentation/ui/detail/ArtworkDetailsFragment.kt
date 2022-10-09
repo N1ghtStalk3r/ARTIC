@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.nightstalker.artic.R
 import com.nightstalker.artic.core.utils.ImageLinkCreator
 import com.nightstalker.artic.databinding.FragmentArtworkDetailsBinding
 import com.nightstalker.artic.features.artwork.domain.Artwork
@@ -21,7 +22,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  */
 class ArtworkDetailsFragment : Fragment() {
     private val args: ArtworkDetailsFragmentArgs by navArgs()
-    private lateinit var binding: FragmentArtworkDetailsBinding
+    private var binding: FragmentArtworkDetailsBinding? = null
     private val viewModel by sharedViewModel<ArtworkViewModel>()
 
     override fun onCreateView(
@@ -29,16 +30,22 @@ class ArtworkDetailsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentArtworkDetailsBinding.inflate(inflater, container, false)
-        return binding.root
+        return inflater.inflate(R.layout.fragment_artwork_details, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding = FragmentArtworkDetailsBinding.bind(view)
         val id = args.posterId
         viewModel.getArtwork(id)
         viewModel.getManifest(id)
         initObserver()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
     private fun initObserver() {
@@ -48,17 +55,20 @@ class ArtworkDetailsFragment : Fragment() {
 
     private fun setManViews(artworkManifest: ArtworkManifest?) {
         with(binding) {
-            tvDescription.text = artworkManifest?.description
+            this?.tvDescription?.text = artworkManifest?.description
         }
     }
 
     private fun setArtworkViews(artwork: Artwork) {
         with(binding) {
-            tvTitle.text = artwork.title
-            tvAuthor.text = artwork.artist
-            val context = binding.placeImage.context
+            this?.tvTitle?.text = artwork.title
+            this?.tvAuthor?.text = artwork.artist
+            val context = binding?.placeImage?.context
             val imageUrl = artwork.imageId?.let { ImageLinkCreator.createImageDefaultLink(it) }
-            Glide.with(context).load(imageUrl).into(placeImage)
+
+            val place = binding?.placeImage
+
+            context?.let { place?.let { it1 -> Glide.with(it).load(imageUrl).into(it1) } }
         }
     }
 }
