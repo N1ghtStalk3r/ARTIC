@@ -37,10 +37,20 @@
         android:id="@+id/exhibitionDetailsFragment"
         android:name="com.nightstalker.artic.features.exhibition.presentation.ui.detail.ExhibitionDetailsFragment"
         android:label="@string/label_frag_exi_det"
-        tools:layout="@layout/fragment_exhibition_details" >
+        tools:layout="@layout/fragment_exhibition_details">
         <argument
             android:name="exhibition_id"
             app:argType="integer"
             android:defaultValue="-1" />
     </fragment>
+    <dialog
+        android:id="@+id/filterExhibitionsDialogFragment"
+        android:name="com.nightstalker.artic.features.exhibition.presentation.ui.dialog.FilterExhibitionsDialogFragment"
+        android:label="FilterArtworksDialogFragment"
+        tools:layout="@layout/fragment_filter_artworks_dialog" />
+    <dialog
+        android:id="@+id/filterArtworksDialogFragment"
+        android:name="com.nightstalker.artic.features.artwork.presentation.ui.dialog.FilterArtworksDialogFragment"
+        android:label="FilterArtworksDialogFragment"
+        tools:layout="@layout/fragment_filter_artworks_dialog" />
 </navigation>

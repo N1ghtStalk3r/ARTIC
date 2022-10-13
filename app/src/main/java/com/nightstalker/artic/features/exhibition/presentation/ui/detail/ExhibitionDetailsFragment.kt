@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.nightstalker.artic.R
 import com.nightstalker.artic.databinding.FragmentExhibitionDetailsBinding
 import com.nightstalker.artic.features.exhibition.domain.Exhibition
 import com.nightstalker.artic.features.exhibition.presentation.ui.ExhibitionsViewModel
@@ -20,15 +21,19 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class ExhibitionDetailsFragment : Fragment() {
     private val args: ExhibitionDetailsFragmentArgs by navArgs()
     private val exhibitionsViewModel by viewModel<ExhibitionsViewModel>()
-    private lateinit var binding: FragmentExhibitionDetailsBinding
+    private var binding: FragmentExhibitionDetailsBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentExhibitionDetailsBinding.inflate(inflater, container, false)
-        return binding.root
+        return inflater.inflate(R.layout.fragment_exhibition_details, container, false)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,12 +49,14 @@ class ExhibitionDetailsFragment : Fragment() {
     }
 
     private fun setViews(exhibition: Exhibition?) = with(binding) {
-        tvTitle.text = exhibition?.title.orEmpty()
-        tvDescription.text = exhibition?.shortDescription.orEmpty()
-        tvStatus.text = exhibition?.status.orEmpty()
+        this?.tvTitle?.text = exhibition?.title.orEmpty()
+        this?.tvDescription?.text = exhibition?.shortDescription.orEmpty()
+        this?.tvStatus?.text = exhibition?.status.orEmpty()
 
-        val context = ivImage.context
+        val context = this?.ivImage?.context
         val imageUrl = exhibition?.imageUrl.orEmpty()
-        Glide.with(context).load(imageUrl).into(ivImage)
+        if (context != null) {
+            this?.ivImage?.let { Glide.with(context).load(imageUrl).into(it) }
+        }
     }
 }
