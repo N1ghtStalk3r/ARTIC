@@ -10,4 +10,5 @@
     <string name="filter_content_recent">Недавное появившееся</string>
     <string name="filter_content_pub_dom">Public domain</string>
     <string name="filter_content_has_materials">Есть материалы</string>
+    <string name="hint_search">Search...</string>
 </resources>

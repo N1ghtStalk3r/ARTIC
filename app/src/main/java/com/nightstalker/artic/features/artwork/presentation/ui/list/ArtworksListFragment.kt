@@ -1,6 +1,7 @@
 package com.nightstalker.artic.features.artwork.presentation.ui.list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,6 +50,16 @@ class ArtworksListFragment : Fragment() {
                 findNavController().navigate(R.id.filterArtworksDialogFragment)
             }
 
+            this?.fabScanQr?.setOnClickListener {
+                val query = this.til.editText?.text?.toString()
+
+                if (query != null) {
+                    viewModel.getArtworksByQuery(query)
+                }
+
+                Log.d("Fragm", "onViewCreated: $query")
+            }
+
         }
     }
 
@@ -65,9 +76,18 @@ class ArtworksListFragment : Fragment() {
 
     private fun initObservers() {
         viewModel.artworksLoaded.observe(viewLifecycleOwner, ::setData)
+        viewModel.searchedArtworksLoaded.observe(viewLifecycleOwner, ::logData)
+    }
+
+    private fun logData(list: List<Artwork>?) {
+        Log.d("Artworks: ", "logData: $list")
     }
 
     private fun setData(list: List<Artwork>) {
         adapter.setData(list)
+    }
+
+    private fun searchByQuery(query: String) {
+        viewModel.getArtworksByQuery(query)
     }
 }

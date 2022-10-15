@@ -9,7 +9,8 @@ import com.nightstalker.artic.features.artwork.domain.ArtworkManifest
  * @author Tamerlan Mamukhov on 2022-09-13
  */
 interface ArtworkRepo {
-   suspend fun getArtworkById(id: Int): Artwork
-   suspend fun getArtworks(): List<Artwork>
-   suspend fun getArtworkManifest(id: Int): ArtworkManifest
+    suspend fun getArtworkById(id: Int): Artwork
+    suspend fun getArtworks(): List<Artwork>
+    suspend fun getArtworkManifest(id: Int): ArtworkManifest
+    suspend fun getArtworksByQuery(search: String): List<Artwork>
 }
