@@ -1,6 +1,7 @@
 package com.nightstalker.artic
 
 import android.app.Application
+import com.nightstalker.artic.core.di.dispatchersModule
 import com.nightstalker.artic.features.artwork.di.artworkModules
 import com.nightstalker.artic.features.di.networkModule
 import com.nightstalker.artic.features.exhibition.di.exhibitionModules
@@ -13,6 +14,7 @@ class ArticApp: Application() {
 
         startKoin {
             androidContext(this@ArticApp)
+            modules(dispatchersModule)
             modules(artworkModules)
             modules(exhibitionModules)
             modules(networkModule)

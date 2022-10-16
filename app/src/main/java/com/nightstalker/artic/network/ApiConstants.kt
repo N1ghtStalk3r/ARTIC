@@ -1,7 +1,7 @@
 package com.nightstalker.artic.network
 
 /**
- * Константы для создания точных запросов с сети
+ * Константы для создания точных запросов с сеть
  *
  * @constructor Create empty Api constants
  */
@@ -87,6 +87,9 @@ object ApiConstants {
     const val TECHNIQUE_TITLES = "technique_titles"
     const val THEME_TITLES = "theme_titles"
     const val IMAGE_ID = "image_id"
+    const val IMAGE_URL = "image_url"
+    const val SHORT_DESCRIPTION = "short_description"
+    const val STATUS = "status"
     const val ALT_IMAGE_IDS = "alt_image_ids"
     const val DOCUMENT_IDS = "document_ids"
     const val SOUND_IDS = "sound_ids"
