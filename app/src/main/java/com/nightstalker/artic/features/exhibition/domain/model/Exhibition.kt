@@ -1,4 +1,4 @@
-package com.nightstalker.artic.features.exhibition.domain
+package com.nightstalker.artic.features.exhibition.domain.model
 
 /**
  * Класс выставки
@@ -18,5 +18,5 @@ data class Exhibition(
     val title: String?,
     val altImageIds: List<String>?,
     val status: String?,
-    val shortDescription: String?
+    val shortDescription: String?,
 )

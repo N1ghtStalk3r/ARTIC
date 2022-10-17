@@ -9,7 +9,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.nightstalker.artic.R
 import com.nightstalker.artic.databinding.FragmentExhibitionDetailsBinding
-import com.nightstalker.artic.features.exhibition.domain.Exhibition
+import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
 import com.nightstalker.artic.features.exhibition.presentation.ui.ExhibitionsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -45,7 +45,7 @@ class ExhibitionDetailsFragment : Fragment() {
     }
 
     private fun initObserver() {
-        exhibitionsViewModel.exhibitionLoaded.observe(viewLifecycleOwner, ::setViews)
+        // exhibitionsViewModel.exhibitionLoaded.observe(viewLifecycleOwner, ::setViews)
     }
 
     private fun setViews(exhibition: Exhibition?) = with(binding) {

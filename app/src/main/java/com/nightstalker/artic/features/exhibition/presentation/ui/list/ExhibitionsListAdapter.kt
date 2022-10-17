@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.nightstalker.artic.R
 import com.nightstalker.artic.databinding.ItemExhibitionBinding
-import com.nightstalker.artic.features.exhibition.domain.Exhibition
+import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
 
 /**
  * @author Tamerlan Mamukhov

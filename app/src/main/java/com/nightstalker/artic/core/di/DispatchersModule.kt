@@ -6,6 +6,8 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 /**
+ * Модуль диспетчеров корутин
+ *
  * @author Tamerlan Mamukhov
  * @created 2022-10-10
  */

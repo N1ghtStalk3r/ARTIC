@@ -1,16 +1,18 @@
 package com.nightstalker.artic.features.artwork.presentation.ui.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nightstalker.artic.R
+import com.nightstalker.artic.core.domain.ContentResultState
 import com.nightstalker.artic.databinding.FragmentArtworksListBinding
-import com.nightstalker.artic.features.artwork.domain.Artwork
+import com.nightstalker.artic.features.artwork.domain.model.Artwork
 import com.nightstalker.artic.features.artwork.presentation.ui.ArtworkViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -28,7 +30,7 @@ class ArtworksListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         return inflater.inflate(R.layout.fragment_artworks_list, container, false)
     }
@@ -44,22 +46,14 @@ class ArtworksListFragment : Fragment() {
             this?.rvArtworks?.adapter = adapter
 
             initObservers()
+
             viewModel.getArtworks()
+
+            setupSearchView()
 
             this?.ivFilterArts?.setOnClickListener {
                 findNavController().navigate(R.id.filterArtworksDialogFragment)
             }
-
-            this?.fabScanQr?.setOnClickListener {
-                val query = this.til.editText?.text?.toString()
-
-                if (query != null) {
-                    viewModel.getArtworksByQuery(query)
-                }
-
-                Log.d("Fragm", "onViewCreated: $query")
-            }
-
         }
     }
 
@@ -68,26 +62,65 @@ class ArtworksListFragment : Fragment() {
         binding = null
     }
 
-    private fun onItemClick(id: Int) {
-        ArtworksListFragmentDirections
-            .toArtworkDetailsFragment(id)
-            .run { findNavController().navigate(this) }
+    private fun initObservers() = with(viewModel) {
+        searchedArtworksContentState.observe(viewLifecycleOwner, ::setSearchedData)
+        artworksContentState.observe(viewLifecycleOwner, ::handle)
     }
 
-    private fun initObservers() {
-        viewModel.artworksLoaded.observe(viewLifecycleOwner, ::setData)
-        viewModel.searchedArtworksLoaded.observe(viewLifecycleOwner, ::logData)
+    private fun setupSearchView() {
+        binding?.searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                binding?.searchView?.clearFocus()
+                searchByQuery(query.toString())
+                Toast.makeText(activity, "$query", Toast.LENGTH_SHORT).show()
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
     }
 
-    private fun logData(list: List<Artwork>?) {
-        Log.d("Artworks: ", "logData: $list")
+    private fun handle(contentResultState: ContentResultState) = when (contentResultState) {
+        is ContentResultState.Content -> {
+            contentResultState.handle()
+        }
+        is ContentResultState.Error -> {
+            contentResultState.handle()
+        }
+        else -> {}
     }
 
-    private fun setData(list: List<Artwork>) {
-        adapter.setData(list)
+    private fun tryAgain() {
+        binding?.errorLayout?.root?.visibility = View.INVISIBLE
+        viewModel.getArtworks()
     }
 
-    private fun searchByQuery(query: String) {
-        viewModel.getArtworksByQuery(query)
+    private fun onItemClick(id: Int) = ArtworksListFragmentDirections
+        .toArtworkDetailsFragment(id)
+        .run { findNavController().navigate(this) }
+
+    private fun setSearchedData(list: List<Artwork>?) {
+        list?.let { adapter.setData(it) }
     }
+
+    private fun searchByQuery(query: String) = viewModel.getArtworksByQuery(query)
+
+    private fun ContentResultState.Content.handle() {
+        adapter.setData(contentsList as List<Artwork>)
+        binding?.rvArtworks?.adapter = adapter
+    }
+
+    private fun ContentResultState.Error.handle() {
+        with(binding) {
+            this?.errorLayout?.apply {
+                root.visibility = View.VISIBLE
+                btnErrorTryAgain.setOnClickListener { tryAgain() }
+                textErrorDescription.setText(error.title)
+                textErrorDescription.setText(error.description)
+            }
+        }
+    }
+
 }

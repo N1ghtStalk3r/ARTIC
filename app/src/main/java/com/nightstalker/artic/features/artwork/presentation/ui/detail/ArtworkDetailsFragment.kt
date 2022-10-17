@@ -1,6 +1,7 @@
 package com.nightstalker.artic.features.artwork.presentation.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.nightstalker.artic.R
+import com.nightstalker.artic.core.domain.ContentResultState
 import com.nightstalker.artic.core.utils.ImageLinkCreator
 import com.nightstalker.artic.databinding.FragmentArtworkDetailsBinding
-import com.nightstalker.artic.features.artwork.domain.Artwork
-import com.nightstalker.artic.features.artwork.domain.ArtworkManifest
+import com.nightstalker.artic.features.artwork.domain.model.Artwork
+import com.nightstalker.artic.features.artwork.domain.model.ArtworkManifest
 import com.nightstalker.artic.features.artwork.presentation.ui.ArtworkViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -28,7 +30,7 @@ class ArtworkDetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         return inflater.inflate(R.layout.fragment_artwork_details, container, false)
     }
@@ -38,9 +40,10 @@ class ArtworkDetailsFragment : Fragment() {
 
         binding = FragmentArtworkDetailsBinding.bind(view)
         val id = args.posterId
-        viewModel.getArtwork(id)
-        viewModel.getManifest(id)
+        // viewModel.getManifest(id)
         initObserver()
+
+        viewModel.getArtwork(id)
     }
 
     override fun onDestroyView() {
@@ -48,9 +51,23 @@ class ArtworkDetailsFragment : Fragment() {
         binding = null
     }
 
-    private fun initObserver() {
-        viewModel.artworkLoaded.observe(viewLifecycleOwner, ::setArtworkViews)
-        viewModel.artworkManifestLoaded.observe(viewLifecycleOwner, ::setManViews)
+    private fun initObserver() = with(viewModel) {
+        artworkContentState.observe(viewLifecycleOwner, ::handle)
+    }
+
+    private fun handle(contentResultState: ContentResultState) = when (contentResultState) {
+        is ContentResultState.Content -> contentResultState.handle()
+        is ContentResultState.Error -> contentResultState.handle()
+        else -> {}
+    }
+
+    private fun ContentResultState.Content.handle() {
+        Log.d("ADF", "handle: $contentSingle")
+        setArtworkViews(contentSingle as Artwork)
+    }
+
+    private fun ContentResultState.Error.handle() {
+        Log.d("ADF", "handle: $error")
     }
 
     private fun setManViews(artworkManifest: ArtworkManifest?) {

@@ -1,6 +1,6 @@
 package com.nightstalker.artic.features.exhibition.data
 
-import com.nightstalker.artic.features.exhibition.domain.Exhibition
+import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
 import com.nightstalker.artic.features.exhibition.domain.repo.ExhibitionsRepo
 import com.nightstalker.artic.network.ExhibitionsApiMapper
 

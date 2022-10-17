@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.nightstalker.artic.R
 import com.nightstalker.artic.core.utils.ImageLinkCreator
 import com.nightstalker.artic.databinding.ItemArtworkBinding
-import com.nightstalker.artic.features.artwork.domain.Artwork
+import com.nightstalker.artic.features.artwork.domain.model.Artwork
 
 /**
  * @author Tamerlan Mamukhov

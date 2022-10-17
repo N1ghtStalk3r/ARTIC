@@ -1,7 +1,7 @@
 package com.nightstalker.artic.features.artwork.domain.repo
 
-import com.nightstalker.artic.features.artwork.domain.Artwork
-import com.nightstalker.artic.features.artwork.domain.ArtworkManifest
+import com.nightstalker.artic.features.artwork.domain.model.Artwork
+import com.nightstalker.artic.features.artwork.domain.model.ArtworkManifest
 
 /**
  * Репозиторий получения экспонатов
