@@ -12,13 +12,13 @@ data class AgentData(
     @SerializedName("api_model")
     val apiModel: String,
     @SerializedName("birth_date")
-    val birthDate: Int,
+    val birthDate: Long,
     @SerializedName("death_date")
     val deathDate: Any,
     @SerializedName("description")
     val description: Any,
     @SerializedName("id")
-    val id: Int,
+    val id: Long,
     @SerializedName("is_artist")
     val isArtist: Boolean,
     @SerializedName("sort_title")

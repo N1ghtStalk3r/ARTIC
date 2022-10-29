@@ -5,9 +5,11 @@ import com.nightstalker.artic.core.data.model.artwork.detail.ArtworkModel
 import com.nightstalker.artic.core.data.model.artwork.detail.manifest.ArtworkManifestModel
 import com.nightstalker.artic.core.data.model.exhibition.detail.ExhibitionData
 import com.nightstalker.artic.core.data.model.exhibition.detail.ExhibitionModel
-import com.nightstalker.artic.features.artwork.domain.model.Artwork
-import com.nightstalker.artic.features.artwork.domain.model.ArtworkManifest
-import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
+import com.nightstalker.artic.core.local.ticket.LocalTicket
+import com.nightstalker.artic.features.artwork.domain.Artwork
+import com.nightstalker.artic.features.artwork.domain.ArtworkManifest
+import com.nightstalker.artic.features.exhibition.domain.Exhibition
+import com.nightstalker.artic.features.ticket.domain.Ticket
 
 /**
  * Функции для преобразования данных из дата слоя в домайн
@@ -48,3 +50,33 @@ fun List<ExhibitionData>.toListOfExhibitions(): List<Exhibition> =
             shortDescription = it.shortDescription
         )
     }
+
+fun LocalTicket.toTicket(): Ticket =
+    Ticket(
+        id = id,
+        title = title,
+        exhibitionId = exhibitionId,
+        galleryId = galleryId,
+        galleryTitle = galleryTitle,
+        aicEndAt = aicEndAt,
+        aicStartAt = aicStartAt,
+        shortDescription = shortDescription,
+        numberOfPersons  = numberOfPersons,
+        timestamp = timestamp,
+    )
+
+fun List<LocalTicket>.toListOfTickets(): List<Ticket> =
+    map {
+        Ticket(
+            id = it.id,
+            title = it.title,
+            exhibitionId = it.exhibitionId,
+            galleryId = it.galleryId,
+            galleryTitle = it.galleryTitle,
+            aicEndAt = it.aicEndAt,
+            aicStartAt = it.aicStartAt,
+            shortDescription = it.shortDescription,
+            numberOfPersons  = it.numberOfPersons,
+            timestamp = it.timestamp,
+        )
+}
