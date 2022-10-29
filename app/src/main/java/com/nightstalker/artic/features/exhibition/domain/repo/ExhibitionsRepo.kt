@@ -1,6 +1,6 @@
 package com.nightstalker.artic.features.exhibition.domain.repo
 
-import com.nightstalker.artic.features.exhibition.domain.Exhibition
+import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
 
 /**
  * Репозиторий получения экспонатов
@@ -9,6 +9,5 @@ import com.nightstalker.artic.features.exhibition.domain.Exhibition
  */
 interface ExhibitionsRepo {
    suspend fun getExhibitionById(id: Int): Exhibition
-
    suspend fun getExhibitions(): List<Exhibition>
 }

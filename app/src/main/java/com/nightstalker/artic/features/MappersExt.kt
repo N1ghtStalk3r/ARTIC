@@ -5,9 +5,9 @@ import com.nightstalker.artic.core.data.model.artwork.detail.ArtworkModel
 import com.nightstalker.artic.core.data.model.artwork.detail.manifest.ArtworkManifestModel
 import com.nightstalker.artic.core.data.model.exhibition.detail.ExhibitionData
 import com.nightstalker.artic.core.data.model.exhibition.detail.ExhibitionModel
-import com.nightstalker.artic.features.artwork.domain.Artwork
-import com.nightstalker.artic.features.artwork.domain.ArtworkManifest
-import com.nightstalker.artic.features.exhibition.domain.Exhibition
+import com.nightstalker.artic.features.artwork.domain.model.Artwork
+import com.nightstalker.artic.features.artwork.domain.model.ArtworkManifest
+import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
 
 /**
  * Функции для преобразования данных из дата слоя в домайн

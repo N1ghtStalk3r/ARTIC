@@ -7,5 +7,5 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val artworkPresentationModule = module {
-    viewModel { ArtworkViewModel(get(), get(named(IO_DISP_NAME))) }
+    viewModel { ArtworkViewModel(useCase = get(), dispatcher = get(named(IO_DISP_NAME))) }
 }

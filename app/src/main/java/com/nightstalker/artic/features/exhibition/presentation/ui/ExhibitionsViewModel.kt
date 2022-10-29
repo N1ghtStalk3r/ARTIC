@@ -1,11 +1,13 @@
 package com.nightstalker.artic.features.exhibition.presentation.ui
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nightstalker.artic.features.exhibition.domain.Exhibition
-import com.nightstalker.artic.features.exhibition.domain.repo.ExhibitionsRepo
+import com.nightstalker.artic.core.domain.ContentResultState
+import com.nightstalker.artic.core.domain.ResultState
+import com.nightstalker.artic.core.presentation.onResultStateError
+import com.nightstalker.artic.core.presentation.onResultStateSuccess
+import com.nightstalker.artic.features.exhibition.domain.usecase.ExhibitionsUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
@@ -16,24 +18,36 @@ import kotlinx.coroutines.launch
  * @author Tamerlan Mamukhov on 2022-09-17
  */
 class ExhibitionsViewModel(
-    private val repo: ExhibitionsRepo,
-    private val dispatcher: CoroutineDispatcher
+    private val repo: ExhibitionsUseCase,
+    private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
-    private var _exhibitionLoaded = MutableLiveData<Exhibition>()
-    val exhibitionLoaded: LiveData<Exhibition> get() = _exhibitionLoaded
 
-    private var _exhibitionsLoaded = MutableLiveData<List<Exhibition>>()
-    val exhibitionsLoaded: LiveData<List<Exhibition>> get() = _exhibitionsLoaded
+    private var _exhibitionContentState = MutableLiveData<ContentResultState>()
+    val exhibitionContentState get() = _exhibitionContentState
 
-    fun getExhibition(id: Int) {
-        viewModelScope.launch(dispatcher) {
-            _exhibitionLoaded.postValue(repo.getExhibitionById(id))
+    private var _exhibitionsContentState = MutableLiveData<ContentResultState>()
+    val exhibitionsContentState get() = _exhibitionsContentState
+
+    fun getExhibition(id: Int) = viewModelScope.launch(dispatcher) {
+        when (val exhibition = repo.getExhibitionById(id)) {
+            is ResultState.Success -> {
+                onResultStateSuccess(contentSingle = exhibition.data, contentResultState = _exhibitionContentState)
+            }
+            is ResultState.Error -> {
+                onResultStateError(isNetworkError = exhibition.errorData, contentResultState = _exhibitionContentState)
+            }
         }
     }
 
-    fun getExhibitions() {
-        viewModelScope.launch(dispatcher) {
-            _exhibitionsLoaded.postValue(repo.getExhibitions())
+    fun getExhibitions() = viewModelScope.launch(dispatcher) {
+        when (val exhibitions = repo.getExhibitions()) {
+            is ResultState.Success -> {
+                onResultStateSuccess(contentsList = exhibitions.data, contentResultState = _exhibitionsContentState)
+            }
+            is ResultState.Error -> {
+                onResultStateError(isNetworkError = exhibitions.errorData,
+                    contentResultState = _exhibitionsContentState)
+            }
         }
     }
 }

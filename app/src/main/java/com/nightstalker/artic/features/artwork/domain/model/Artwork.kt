@@ -1,4 +1,4 @@
-package com.nightstalker.artic.features.artwork.domain
+package com.nightstalker.artic.features.artwork.domain.model
 
 /**
  * Класс произведения искусства

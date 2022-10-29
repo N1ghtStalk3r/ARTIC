@@ -1,6 +1,7 @@
 package com.nightstalker.artic.features.exhibition.presentation.ui.list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,8 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nightstalker.artic.R
+import com.nightstalker.artic.core.domain.ContentResultState
 import com.nightstalker.artic.databinding.FragmentExhibitionsListBinding
-import com.nightstalker.artic.features.exhibition.domain.Exhibition
+import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
 import com.nightstalker.artic.features.exhibition.presentation.ui.ExhibitionsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,7 +29,7 @@ class ExhibitionsListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
 
         return inflater.inflate(R.layout.fragment_exhibitions_list, container, false)
@@ -48,9 +50,10 @@ class ExhibitionsListFragment : Fragment() {
             adapter = ExhibitionsListAdapter { id -> onItemClicked(id) }
             this?.rvExhibitions?.adapter = adapter
 
-            exhibitionsViewModel.getExhibitions()
 
             initObserver()
+
+            exhibitionsViewModel.getExhibitions()
 
             this?.ivFilterExh?.setOnClickListener {
                 findNavController().navigate(R.id.filterExhibitionsDialogFragment)
@@ -64,11 +67,35 @@ class ExhibitionsListFragment : Fragment() {
             .run { findNavController().navigate(this) }
     }
 
-    private fun initObserver() {
-        exhibitionsViewModel.exhibitionsLoaded.observe(viewLifecycleOwner, ::setData)
+    private fun initObserver() = with(exhibitionsViewModel) {
+        // exhibitionContentState.observe(viewLifecycleOwner, ::setItem)
+        exhibitionsContentState.observe(viewLifecycleOwner, ::setList)
     }
 
-    private fun setData(exhibitions: List<Exhibition>) {
-        adapter.setData(exhibitions)
+    private fun setList(contentResultState: ContentResultState) = when (contentResultState) {
+        is ContentResultState.Content -> {
+            contentResultState.handle()
+        }
+        is ContentResultState.Error -> {
+            Log.d("Fragment", "setList: ${contentResultState.error}")
+        }
+        else -> {}
     }
+
+    private fun ContentResultState.Content.handle() {
+        adapter.setData(contentsList as List<Exhibition>)
+        binding?.rvExhibitions?.adapter = adapter
+    }
+
+    // private fun ContentViewState.Error.handle() {
+    //     with(binding) {
+    //         this?.errorLayout?.apply {
+    //             root.visibility = View.VISIBLE
+    //             btnErrorTryAgain.setOnClickListener { tryAgain() }
+    //             textErrorDescription.setText(error.title)
+    //             textErrorDescription.setText(error.description)
+    //         }
+    //     }
+    // }
+
 }

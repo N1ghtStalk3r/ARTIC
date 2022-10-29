@@ -13,8 +13,24 @@
         android:layout_height="40dp"
         android:src="@drawable/ic_filter_list"
         android:tooltipText="@string/iv_filter"
+        app:layout_constraintBottom_toBottomOf="@+id/searchView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/searchView" />
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_searchview"
+        app:iconifiedByDefault="false"
+        app:layout_constraintEnd_toStartOf="@id/ivFilterArts"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:queryBackground="@android:color/transparent"
+        app:queryHint="Enter the name">
+
+    </androidx.appcompat.widget.SearchView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvArtworks"
@@ -37,23 +53,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til"
-        style="@style/ThemeOverlay.Material3.TextInputEditText.FilledBox.Dense"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginRight="16dp"
-        android:hint="@string/hint_search"
-        app:endIconMode="clear_text"
-        app:layout_constraintBottom_toBottomOf="@id/ivFilterArts"
-        app:layout_constraintEnd_toStartOf="@id/ivFilterArts"
+    <include
+        android:id="@+id/error_layout"
+        layout="@layout/layout_error"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etSearchArt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
