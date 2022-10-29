@@ -13,7 +13,7 @@ import com.nightstalker.artic.core.domain.ContentResultState
 import com.nightstalker.artic.core.utils.ImageLinkCreator
 import com.nightstalker.artic.databinding.FragmentArtworkDetailsBinding
 import com.nightstalker.artic.features.artwork.domain.model.Artwork
-import com.nightstalker.artic.features.artwork.domain.model.ArtworkManifest
+import com.nightstalker.artic.features.artwork.domain.model.ArtworkInformation
 import com.nightstalker.artic.features.artwork.presentation.ui.ArtworkViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -70,15 +70,15 @@ class ArtworkDetailsFragment : Fragment() {
         Log.d("ADF", "handle: $error")
     }
 
-    private fun setManViews(artworkManifest: ArtworkManifest?) {
+    private fun setManViews(artworkInformation: ArtworkInformation?) {
         with(binding) {
-            this?.tvDescription?.text = artworkManifest?.description
+            this?.tvDescription?.text = artworkInformation?.description
         }
     }
 
     private fun setArtworkViews(artwork: Artwork) {
         with(binding) {
-            this?.tvTitle?.text = artwork.title
+            this?.titleTextView?.text = artwork.title
             this?.tvAuthor?.text = artwork.artist
             val context = binding?.placeImage?.context
             val imageUrl = artwork.imageId?.let { ImageLinkCreator.createImageDefaultLink(it) }

@@ -10,5 +10,6 @@ import com.nightstalker.artic.core.domain.error.ErrorModel
 sealed class ContentResultState {
     object Loading : ContentResultState()
     data class Error(val error: ErrorModel) : ContentResultState()
-    data class Content(var contentsList: List<Any> = emptyList(), var contentSingle: Any? = null) : ContentResultState()
+    data class Content(var contentsList: List<out Any> = emptyList(), var contentSingle: Any? = null) :
+        ContentResultState()
 }

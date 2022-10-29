@@ -2,13 +2,13 @@ package com.nightstalker.artic.features
 
 import com.nightstalker.artic.core.data.model.artwork.detail.ArtworkData
 import com.nightstalker.artic.core.data.model.artwork.detail.ArtworkModel
-import com.nightstalker.artic.core.data.model.artwork.detail.manifest.ArtworkManifestModel
+import com.nightstalker.artic.core.data.model.artwork.detail.information.ArtworkInformationModel
 import com.nightstalker.artic.core.data.model.exhibition.detail.ExhibitionData
 import com.nightstalker.artic.core.data.model.exhibition.detail.ExhibitionModel
 import com.nightstalker.artic.core.local.ticket.LocalTicket
-import com.nightstalker.artic.features.artwork.domain.Artwork
-import com.nightstalker.artic.features.artwork.domain.ArtworkManifest
-import com.nightstalker.artic.features.exhibition.domain.Exhibition
+import com.nightstalker.artic.features.artwork.domain.model.Artwork
+import com.nightstalker.artic.features.artwork.domain.model.ArtworkInformation
+import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
 import com.nightstalker.artic.features.ticket.domain.Ticket
 
 /**
@@ -22,8 +22,8 @@ fun ArtworkModel.toArtwork(): Artwork =
 fun List<ArtworkData>.toListOfArtworks(): List<Artwork> =
     map { Artwork(id = it.id, title = it.title, imageId = it.imageId, artist = it.artistDisplay) }
 
-fun ArtworkManifestModel.toArtworkManifest(): ArtworkManifest =
-    ArtworkManifest(
+fun ArtworkInformationModel.toArtworkInformation(): ArtworkInformation =
+    ArtworkInformation(
         description = description.first()?.value
     )
 

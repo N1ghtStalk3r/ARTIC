@@ -9,7 +9,7 @@ import com.nightstalker.artic.core.domain.ResultState
 import com.nightstalker.artic.core.presentation.onResultStateError
 import com.nightstalker.artic.core.presentation.onResultStateSuccess
 import com.nightstalker.artic.features.artwork.domain.model.Artwork
-import com.nightstalker.artic.features.artwork.domain.model.ArtworkManifest
+import com.nightstalker.artic.features.artwork.domain.model.ArtworkInformation
 import com.nightstalker.artic.features.artwork.domain.usecase.ArtworksUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -31,8 +31,8 @@ class ArtworkViewModel(
     private val _artworkContentState = MutableLiveData<ContentResultState>()
     val artworkContentState get() = _artworkContentState
 
-    private var _artworkManifestContentState = MutableLiveData<ArtworkManifest>()
-    val artworkManifestContentState: LiveData<ArtworkManifest> get() = _artworkManifestContentState
+    private var m_artworkInformationContentState = MutableLiveData<ArtworkInformation>()
+    val artworkInformationContentState: LiveData<ArtworkInformation> get() = m_artworkInformationContentState
 
     private var _searchedArtworksContentState = MutableLiveData<List<Artwork>>()
     val searchedArtworksContentState: LiveData<List<Artwork>> get() = _searchedArtworksContentState
@@ -71,7 +71,7 @@ class ArtworkViewModel(
     }
 
     fun getManifest(id: Int) = viewModelScope.launch(dispatcher) {
-        when (val manifest = useCase.getArtworkManifest(id)) {
+        when (val manifest = useCase.getArtworkInformation(id)) {
             is ResultState.Success -> {
             }
             is ResultState.Error -> {

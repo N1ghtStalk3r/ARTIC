@@ -38,12 +38,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         botNavView.setupWithNavController(navController)
     }
-    override fun onSupportNavigateUp(): Boolean {
-        val controller = findNavController(R.id.navHostFragment)
-        return controller.navigateUp() ||  super.onSupportNavigateUp()
-    }
-
-
 
     override fun onSupportNavigateUp(): Boolean =
         findNavController(R.id.navHostFragment).navigateUp() || super.onSupportNavigateUp()

@@ -2,9 +2,9 @@ package com.nightstalker.artic.network
 
 import com.nightstalker.artic.core.network.BaseApiMapper
 import com.nightstalker.artic.features.artwork.domain.model.Artwork
-import com.nightstalker.artic.features.artwork.domain.model.ArtworkManifest
+import com.nightstalker.artic.features.artwork.domain.model.ArtworkInformation
 import com.nightstalker.artic.features.toArtwork
-import com.nightstalker.artic.features.toArtworkManifest
+import com.nightstalker.artic.features.toArtworkInformation
 import com.nightstalker.artic.features.toListOfArtworks
 import com.nightstalker.artic.network.net.ArtworksApi
 
@@ -19,8 +19,8 @@ class ArtworksApiMapper(private val api: ArtworksApi) : BaseApiMapper() {
 
     suspend fun getArtworks(): List<Artwork> = api.getArtworks().data.toListOfArtworks()
 
-    suspend fun getArtworkManifest(id: Int): ArtworkManifest =
-        api.getArtworkManifest(id).toArtworkManifest()
+    suspend fun getArtworkInformation(id: Int): ArtworkInformation =
+        api.getArtworkInformation(id).toArtworkInformation()
 
     suspend fun getArtworksByQuery(search: String): List<Artwork> =
         api.getArtworksByQuery(search).data.toListOfArtworks()

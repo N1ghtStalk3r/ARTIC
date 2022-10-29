@@ -2,7 +2,7 @@ package com.nightstalker.artic.network.net
 
 import com.nightstalker.artic.core.data.model.artwork.detail.ArtworkData
 import com.nightstalker.artic.core.data.model.artwork.detail.ArtworkModel
-import com.nightstalker.artic.core.data.model.artwork.detail.manifest.ArtworkManifestModel
+import com.nightstalker.artic.core.data.model.artwork.detail.information.ArtworkInformationModel
 import com.nightstalker.artic.core.data.model.common.SearchResultsModel
 import com.nightstalker.artic.network.ApiConstants.ARTIST_DISPLAY
 import com.nightstalker.artic.network.ApiConstants.ID
@@ -25,7 +25,7 @@ interface ArtworksApi {
     suspend fun getArtworks(): SearchResultsModel<ArtworkData>
 
     @GET("artworks/{$ID}/manifest.json")
-    suspend fun getArtworkManifest(@Path(ID) id: Int): ArtworkManifestModel
+    suspend fun getArtworkInformation(@Path(ID) id: Int): ArtworkInformationModel
 
     @GET("artworks/search")
     suspend fun getArtworksByQuery(@Query(value = "q", encoded = true) search: String): SearchResultsModel<ArtworkData>

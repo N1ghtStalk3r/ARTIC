@@ -6,7 +6,7 @@ import android.util.Log
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
-import com.nightstalker.artic.features.exhibition.domain.Exhibition
+import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
 
 class QRCodeGenerator {
 

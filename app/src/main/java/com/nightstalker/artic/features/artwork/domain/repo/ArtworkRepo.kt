@@ -1,7 +1,7 @@
 package com.nightstalker.artic.features.artwork.domain.repo
 
 import com.nightstalker.artic.features.artwork.domain.model.Artwork
-import com.nightstalker.artic.features.artwork.domain.model.ArtworkManifest
+import com.nightstalker.artic.features.artwork.domain.model.ArtworkInformation
 
 /**
  * Репозиторий получения экспонатов
@@ -11,6 +11,6 @@ import com.nightstalker.artic.features.artwork.domain.model.ArtworkManifest
 interface ArtworkRepo {
     suspend fun getArtworkById(id: Int): Artwork
     suspend fun getArtworks(): List<Artwork>
-    suspend fun getArtworkManifest(id: Int): ArtworkManifest
+    suspend fun getArtworkInformation(id: Int): ArtworkInformation
     suspend fun getArtworksByQuery(search: String): List<Artwork>
 }

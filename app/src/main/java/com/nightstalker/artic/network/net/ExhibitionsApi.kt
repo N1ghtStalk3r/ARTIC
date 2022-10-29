@@ -1,8 +1,7 @@
 package com.nightstalker.artic.network.net
 
-import com.nightstalker.artic.core.data.model.common.SearchResultsModel
-import com.nightstalker.artic.core.data.model.exhibition.detail.ExhibitionData
 import com.nightstalker.artic.core.data.model.exhibition.detail.ExhibitionModel
+import com.nightstalker.artic.core.data.model.exhibition.list.ExhibitionsListResult
 import com.nightstalker.artic.network.ApiConstants.ALT_IMAGE_IDS
 import com.nightstalker.artic.network.ApiConstants.GALLERY_TITLE
 import com.nightstalker.artic.network.ApiConstants.ID
@@ -24,5 +23,6 @@ interface ExhibitionsApi {
 
     // @GET("exhibitions?fields=$ID,$IMAGE_URL,$GALLERY_TITLE,$TITLE,$ALT_IMAGE_IDS,$STATUS,$SHORT_DESCRIPTION")
     @GET("exhibitions")
-    suspend fun getExhibitions(): SearchResultsModel<ExhibitionData>
+    // suspend fun getExhibitions(): SearchResultsModel<ExhibitionData>
+    suspend fun getExhibitions(): ExhibitionsListResult
 }

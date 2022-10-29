@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.nightstalker.artic.R
 import com.nightstalker.artic.databinding.FragmentTicketDetailsBinding
-import com.nightstalker.artic.features.exhibition.domain.Exhibition
+import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
 import com.nightstalker.artic.features.exhibition.presentation.ui.ExhibitionsViewModel
 import com.nightstalker.artic.features.qrcode.QRCodeGenerator
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -48,7 +48,7 @@ class TicketDetailsFragment: Fragment() {
     }
 
     private fun initObserver() {
-        exhibitionsViewModel.exhibitionLoaded.observe(viewLifecycleOwner, ::setViews)
+        // exhibitionsViewModel.exhibitionLoaded.observe(viewLifecycleOwner, ::setViews)
     }
 
 
