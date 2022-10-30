@@ -1,9 +1,9 @@
-package com.nightstalker.artic.core.data.model.artwork.detail.manifest
+package com.nightstalker.artic.core.data.model.artwork.detail.information
 
 
 import com.google.gson.annotations.SerializedName
 
-data class ArtworkManifestModel(
+data class ArtworkInformationModel(
     @SerializedName("attribution")
     val attribution: String,
     @SerializedName("@context")
@@ -25,5 +25,5 @@ data class ArtworkManifestModel(
     @SerializedName("@type")
     val type: String,
     @SerializedName("within")
-    val within: String
+    val within: String,
 )

@@ -10,15 +10,18 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.nightstalker.artic.databinding.ActivityMainBinding
 import com.nightstalker.artic.features.artwork.presentation.ui.ArtworkViewModel
 import com.nightstalker.artic.features.exhibition.presentation.ui.ExhibitionsViewModel
+import com.nightstalker.artic.features.ticket.presentation.ui.TicketsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val artworksViewModel by viewModel<ArtworkViewModel>()
     private val exhibitionsViewModel by viewModel<ExhibitionsViewModel>()
+    private val ticketsViewModel by viewModel<TicketsViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -28,7 +31,8 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.artworksListFragment,
-                R.id.exhibitionsListFragment
+                R.id.exhibitionsListFragment,
+                R.id.ticketsListFragment,
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

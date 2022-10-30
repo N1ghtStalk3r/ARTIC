@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation android:id="@+id/nav_main"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/artworksListFragment">
+
+    <dialog
+        android:id="@+id/filterExhibitionsDialogFragment"
+        android:name="com.nightstalker.artic.features.exhibition.presentation.ui.dialog.FilterExhibitionsDialogFragment"
+        android:label="FilterArtworksDialogFragment"
+        tools:layout="@layout/fragment_filter_artworks_dialog" />
+    <dialog
+        android:id="@+id/filterArtworksDialogFragment"
+        android:name="com.nightstalker.artic.features.artwork.presentation.ui.dialog.FilterArtworksDialogFragment"
+        android:label="FilterArtworksDialogFragment"
+        tools:layout="@layout/fragment_filter_artworks_dialog" />
+    <fragment
+        android:id="@+id/exhibitionsListFragment"
+        android:name="com.nightstalker.artic.features.exhibition.presentation.ui.list.ExhibitionsListFragment"
+        android:label="@string/label_frag_exi_list"
+        tools:layout="@layout/fragment_exhibitions_list">
+        <action
+            android:id="@+id/toExhibitionDetailsFragment"
+            app:destination="@id/exhibitionDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/exhibitionDetailsFragment"
+        android:name="com.nightstalker.artic.features.exhibition.presentation.ui.detail.ExhibitionDetailsFragment"
+        android:label="@string/label_frag_exi_det"
+        tools:layout="@layout/fragment_exhibition_details">
+        <argument
+            android:name="exhibition_id"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/artworksListFragment"
+        android:name="com.nightstalker.artic.features.artwork.presentation.ui.list.ArtworksListFragment"
+        android:label="@string/label_frag_art_list"
+        tools:layout="@layout/fragment_artworks_list">
+        <action
+            android:id="@+id/toArtworkDetailsFragment"
+            app:destination="@id/artworkDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/artworkDetailsFragment"
+        android:name="com.nightstalker.artic.features.artwork.presentation.ui.detail.ArtworkDetailsFragment"
+        android:label="@string/label_frag_art_det"
+        tools:layout="@layout/fragment_artwork_details">
+        <argument
+            android:name="poster_id"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
+</navigation>

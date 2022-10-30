@@ -31,17 +31,14 @@ class ExhibitionsListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-
         return inflater.inflate(R.layout.fragment_exhibitions_list, container, false)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
-    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = FragmentExhibitionsListBinding.bind(view)
 
         with(binding) {
 
@@ -59,6 +56,11 @@ class ExhibitionsListFragment : Fragment() {
                 findNavController().navigate(R.id.filterExhibitionsDialogFragment)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
     private fun onItemClicked(id: Int) {
@@ -84,6 +86,7 @@ class ExhibitionsListFragment : Fragment() {
 
     private fun ContentResultState.Content.handle() {
         adapter.setData(contentsList as List<Exhibition>)
+        Log.d("Exhib", "handle: ${contentsList}")
         binding?.rvExhibitions?.adapter = adapter
     }
 

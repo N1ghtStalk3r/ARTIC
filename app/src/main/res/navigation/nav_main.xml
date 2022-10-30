@@ -25,6 +25,34 @@
             android:defaultValue="-1" />
     </fragment>
     <fragment
+        android:id="@+id/qrScanner"
+        android:name="com.nightstalker.artic.features.qrcode.QRScannerFragment"
+        android:label="Scanner"
+        tools:layout="@layout/fragment_qrscanner" >
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/ticketsListFragment"
+        android:name="com.nightstalker.artic.features.ticket.presentation.ui.list.TicketsListFragment"
+        android:label="@string/label_frag_ticket_list"
+        tools:layout="@layout/fragment_tickets_list" >
+        <action
+            android:id="@+id/toTicketDetailsFragment"
+            app:destination="@id/ticketDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ticketDetailsFragment"
+        android:name="com.nightstalker.artic.features.ticket.presentation.ui.detail.TicketDetailsFragment"
+        android:label="@string/label_frag_ticket_det"
+        tools:layout="@layout/fragment_ticket_details" >
+        <argument
+            android:name="exhibitionId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+
+    <fragment
         android:id="@+id/exhibitionsListFragment"
         android:name="com.nightstalker.artic.features.exhibition.presentation.ui.list.ExhibitionsListFragment"
         android:label="@string/label_frag_exi_list"
@@ -37,11 +65,14 @@
         android:id="@+id/exhibitionDetailsFragment"
         android:name="com.nightstalker.artic.features.exhibition.presentation.ui.detail.ExhibitionDetailsFragment"
         android:label="@string/label_frag_exi_det"
-        tools:layout="@layout/fragment_exhibition_details">
+        tools:layout="@layout/fragment_exhibition_details" >
         <argument
             android:name="exhibition_id"
             app:argType="integer"
             android:defaultValue="-1" />
+        <action
+            android:id="@+id/toTicketDetailsFragment"
+            app:destination="@id/ticketDetailsFragment" />
     </fragment>
     <dialog
         android:id="@+id/filterExhibitionsDialogFragment"
@@ -53,4 +84,6 @@
         android:name="com.nightstalker.artic.features.artwork.presentation.ui.dialog.FilterArtworksDialogFragment"
         android:label="FilterArtworksDialogFragment"
         tools:layout="@layout/fragment_filter_artworks_dialog" />
+
+
 </navigation>

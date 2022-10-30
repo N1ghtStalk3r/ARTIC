@@ -1,17 +1,15 @@
-package com.nightstalker.artic.core.data.model.artwork.detail.manifest
+package com.nightstalker.artic.core.data.model.artwork.detail.information
 
 
 import com.google.gson.annotations.SerializedName
 
-data class Canvase(
+data class Resource(
     @SerializedName("height")
     val height: Int,
     @SerializedName("@id")
     val id: String,
-    @SerializedName("images")
-    val images: List<Image>,
-    @SerializedName("label")
-    val label: String,
+    @SerializedName("service")
+    val service: Service,
     @SerializedName("@type")
     val type: String,
     @SerializedName("width")
