@@ -13,5 +13,9 @@
         android:id="@+id/qrScanner"
         android:icon="@drawable/ic_qr_code_24"
         android:title="Сканер" />
+    <item
+        android:id="@+id/audioLookupFragment"
+        android:icon="@drawable/ic_audio_large"
+        android:title="Аудио" />
 
 </menu>

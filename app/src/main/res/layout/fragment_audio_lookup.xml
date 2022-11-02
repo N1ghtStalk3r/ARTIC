@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".features.audio.presentation.ui.AudioLookupFragment">
+
+    <ImageView
+        android:id="@+id/searchIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:src="@color/black"
+        app:layout_constrainedHeight="true"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/screen_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_audio_large"
+        app:layout_constraintBottom_toTopOf="@+id/lookup_field"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/lookup_field"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@null"
+        android:editable="false"
+        android:focusable="true"
+        android:importantForAutofill="no"
+        android:inputType="none"
+        android:maxLength="5"
+        android:textColorHint="@color/white"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toTopOf="@+id/subheader"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/screen_icon"
+        tools:hint="Look It Up"
+        tools:ignore="Deprecated,UnusedAttribute" />
+
+    <TextView
+        android:id="@+id/subheader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="50dp"
+        android:includeFontPadding="false"
+        android:labelFor="@id/lookup_field"
+        android:text="Enter the number next to the headphone icon on the artwork label."
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lookup_field"
+        tools:ignore="LabelFor" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Введите номер"
+        app:hintTextAppearance="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        app:layout_constraintBottom_toTopOf="@id/playerGuideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/subheader">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="numberDecimal"
+            android:maxLength="4" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/playerGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="40dp" />
+
+
+    <!--    <fragment-->
+    <!--        android:id="@+id/newPlayer"-->
+    <!--        android:name="com.nightstalker.artic.features.audio_search.presentation.ui.AudioPlayerFragment"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="40dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/playerGuideline"-->
+    <!--        tools:layout="@layout/fragment_bottom_audio_player" />-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

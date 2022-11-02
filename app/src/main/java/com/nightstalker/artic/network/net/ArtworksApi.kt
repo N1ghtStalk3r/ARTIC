@@ -7,6 +7,7 @@ import com.nightstalker.artic.core.data.model.common.SearchResultsModel
 import com.nightstalker.artic.network.ApiConstants.ARTIST_DISPLAY
 import com.nightstalker.artic.network.ApiConstants.ID
 import com.nightstalker.artic.network.ApiConstants.IMAGE_ID
+import com.nightstalker.artic.network.ApiConstants.SOUND_IDS
 import com.nightstalker.artic.network.ApiConstants.TITLE
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -18,7 +19,7 @@ import retrofit2.http.Query
  * @author Tamerlan Mamukhov on 2022-09-13
  */
 interface ArtworksApi {
-    @GET("artworks/{$ID}?fields=$ID,$TITLE,$IMAGE_ID,$ARTIST_DISPLAY")
+    @GET("artworks/{$ID}?fields=$ID,$TITLE,$IMAGE_ID,$ARTIST_DISPLAY,$SOUND_IDS")
     suspend fun getArtworkById(@Path(ID) id: Int): ArtworkModel
 
     @GET("artworks?fields=$ID,$TITLE,$IMAGE_ID,$ARTIST_DISPLAY")

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="narrowAudioControlIconSize">24dp</dimen>
+    <dimen name="marginStandard">8dp</dimen>
+    <dimen name="textMedium">16sp</dimen>
+    <dimen name="textSmall">14sp</dimen>
+</resources>

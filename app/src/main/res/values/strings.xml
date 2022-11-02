@@ -31,5 +31,8 @@
         permissions
     </string>
     <string name="grant">Grant</string>
+    <string name="exo_controls_play_description">Play</string>
+    <string name="audio_player_cancel_audio_content_description">Close</string>
+    <string name="exo_controls_pause_description">Pause</string>
 
 </resources>

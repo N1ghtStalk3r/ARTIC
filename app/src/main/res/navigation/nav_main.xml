@@ -84,6 +84,11 @@
         android:name="com.nightstalker.artic.features.artwork.presentation.ui.dialog.FilterArtworksDialogFragment"
         android:label="FilterArtworksDialogFragment"
         tools:layout="@layout/fragment_filter_artworks_dialog" />
+    <fragment
+        android:id="@+id/audioLookupFragment"
+        android:name="com.nightstalker.artic.features.audio.presentation.ui.AudioLookupFragment"
+        android:label="fragment_audio_lookup"
+        tools:layout="@layout/fragment_audio_lookup" />
 
 
 </navigation>

@@ -18,7 +18,6 @@
     <color name="logo_color">#B50938</color>
 
 
-
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
@@ -28,4 +27,9 @@
     <color name="lightColor">#64E71A</color>
     <color name="lightGray">#D1D0D0</color>
     <color name="darkBrown">#2B2828</color>
+
+    <!--    Плеер-->
+    <color name="narrowAudioPlayerBackgroundColor">#1e1e1e</color>
+    <color name="number_pad_white_half_visible">#80FFFFFF</color>
+    <color name="number_pad_white_faint">#5CFFFFFF</color>
 </resources>

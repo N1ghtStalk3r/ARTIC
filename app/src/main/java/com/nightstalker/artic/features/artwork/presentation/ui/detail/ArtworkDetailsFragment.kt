@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -15,6 +16,8 @@ import com.nightstalker.artic.databinding.FragmentArtworkDetailsBinding
 import com.nightstalker.artic.features.artwork.domain.model.Artwork
 import com.nightstalker.artic.features.artwork.domain.model.ArtworkInformation
 import com.nightstalker.artic.features.artwork.presentation.ui.ArtworkViewModel
+import com.nightstalker.artic.features.audio.AudioPlayer
+import com.nightstalker.artic.features.audio.utils.AudioFileLinkCreator
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -64,6 +67,7 @@ class ArtworkDetailsFragment : Fragment() {
     private fun ContentResultState.Content.handle() {
         Log.d("ADF", "handle: $contentSingle")
         setArtworkViews(contentSingle as Artwork)
+        Toast.makeText(activity, "${contentSingle as Artwork}", Toast.LENGTH_SHORT).show()
     }
 
     private fun ContentResultState.Error.handle() {
@@ -72,12 +76,13 @@ class ArtworkDetailsFragment : Fragment() {
 
     private fun setManViews(artworkInformation: ArtworkInformation?) {
         with(binding) {
-            this?.tvDescription?.text = artworkInformation?.description
+//            this?.tvDescription?.text = artworkInformation?.description
         }
     }
 
     private fun setArtworkViews(artwork: Artwork) {
         with(binding) {
+            val player = AudioPlayer()
             this?.titleTextView?.text = artwork.title
             this?.tvAuthor?.text = artwork.artist
             val context = binding?.placeImage?.context
@@ -86,6 +91,32 @@ class ArtworkDetailsFragment : Fragment() {
             val place = binding?.placeImage
 
             context?.let { place?.let { it1 -> Glide.with(it).load(imageUrl).into(it1) } }
+
+            Log.d("FD", "setArtworkViews: ${artwork.audioUrl}")
+
+            when (artwork.audioUrl) {
+                null -> {
+                    this?.audioGroup?.visibility = View.GONE
+                    Toast.makeText(activity, "No audio", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    Toast.makeText(activity, "There's audio", Toast.LENGTH_SHORT).show()
+
+
+                    this?.audioGroup?.visibility = View.VISIBLE
+                    player.audioUrl =
+                        artwork.audioUrl?.let { it1 -> AudioFileLinkCreator.create(it1) }
+
+                    this?.btnPlay?.setOnClickListener {
+                        player.startPlaying()
+                    }
+
+                    this?.btnStop?.setOnClickListener {
+                        player.stopPlaying()
+                    }
+                }
+
+            }
         }
     }
 }
