@@ -65,16 +65,47 @@
         app:layout_constraintTop_toBottomOf="@id/tvAuthor"
         tools:text="1964" />
 
-    <TextView
-        android:id="@+id/tvDescription"
-        style="@style/DetailOfListItemDescription"
-        android:layout_width="0dp"
-
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageButton
+        android:id="@+id/btnPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="48dp"
+        android:minHeight="48dp"
+        android:src="@drawable/ic_play"
+        android:tooltipText="Play"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDateAndPlace" />
+
+
+    <ImageButton
+        android:id="@+id/btnStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="36dp"
+        android:minHeight="48dp"
+        android:src="@drawable/ic_pause"
+        android:tooltipText="Stop"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvDateAndPlace" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDateAndPlace" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/audioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="btnPlay, btnStop" />
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tvDescription"-->
+    <!--        style="@style/DetailOfListItemDescription"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/tvDateAndPlace" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

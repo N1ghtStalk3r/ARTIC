@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.artworksListFragment,
                 R.id.exhibitionsListFragment,
                 R.id.ticketsListFragment,
+                R.id.audioLookupFragment
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

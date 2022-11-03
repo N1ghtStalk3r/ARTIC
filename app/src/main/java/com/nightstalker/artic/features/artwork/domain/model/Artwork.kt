@@ -13,4 +13,5 @@ data class Artwork(
     val title: String?,
     val imageId: String?,
     val artist: String?,
+    val audioUrl: String?
 )

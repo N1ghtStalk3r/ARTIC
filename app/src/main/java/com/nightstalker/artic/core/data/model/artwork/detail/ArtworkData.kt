@@ -185,5 +185,6 @@ data class ArtworkData(
     @SerializedName("updated_at")
     val updatedAt: String,
     @SerializedName("video_ids")
-    val videoIds: List<String> = listOf()
+    val videoIds: List<String> = listOf(),
+    @SerializedName("object_selector_number") val objectSelectorNumber: String? = null,
 )

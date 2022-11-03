@@ -17,10 +17,24 @@ import com.nightstalker.artic.features.ticket.domain.Ticket
  * @author Tamerlan Mamukhov
  */
 fun ArtworkModel.toArtwork(): Artwork =
-    Artwork(id = data.id, title = data.title, imageId = data.imageId, artist = data.artistDisplay)
+    Artwork(
+        id = data.id,
+        title = data.title,
+        imageId = data.imageId,
+        artist = data.artistDisplay,
+        audioUrl = data.soundIds.firstOrNull()
+    )
 
 fun List<ArtworkData>.toListOfArtworks(): List<Artwork> =
-    map { Artwork(id = it.id, title = it.title, imageId = it.imageId, artist = it.artistDisplay) }
+    map {
+        Artwork(
+            id = it.id,
+            title = it.title,
+            imageId = it.imageId,
+            artist = it.artistDisplay,
+            audioUrl = it.objectSelectorNumber
+        )
+    }
 
 fun ArtworkInformationModel.toArtworkInformation(): ArtworkInformation =
     ArtworkInformation(
