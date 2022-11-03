@@ -78,4 +78,26 @@ class ArtworkViewModel(
             }
         }
     }
+
+    fun getArtworksByKind(type: String) = viewModelScope.launch(dispatcher) {
+        when (val artworks = useCase.getArtworksByKind(type)) {
+            is ResultState.Success -> {
+                onResultStateSuccess(contentsList = artworks.data, contentResultState = _artworksContentState)
+            }
+            is ResultState.Error -> {
+                onResultStateError(isNetworkError = artworks.errorData, contentResultState = _artworksContentState)
+            }
+        }
+    }
+
+    fun getArtworksByPlace(type: String) = viewModelScope.launch(dispatcher) {
+        when (val artworks = useCase.getArtworksByPlace(type)) {
+            is ResultState.Success -> {
+                onResultStateSuccess(contentsList = artworks.data, contentResultState = _artworksContentState)
+            }
+            is ResultState.Error -> {
+                onResultStateError(isNetworkError = artworks.errorData, contentResultState = _artworksContentState)
+            }
+        }
+    }
 }

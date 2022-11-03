@@ -12,15 +12,13 @@ class QRCodeGenerator {
 
     private var counter = 0
 
-    private lateinit var exhibitionText: Exhibition
+    private lateinit var _state: Exhibition
 
-    fun setBaseForText(exhibition: Exhibition){
-        exhibitionText = exhibition
+    fun setDataForQRCode(exhibition: Exhibition) {
+        _state = exhibition
     }
 
     fun getCounter() = counter
-
-
 
     fun makeImage(text: String): Bitmap {
 
@@ -45,10 +43,10 @@ class QRCodeGenerator {
         var textQRCode : String
         if(counter++ % 2 == 0 )
         {
-            textQRCode = "${counter}. ЭПИК и ARTIC представляют: ${exhibitionText.title} "
+            textQRCode = "${counter}. ЭПИК и ARTIC представляют: ${_state.title} "
         } else
         {
-            textQRCode = exhibitionText.imageUrl.toString()
+            textQRCode = _state.imageUrl.toString()
         }
         Log.d("ArticLog", "QR-code = $textQRCode")
         return   textQRCode

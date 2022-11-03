@@ -1,7 +1,6 @@
 package com.nightstalker.artic.features.exhibition.presentation.ui.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,8 +33,6 @@ class ExhibitionsListFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_exhibitions_list, container, false)
     }
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentExhibitionsListBinding.bind(view)
@@ -46,7 +43,6 @@ class ExhibitionsListFragment : Fragment() {
                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             adapter = ExhibitionsListAdapter { id -> onItemClicked(id) }
             this?.rvExhibitions?.adapter = adapter
-
 
             initObserver()
 
@@ -70,35 +66,33 @@ class ExhibitionsListFragment : Fragment() {
     }
 
     private fun initObserver() = with(exhibitionsViewModel) {
-        // exhibitionContentState.observe(viewLifecycleOwner, ::setItem)
         exhibitionsContentState.observe(viewLifecycleOwner, ::setList)
     }
 
     private fun setList(contentResultState: ContentResultState) = when (contentResultState) {
-        is ContentResultState.Content -> {
-            contentResultState.handle()
-        }
-        is ContentResultState.Error -> {
-            Log.d("Fragment", "setList: ${contentResultState.error}")
-        }
+        is ContentResultState.Content -> contentResultState.handle()
+        is ContentResultState.Error -> contentResultState.handle()
         else -> {}
     }
 
     private fun ContentResultState.Content.handle() {
         adapter.setData(contentsList as List<Exhibition>)
-        Log.d("Exhib", "handle: ${contentsList}")
         binding?.rvExhibitions?.adapter = adapter
     }
 
-    // private fun ContentViewState.Error.handle() {
-    //     with(binding) {
-    //         this?.errorLayout?.apply {
-    //             root.visibility = View.VISIBLE
-    //             btnErrorTryAgain.setOnClickListener { tryAgain() }
-    //             textErrorDescription.setText(error.title)
-    //             textErrorDescription.setText(error.description)
-    //         }
-    //     }
-    // }
+    private fun ContentResultState.Error.handle() {
+        with(binding) {
+            this?.errorLayout?.apply {
+                root.visibility = View.VISIBLE
+                btnErrorTryAgain.setOnClickListener { tryAgain() }
+                textErrorDescription.setText(error.title)
+                textErrorDescription.setText(error.description)
+            }
+        }
+    }
 
+    private fun tryAgain() {
+        binding?.errorLayout?.root?.visibility = View.INVISIBLE
+        exhibitionsViewModel.getExhibitions()
+    }
 }

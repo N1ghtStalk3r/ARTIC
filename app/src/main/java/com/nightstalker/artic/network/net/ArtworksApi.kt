@@ -18,6 +18,9 @@ import retrofit2.http.Query
  *
  * @author Tamerlan Mamukhov on 2022-09-13
  */
+const val TYPE = "type"
+const val PLACE = "place"
+
 interface ArtworksApi {
     @GET("artworks/{$ID}?fields=$ID,$TITLE,$IMAGE_ID,$ARTIST_DISPLAY,$SOUND_IDS")
     suspend fun getArtworkById(@Path(ID) id: Int): ArtworkModel
@@ -30,4 +33,10 @@ interface ArtworksApi {
 
     @GET("artworks/search")
     suspend fun getArtworksByQuery(@Query(value = "q", encoded = true) search: String): SearchResultsModel<ArtworkData>
+
+    @GET("/search?query[match][artwork_type_title]={$TYPE}")
+    suspend fun getArtworksByKind(@Path(TYPE) type: String): SearchResultsModel<ArtworkData>
+
+    @GET("/search?query[match][place_of_origin]={$PLACE}")
+    suspend fun getArtworksByPlace(@Path(PLACE) type: String): SearchResultsModel<ArtworkData>
 }

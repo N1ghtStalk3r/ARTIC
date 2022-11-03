@@ -51,6 +51,8 @@ class ArtworksListFragment : Fragment() {
             viewModel.getArtworks()
 
             setupSearchView()
+            setupSearchByKind()
+            setupSearchByPlace()
 
             this?.ivFilterArts?.setOnClickListener {
                 findNavController().navigate(R.id.filterArtworksDialogFragment)
@@ -73,6 +75,40 @@ class ArtworksListFragment : Fragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 binding?.searchView?.clearFocus()
                 searchByQuery(query.toString())
+                Toast.makeText(activity, "$query", Toast.LENGTH_SHORT).show()
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
+    }
+
+    private fun setupSearchByKind() {
+        binding?.searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                binding?.searchView?.clearFocus()
+                binding?.btnFilterByOne?.setOnClickListener {
+                    searchByQuery(query.toString())
+                }
+                Toast.makeText(activity, "$query", Toast.LENGTH_SHORT).show()
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
+    }
+
+    private fun setupSearchByPlace() {
+        binding?.searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                binding?.searchView?.clearFocus()
+                binding?.btnFilterByTwo?.setOnClickListener {
+                    searchByPlace(query.toString())
+                }
                 Toast.makeText(activity, "$query", Toast.LENGTH_SHORT).show()
                 return false
             }
@@ -107,6 +143,10 @@ class ArtworksListFragment : Fragment() {
     }
 
     private fun searchByQuery(query: String) = viewModel.getArtworksByQuery(query)
+
+    private fun searchByKind(query: String) = viewModel.getArtworksByKind(query)
+
+    private fun searchByPlace(query: String) = viewModel.getArtworksByPlace(query)
 
     private fun ContentResultState.Content.handle() {
         adapter.setData(contentsList as List<Artwork>)

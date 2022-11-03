@@ -34,5 +34,35 @@
     <string name="exo_controls_play_description">Play</string>
     <string name="audio_player_cancel_audio_content_description">Close</string>
     <string name="exo_controls_pause_description">Pause</string>
+    <string name="place_of_origin">Place of origin</string>
+    <string name="date_start">Date start</string>
+    <string name="kind_of_object">Kind of object</string>
+    <string name="close">Закрыть</string>
+    <string name="filter">Фильтр</string>
+    <string name="enter_place_of_origin">Enter place of origin</string>
+    <string name="enter_type">Enter type</string>
+    <string name="query_result">По запросу ... найдено ... экспонатов</string>
+
+    <string-array name="places_of_origin">
+        <item>United States</item>
+        <item>France</item>
+        <item>Japan</item>
+        <item>England</item>
+        <item>Italy</item>
+        <item>Germany</item>
+        <item>China</item>
+        <item>Spain</item>
+    </string-array>
+
+    <string-array name="artwork_types">
+        <item>Print</item>
+        <item>Photograph</item>
+        <item>Drawing and Watercolor</item>
+        <item>Textile</item>
+        <item>Architect Drawing</item>
+        <item>Painting</item>
+        <item>Vessel</item>
+        <item>Decorative Arts</item>
+    </string-array>
 
 </resources>

@@ -7,6 +7,24 @@
     android:padding="16dp"
     tools:context=".features.artwork.presentation.ui.list.ArtworksListFragment">
 
+    <Button
+        android:id="@+id/btnFilterByOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/place_of_origin" />
+
+    <Button
+        android:id="@+id/btnFilterByTwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/date_start" />
+
+    <Button
+        android:id="@+id/btnFilterByThree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/kind_of_object" />
+
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivFilterArts"
         android:layout_width="40dp"
@@ -32,26 +50,29 @@
 
     </androidx.appcompat.widget.SearchView>
 
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/flowFilters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        app:constraint_referenced_ids="btnFilterByOne, btnFilterByTwo, btnFilterByThree"
+        app:flow_wrapMode="aligned"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvArtworks"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="417dp"
+        android:layout_height="538dp"
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.9"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivFilterArts"
+        app:layout_constraintTop_toBottomOf="@id/flowFilters"
         tools:listitem="@layout/item_artwork" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabScanQr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_qr_code_scanner"
-        android:tooltipText="@string/fab_scan_qr_tooltip"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <include
         android:id="@+id/error_layout"

@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.nightstalker.artic.R
 import com.nightstalker.artic.core.domain.ContentResultState
 import com.nightstalker.artic.databinding.FragmentExhibitionDetailsBinding
@@ -27,9 +26,6 @@ class ExhibitionDetailsFragment : Fragment() {
     private val exhibitionsViewModel by viewModel<ExhibitionsViewModel>()
     private var binding: FragmentExhibitionDetailsBinding? = null
 
-    // to_Ticket
-    private var buyTicketFloatingActionButton: FloatingActionButton? = null
-    private var exhibitionState: Exhibition? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,7 +39,7 @@ class ExhibitionDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentExhibitionDetailsBinding.bind(view)
 
-        setViewQRcode(view)
+        setViewQrCode()
         val id = args.exhibitionId
         exhibitionsViewModel.getExhibition(id)
         initObserver()
@@ -74,22 +70,19 @@ class ExhibitionDetailsFragment : Fragment() {
     }
 
     private fun setViews(exhibition: Exhibition) = with(binding) {
-        exhibitionState = exhibition
         this?.titleTextView?.text = exhibition.title.orEmpty()
         this?.tvDescription?.text = exhibition.shortDescription.orEmpty()
         this?.tvStatus?.text = exhibition.status.orEmpty()
 
         val context = this?.ivImage?.context
-        val imageUrl = exhibition?.imageUrl.orEmpty()
+        val imageUrl = exhibition.imageUrl.orEmpty()
         if (context != null) {
             this?.ivImage?.let { Glide.with(context).load(imageUrl).into(it) }
         }
     }
 
-    private fun setViewQRcode(view: View) {
-        buyTicketFloatingActionButton = view.findViewById(R.id.buyTicketFloatingActionButton)
-
-        buyTicketFloatingActionButton?.setOnClickListener {
+    private fun setViewQrCode() {
+        binding?.buyTicketFloatingActionButton?.setOnClickListener {
             ExhibitionDetailsFragmentDirections
                 .toTicketDetailsFragment(args.exhibitionId)
                 .run { findNavController().navigate(this) }

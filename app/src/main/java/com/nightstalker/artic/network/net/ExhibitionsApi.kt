@@ -21,8 +21,6 @@ interface ExhibitionsApi {
     @GET("exhibitions/{$ID}?fields=$ID,$IMAGE_URL,$GALLERY_TITLE,$TITLE,$ALT_IMAGE_IDS,$STATUS,$SHORT_DESCRIPTION")
     suspend fun getExhibitionById(@Path(ID) id: Int): ExhibitionModel
 
-    // @GET("exhibitions?fields=$ID,$IMAGE_URL,$GALLERY_TITLE,$TITLE,$ALT_IMAGE_IDS,$STATUS,$SHORT_DESCRIPTION")
-    @GET("exhibitions")
-    // suspend fun getExhibitions(): SearchResultsModel<ExhibitionData>
+    @GET("exhibitions/search?sort[aic_end_at]=DESC&fields=$ID,$IMAGE_URL,$GALLERY_TITLE,$TITLE,$ALT_IMAGE_IDS,$STATUS,$SHORT_DESCRIPTION")
     suspend fun getExhibitions(): ExhibitionsListResult
 }
