@@ -26,6 +26,7 @@ class ExhibitionDetailsFragment : Fragment() {
     private val exhibitionsViewModel by viewModel<ExhibitionsViewModel>()
     private var binding: FragmentExhibitionDetailsBinding? = null
 
+    private val bundle = Bundle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -87,9 +88,8 @@ class ExhibitionDetailsFragment : Fragment() {
     private fun buyTicket() {
 
         binding?.buyTicketFloatingActionButton?.setOnClickListener {
-            ExhibitionDetailsFragmentDirections
-                .toTicketDetailsFragment( -  args.exhibitionId)
-                .run { findNavController().navigate(this) }
+            bundle.putInt("ExhibitionId", args.exhibitionId )
+            findNavController().navigate(R.id.ticketDetailsFragment, bundle)
         }
     }
 }

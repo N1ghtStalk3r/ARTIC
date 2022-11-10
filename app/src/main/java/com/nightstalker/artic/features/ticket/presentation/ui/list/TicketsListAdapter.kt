@@ -48,10 +48,12 @@ class TicketsListAdapter(private val onItemClicked: (id: Long) -> Unit)
         override fun getItemCount(): Int = _data.size
 
         fun setData(data: List<TicketUseCase>) {
-            Log.d("TicketListAdapter", "list size = ${getItemCount()}")
+            Log.d("TicketListAdapter", "list size = ${data.size} -- getItemCount() = ${getItemCount()}")
             if (data.isNotEmpty()) {
                 this._data = data
+                notifyDataSetChanged()
             }
+            Log.d("TicketListAdapter", "list size = ${data.size} -- getItemCount() = ${getItemCount()}")
         }
 
         class ViewHolder(val binding: ItemTicketBinding) :

@@ -51,8 +51,10 @@ class TicketDetailsFragment : Fragment() {
 
         // Из списка билетов получаем положительные args.ticketId,
         // при покупке билета получаем args.ticketId < 0
-        if( args.ticketId  < 0 ) exhibition_id = - args.ticketId
-        else ticket_id =  args.ticketId.toLong()
+//        if( args.ticketId  < 0 ) exhibition_id = - args.ticketId
+//        else
+        exhibition_id = arguments?.getInt("ExhibitionId")?:-1
+        ticket_id =  args.ticketId.toLong()?:-1
         Log.d("TicketDetails"," ExhibitionId  = ${exhibition_id}, ticket_id = ${ticket_id} ")
 
         when {

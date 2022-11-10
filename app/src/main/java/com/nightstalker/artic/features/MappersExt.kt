@@ -90,16 +90,6 @@ fun TicketUseCase.toLocalTicket():  LocalTicket =
         timestamp = timestamp,
     )
 
-
-
-//intent.putExtra("beginTime", calendarEvent.timeInMillis + 60 * 60 * 1000)
-//intent.putExtra("allDay", false)
-//intent.putExtra("eventcolor", "Red")
-//intent.putExtra("rule", "FREQ=YEARLY")
-//intent.putExtra("endTime", calendarEvent.timeInMillis + 60 * 60 * 1000)
-//intent.putExtra("title", "The Art Institute of Chicago")
-//intent.putExtra("location", "The Art Institute of Chicago")
-
 fun TicketUseCase.toCalendarEvent():  List<Pair<String,String>> =
     listOf(
         "beginTime" to "36000000",
