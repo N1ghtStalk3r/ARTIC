@@ -47,9 +47,12 @@
         android:label="@string/label_frag_ticket_det"
         tools:layout="@layout/fragment_ticket_details" >
         <argument
-            android:name="exhibitionId"
+            android:name="ticketId"
             app:argType="integer"
             android:defaultValue="-1" />
+        <action
+            android:id="@+id/toTicketsListFragment"
+            app:destination="@id/ticketsListFragment" />
     </fragment>
 
     <fragment

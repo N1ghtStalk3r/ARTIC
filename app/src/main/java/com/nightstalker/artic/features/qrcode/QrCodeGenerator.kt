@@ -15,16 +15,6 @@ import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
  */
 class QrCodeGenerator {
 
-    private var counter = 0
-
-    private lateinit var _exhibition: Exhibition
-
-    fun setDataForQRCode(exhibition: Exhibition) {
-        _exhibition = exhibition
-    }
-
-    fun getCounter() = counter
-
     fun makeImage(text: String): Bitmap {
         val size = 256
         val hints = hashMapOf<EncodeHintType, Any>()
@@ -42,16 +32,5 @@ class QrCodeGenerator {
             }
             return this
         }
-    }
-
-    fun getTextQRCode(): String {
-        var textQRCode: String
-        if (counter++ % 2 == 0) {
-            textQRCode = "${counter}. ЭПИК и ARTIC представляют: ${_exhibition.title} "
-        } else {
-            textQRCode = _exhibition.imageUrl.toString()
-        }
-        Log.d("ArticLog", "QR-code = $textQRCode")
-        return textQRCode
     }
 }

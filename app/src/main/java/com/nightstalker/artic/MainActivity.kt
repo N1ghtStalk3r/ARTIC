@@ -1,5 +1,6 @@
 package com.nightstalker.artic
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -11,6 +12,7 @@ import com.nightstalker.artic.databinding.ActivityMainBinding
 import com.nightstalker.artic.features.artwork.presentation.ui.ArtworkViewModel
 import com.nightstalker.artic.features.exhibition.presentation.ui.ExhibitionsViewModel
 import com.nightstalker.artic.features.ticket.presentation.ui.TicketsViewModel
+import java.util.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -42,4 +44,21 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean =
         findNavController(R.id.navHostFragment).navigateUp() || super.onSupportNavigateUp()
+
+
+    fun addCalendarEvent( params: List<Pair<String, String>> ) {
+        val calendarEvent: Calendar = Calendar.getInstance()
+        val intent = Intent(Intent.ACTION_EDIT)
+        intent.type = "vnd.android.cursor.item/event"
+
+        params.forEach{
+            when {
+                it.first == "beginTime" -> intent.putExtra(it.first, calendarEvent.timeInMillis + it.second.toInt())
+                it.first == "endTime" -> intent.putExtra(it.first, calendarEvent.timeInMillis + it.second.toInt())
+                it.first == "allDay" -> intent.putExtra(it.first, it.second == "true")
+                    else -> intent.putExtra(it.first, it.second)
+            }
+        }
+        startActivity(intent)
+    }
 }

@@ -6,6 +6,7 @@ package com.nightstalker.artic.features.ticket.domain
  *
  * @property title              название выставки
  * @property exhibitionId       id выставки
+ * @property imageUrl           URL постера выставки
  * @property galleryId          id галлереи, в которой проходит выставка
  * @property galleryTitle       название галереи
  * @property aicStartAt         дата начала
@@ -16,11 +17,12 @@ package com.nightstalker.artic.features.ticket.domain
  *
  * @author Maxim Zimin
  */
-data class Ticket(
+data class TicketUseCase(
     val id: Long = 0L,
     val title: String = "",
     val exhibitionId: String = "",
     val galleryId: Int = 0,
+    val imageUrl: String = "",
     val galleryTitle: String = "",
     val aicEndAt: String = "",
     val aicStartAt: String = "",

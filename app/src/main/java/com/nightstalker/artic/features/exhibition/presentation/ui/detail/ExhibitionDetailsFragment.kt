@@ -39,10 +39,11 @@ class ExhibitionDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentExhibitionDetailsBinding.bind(view)
 
-        setViewQrCode()
         val id = args.exhibitionId
         exhibitionsViewModel.getExhibition(id)
         initObserver()
+        buyTicket()
+
     }
 
     override fun onDestroyView() {
@@ -81,10 +82,13 @@ class ExhibitionDetailsFragment : Fragment() {
         }
     }
 
-    private fun setViewQrCode() {
+    //  Для разведения значений с ticket_id из списка Билетов
+    //  передаем отрицательные значения args.exhibitionId
+    private fun buyTicket() {
+
         binding?.buyTicketFloatingActionButton?.setOnClickListener {
             ExhibitionDetailsFragmentDirections
-                .toTicketDetailsFragment(args.exhibitionId)
+                .toTicketDetailsFragment( -  args.exhibitionId)
                 .run { findNavController().navigate(this) }
         }
     }

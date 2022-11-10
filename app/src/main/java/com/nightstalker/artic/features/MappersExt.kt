@@ -9,7 +9,7 @@ import com.nightstalker.artic.core.local.ticket.LocalTicket
 import com.nightstalker.artic.features.artwork.domain.model.Artwork
 import com.nightstalker.artic.features.artwork.domain.model.ArtworkInformation
 import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
-import com.nightstalker.artic.features.ticket.domain.Ticket
+import com.nightstalker.artic.features.ticket.domain.TicketUseCase
 
 /**
  * Функции для преобразования данных из дата слоя в домайн
@@ -65,11 +65,22 @@ fun List<ExhibitionData>.toListOfExhibitions(): List<Exhibition> =
         )
     }
 
-fun LocalTicket.toTicket(): Ticket =
-    Ticket(
+fun Exhibition.toTicketUseCase():  TicketUseCase =
+    TicketUseCase(
+        title = title?:"",
+        exhibitionId = id.toString(),
+        imageUrl = imageUrl?:"",
+        galleryTitle = galleryTitle?:"",
+        shortDescription = shortDescription?:"",
+        numberOfPersons  = 1,
+    )
+
+fun TicketUseCase.toLocalTicket():  LocalTicket =
+    LocalTicket(
         id = id,
         title = title,
         exhibitionId = exhibitionId,
+        imageUrl = imageUrl,
         galleryId = galleryId,
         galleryTitle = galleryTitle,
         aicEndAt = aicEndAt,
@@ -79,12 +90,47 @@ fun LocalTicket.toTicket(): Ticket =
         timestamp = timestamp,
     )
 
-fun List<LocalTicket>.toListOfTickets(): List<Ticket> =
+
+
+//intent.putExtra("beginTime", calendarEvent.timeInMillis + 60 * 60 * 1000)
+//intent.putExtra("allDay", false)
+//intent.putExtra("eventcolor", "Red")
+//intent.putExtra("rule", "FREQ=YEARLY")
+//intent.putExtra("endTime", calendarEvent.timeInMillis + 60 * 60 * 1000)
+//intent.putExtra("title", "The Art Institute of Chicago")
+//intent.putExtra("location", "The Art Institute of Chicago")
+
+fun TicketUseCase.toCalendarEvent():  List<Pair<String,String>> =
+    listOf(
+        "beginTime" to "36000000",
+        "allDay" to "false",
+        "rule" to "FREQ=YEARLY;UNTIL=20221211T000000Z",
+        "endTime" to "36000000",
+        "title" to "The Art Institute of Chicago: ${title}"
+    )
+
+fun LocalTicket.toTicketUseCase(): TicketUseCase =
+    TicketUseCase(
+        id = id,
+        title = title,
+        exhibitionId = exhibitionId,
+        imageUrl = imageUrl,
+        galleryId = galleryId,
+        galleryTitle = galleryTitle,
+        aicEndAt = aicEndAt,
+        aicStartAt = aicStartAt,
+        shortDescription = shortDescription,
+        numberOfPersons  = numberOfPersons,
+        timestamp = timestamp,
+    )
+
+fun List<LocalTicket>.toListOfTicketUseCase(): List<TicketUseCase> =
     map {
-        Ticket(
+        TicketUseCase(
             id = it.id,
             title = it.title,
             exhibitionId = it.exhibitionId,
+            imageUrl = it.imageUrl,
             galleryId = it.galleryId,
             galleryTitle = it.galleryTitle,
             aicEndAt = it.aicEndAt,
