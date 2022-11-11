@@ -19,4 +19,6 @@ data class Exhibition(
     val altImageIds: List<String>?,
     val status: String?,
     val shortDescription: String?,
+    val aicEndAt: String?,
+    val aicStartAt: String?,
 )

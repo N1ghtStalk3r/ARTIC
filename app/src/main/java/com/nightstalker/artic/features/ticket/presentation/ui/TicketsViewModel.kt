@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
  * @created 2022-10-13
  */
 
-class TicketsViewModel(private val dao: TicketDao)  : ViewModel() {
+class TicketsViewModel(private val dao: TicketDao) : ViewModel() {
     private var _ticketLoaded = MutableLiveData<TicketUseCase>()
     val ticketLoaded: LiveData<TicketUseCase> get() = _ticketLoaded
 
@@ -36,11 +36,12 @@ class TicketsViewModel(private val dao: TicketDao)  : ViewModel() {
         }
     }
 
-    fun deleteTicket(ticketId: Long, exhibitionId : String) {
+    fun deleteTicket(ticketId: Long, exhibitionId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            dao.remove(ticketId = ticketId ,  exhibitionId = exhibitionId)
+            dao.remove(ticketId = ticketId, exhibitionId = exhibitionId)
         }
     }
+
     fun saveTicket(ticket: TicketUseCase) {
         viewModelScope.launch(Dispatchers.IO) {
             dao.save(ticket = ticket.toLocalTicket())
@@ -51,12 +52,10 @@ class TicketsViewModel(private val dao: TicketDao)  : ViewModel() {
     fun getAllTickets() {
         viewModelScope.launch(Dispatchers.IO) {
             _ticketsLoaded.postValue(
-                dao.getTickets().map { it.toTicketUseCase() } ?: listOf(TicketUseCase())
+                dao.getTickets().map { it.toTicketUseCase() }
             )
         }
     }
-
-
 
 
 }

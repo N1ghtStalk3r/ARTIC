@@ -1,5 +1,8 @@
 package com.nightstalker.artic.features
 
+
+import com.google.gson.annotations.SerializedName
+import com.nightstalker.artic.R
 import com.nightstalker.artic.core.data.model.artwork.detail.ArtworkData
 import com.nightstalker.artic.core.data.model.artwork.detail.ArtworkModel
 import com.nightstalker.artic.core.data.model.artwork.detail.information.ArtworkInformationModel
@@ -10,6 +13,14 @@ import com.nightstalker.artic.features.artwork.domain.model.Artwork
 import com.nightstalker.artic.features.artwork.domain.model.ArtworkInformation
 import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
 import com.nightstalker.artic.features.ticket.domain.TicketUseCase
+import com.nightstalker.artic.network.ApiConstants.ARTIC_LOCATION
+import com.nightstalker.artic.network.ApiConstants.ARTIC_TITLE
+import com.nightstalker.artic.network.ApiConstants.EVENT_CALENDAR_RRULE
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 /**
  * Функции для преобразования данных из дата слоя в домайн
@@ -49,7 +60,9 @@ fun ExhibitionModel.toExhibition(): Exhibition =
         title = data.title,
         altImageIds = listOf(),
         status = data.status,
-        shortDescription = data.shortDescription
+        shortDescription = data.shortDescription,
+        aicEndAt = data.aicEndAt,
+        aicStartAt = data.aicStartAt,
     )
 
 fun List<ExhibitionData>.toListOfExhibitions(): List<Exhibition> =
@@ -61,21 +74,27 @@ fun List<ExhibitionData>.toListOfExhibitions(): List<Exhibition> =
             title = it.title,
             altImageIds = listOf(),
             status = it.status,
-            shortDescription = it.shortDescription
+            shortDescription = it.shortDescription,
+            aicEndAt = it.aicEndAt,
+            aicStartAt = it.aicStartAt,
         )
     }
 
-fun Exhibition.toTicketUseCase():  TicketUseCase =
+fun Exhibition.toTicketUseCase(): TicketUseCase =
     TicketUseCase(
-        title = title?:"",
+        title = title ?: "",
         exhibitionId = id.toString(),
-        imageUrl = imageUrl?:"",
-        galleryTitle = galleryTitle?:"",
-        shortDescription = shortDescription?:"",
-        numberOfPersons  = 1,
+        imageUrl = imageUrl ?: "",
+        galleryTitle = galleryTitle ?: "",
+        shortDescription = shortDescription ?: "",
+        numberOfPersons = 1,
+        aicEndAt = aicEndAt ?: "",
+        aicStartAt = aicStartAt ?: "",
+        timestamp = Date().time
     )
 
-fun TicketUseCase.toLocalTicket():  LocalTicket =
+
+fun TicketUseCase.toLocalTicket(): LocalTicket =
     LocalTicket(
         id = id,
         title = title,
@@ -86,18 +105,38 @@ fun TicketUseCase.toLocalTicket():  LocalTicket =
         aicEndAt = aicEndAt,
         aicStartAt = aicStartAt,
         shortDescription = shortDescription,
-        numberOfPersons  = numberOfPersons,
+        numberOfPersons = numberOfPersons,
         timestamp = timestamp,
     )
 
-fun TicketUseCase.toCalendarEvent():  List<Pair<String,String>> =
-    listOf(
-        "beginTime" to "36000000",
-        "allDay" to "false",
-        "rule" to "FREQ=YEARLY;UNTIL=20221211T000000Z",
-        "endTime" to "36000000",
-        "title" to "The Art Institute of Chicago: ${title}"
-    )
+fun String.toCalendarInMillis(): Long {
+    if (this.isEmpty()) return Date().time
+    val localDateTime = LocalDateTime.parse(this, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+    val zdt = ZonedDateTime.of(localDateTime, ZoneId.systemDefault())
+    val planDate = Date.from(zdt.toInstant()).time
+    return planDate
+}
+
+// Время нового события в календаре может быть только в будующем
+fun Long.normalizeEventDateTime(): Long =
+    if (this < Date().time) Date().time else this
+
+fun TicketUseCase.toCalendarEvent(): Map<String, String> = mapOf(
+    "beginTime" to aicStartAt
+        .toCalendarInMillis()
+        .normalizeEventDateTime()
+        .toString(),
+    "allDay" to "false",
+    "rule" to EVENT_CALENDAR_RRULE,
+    "endTime" to aicEndAt
+        .toCalendarInMillis()
+        .normalizeEventDateTime()
+        .toString(),
+    "title" to "Exhibition: ${title}",
+    "description" to "Place:  ${galleryTitle} of $ARTIC_TITLE",
+    "eventLocation" to ARTIC_LOCATION,
+)
+
 
 fun LocalTicket.toTicketUseCase(): TicketUseCase =
     TicketUseCase(
@@ -110,7 +149,7 @@ fun LocalTicket.toTicketUseCase(): TicketUseCase =
         aicEndAt = aicEndAt,
         aicStartAt = aicStartAt,
         shortDescription = shortDescription,
-        numberOfPersons  = numberOfPersons,
+        numberOfPersons = numberOfPersons,
         timestamp = timestamp,
     )
 
@@ -126,7 +165,7 @@ fun List<LocalTicket>.toListOfTicketUseCase(): List<TicketUseCase> =
             aicEndAt = it.aicEndAt,
             aicStartAt = it.aicStartAt,
             shortDescription = it.shortDescription,
-            numberOfPersons  = it.numberOfPersons,
+            numberOfPersons = it.numberOfPersons,
             timestamp = it.timestamp,
         )
-}
+    }

@@ -11,7 +11,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 
-class ArticApp: Application() {
+class ArticApp : Application() {
 //    private val database by lazy {
 //        AppDatabase.getInstance(this@ArticApp)
 //    }
@@ -30,10 +30,11 @@ class ArticApp: Application() {
             modules(ticketModules)
         }
     }
+
     override fun onTerminate() {
         super.onTerminate()
         stopKoin()
     }
-    
+
 
 }

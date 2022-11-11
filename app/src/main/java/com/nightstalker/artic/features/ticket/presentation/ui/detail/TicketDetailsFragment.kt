@@ -29,13 +29,13 @@ class TicketDetailsFragment : Fragment() {
     private val exhibitionsViewModel by viewModel<ExhibitionsViewModel>()
     private val ticketsViewModel by viewModel<TicketsViewModel>()
     private val ticketViewModel by viewModel<TicketsViewModel>()
-    private var binding: FragmentTicketDetailsBinding? = null
+    private lateinit var binding: FragmentTicketDetailsBinding
     private lateinit var adapter: TicketsListAdapter
 
     // В форму DetailsFragment переходят из списка билетов  и  при покупке билета
 
-    private var exhibition_id = -1  // заполняется в ExhibitionDetailsFragment
-    private var ticket_id = -1L     // заполняется в TicketsListFragment
+    private var exhibition_id: Int? = -1   // заполняется в ExhibitionDetailsFragment
+    private var ticket_id: Long? = -1     // заполняется в TicketsListFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,29 +51,29 @@ class TicketDetailsFragment : Fragment() {
 
         // Из списка билетов получаем положительные args.ticketId,
         // при покупке билета получаем args.ticketId < 0
-//        if( args.ticketId  < 0 ) exhibition_id = - args.ticketId
-//        else
-        exhibition_id = arguments?.getInt("ExhibitionId")?:-1
-        ticket_id =  args.ticketId.toLong()?:-1
-        Log.d("TicketDetails"," ExhibitionId  = ${exhibition_id}, ticket_id = ${ticket_id} ")
+
+        exhibition_id = arguments?.getInt("ExhibitionId")
+        ticket_id = args.ticketId.toLong()
+        Log.d("TicketDetails", " ExhibitionId  = ${exhibition_id}, ticket_id = ${ticket_id} ")
 
         when {
-            exhibition_id > 0 -> {
-                exhibitionsViewModel.getExhibition(exhibition_id)
+            exhibition_id!! > 0 -> {
+                exhibitionsViewModel.getExhibition(exhibition_id!!)
                 initExhibitionObserver()
             }
-            ticket_id > 0 -> {
-                ticketsViewModel.getTicket(ticket_id)
+            ticket_id!! > 0 -> {
+                ticketsViewModel.getTicket(ticket_id!!)
                 initTicketObserver()
             }
         }
 
+        Log.d("TicketDetails", " ExhibitionId  = $exhibition_id, ticket_id = $ticket_id ")
 
         // удаление билета
-        binding?.deleteTicketButton?.setOnClickListener{
-            Log.d("deleteTicketButton"," was clicked")
+        binding.deleteTicketButton.setOnClickListener {
+            Log.d("deleteTicketButton", " was clicked")
             ticketsViewModel.deleteTicket(
-                ticketId = ticket_id.toLong() ,
+                ticketId = (ticket_id ?: -1L).toLong(),
                 exhibitionId = exhibition_id.toString()
             )
             findNavController().navigate(R.id.ticketsListFragment)
@@ -82,12 +82,12 @@ class TicketDetailsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
     }
 
     private fun initExhibitionObserver() {
-       exhibitionsViewModel.exhibitionContentState.observe(viewLifecycleOwner, ::handle)
+        exhibitionsViewModel.exhibitionContentState.observe(viewLifecycleOwner, ::handle)
     }
+
     private fun initTicketObserver() {
         ticketViewModel.ticketLoaded.observe(viewLifecycleOwner, ::setData)
     }
@@ -107,32 +107,33 @@ class TicketDetailsFragment : Fragment() {
         Log.d("Ticket ADF", "handle: $error")
     }
 
-
     private fun setViews(exhibition: Exhibition?) = with(binding) {
-        if(exhibition != null) {
+        if (exhibition != null) {
             ticketViewModel.saveTicket(exhibition.toTicketUseCase())
             setData(exhibition.toTicketUseCase())
         }
     }
 
-    private fun setData(ticket: TicketUseCase?) = with(binding){
+    private fun setData(ticket: TicketUseCase?) = with(binding) {
 
-        this?.titleTextView?.text = ticket?.title.orEmpty()
-        this?.exhibitionIdTextView?.text = ticket?.galleryTitle.toString()
+        Log.d(
+            "TicketDetails setData",
+            " ExhibitionId  = ${ticket?.exhibitionId}, ticket_id = ${ticket?.id} "
+        )
+
+        this.titleTextView.text = ticket?.title.orEmpty()
+        this.exhibitionIdTextView.text = ticket?.galleryTitle.toString()
 
         //QRCode
-        this?.qrCodeImageView?.setImageBitmap(
+        this.qrCodeImageView.setImageBitmap(
             QrCodeGenerator().makeImage("ЭПИК и ARTIC представляют: ${ticket?.title} в ${ticket?.galleryTitle}")
         )
 
         // Регистрация нового события в календаре Google
-        binding?.addCalendarEventButton?.setOnClickListener {
-            Log.d("addCalendarEventButton"," was clicked")
-            if(ticket != null)
+        binding.addCalendarEventButton.setOnClickListener {
+            Log.d("addCalendarEventButton", " was clicked")
+            if (ticket != null)
                 (activity as MainActivity?)!!.addCalendarEvent(ticket.toCalendarEvent())
         }
-
-
     }
-
 }

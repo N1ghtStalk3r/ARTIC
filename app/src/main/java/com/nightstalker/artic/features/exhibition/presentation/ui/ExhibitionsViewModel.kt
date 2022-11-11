@@ -31,10 +31,16 @@ class ExhibitionsViewModel(
     fun getExhibition(id: Int) = viewModelScope.launch(dispatcher) {
         when (val exhibition = repo.getExhibitionById(id)) {
             is ResultState.Success -> {
-                onResultStateSuccess(contentSingle = exhibition.data, contentResultState = _exhibitionContentState)
+                onResultStateSuccess(
+                    contentSingle = exhibition.data,
+                    contentResultState = _exhibitionContentState
+                )
             }
             is ResultState.Error -> {
-                onResultStateError(isNetworkError = exhibition.errorData, contentResultState = _exhibitionContentState)
+                onResultStateError(
+                    isNetworkError = exhibition.errorData,
+                    contentResultState = _exhibitionContentState
+                )
             }
         }
     }
@@ -42,11 +48,16 @@ class ExhibitionsViewModel(
     fun getExhibitions() = viewModelScope.launch(dispatcher) {
         when (val exhibitions = repo.getExhibitions()) {
             is ResultState.Success -> {
-                onResultStateSuccess(contentsList = exhibitions.data, contentResultState = _exhibitionsContentState)
+                onResultStateSuccess(
+                    contentsList = exhibitions.data,
+                    contentResultState = _exhibitionsContentState
+                )
             }
             is ResultState.Error -> {
-                onResultStateError(isNetworkError = exhibitions.errorData,
-                    contentResultState = _exhibitionsContentState)
+                onResultStateError(
+                    isNetworkError = exhibitions.errorData,
+                    contentResultState = _exhibitionsContentState
+                )
             }
         }
     }

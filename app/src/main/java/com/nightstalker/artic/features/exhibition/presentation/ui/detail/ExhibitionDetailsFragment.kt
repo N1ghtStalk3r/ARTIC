@@ -88,7 +88,7 @@ class ExhibitionDetailsFragment : Fragment() {
     private fun buyTicket() {
 
         binding?.buyTicketFloatingActionButton?.setOnClickListener {
-            bundle.putInt("ExhibitionId", args.exhibitionId )
+            bundle.putInt("ExhibitionId", args.exhibitionId)
             findNavController().navigate(R.id.ticketDetailsFragment, bundle)
         }
     }

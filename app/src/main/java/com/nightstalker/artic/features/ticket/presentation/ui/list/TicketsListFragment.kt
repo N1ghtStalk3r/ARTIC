@@ -19,7 +19,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  * @created 2022-10-13
  */
 
-class TicketsListFragment: Fragment()   {
+class TicketsListFragment : Fragment() {
     private lateinit var adapter: TicketsListAdapter
     private val ticketsViewModel by viewModel<TicketsViewModel>()
     private lateinit var binding: FragmentTicketsListBinding
@@ -27,7 +27,7 @@ class TicketsListFragment: Fragment()   {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentTicketsListBinding.inflate(inflater, container, false)
         return binding.root
     }

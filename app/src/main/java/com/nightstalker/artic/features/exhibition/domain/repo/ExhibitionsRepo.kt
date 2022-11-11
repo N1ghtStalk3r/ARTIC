@@ -8,6 +8,6 @@ import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
  * @author Tamerlan Mamukhov on 2022-09-16
  */
 interface ExhibitionsRepo {
-   suspend fun getExhibitionById(id: Int): Exhibition
-   suspend fun getExhibitions(): List<Exhibition>
+    suspend fun getExhibitionById(id: Int): Exhibition
+    suspend fun getExhibitions(): List<Exhibition>
 }

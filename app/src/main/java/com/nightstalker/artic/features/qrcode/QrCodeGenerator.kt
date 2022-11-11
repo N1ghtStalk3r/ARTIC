@@ -1,12 +1,12 @@
 package com.nightstalker.artic.features.qrcode
 
+
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.util.Log
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
-import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
 
 /**
  * Генератор QR-кодов

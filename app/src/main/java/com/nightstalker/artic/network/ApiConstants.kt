@@ -103,4 +103,14 @@ object ApiConstants {
     const val LAST_UPDATED_SOURCE = "last_updated_source"
     const val LAST_UPDATED = "last_updated"
     const val TIMESTAMP = "timestamp"
+    const val AICSTARTAT = "aic_start_at"
+    const val AICENDAT = "aic_end_at"
+    const val EVENT_CALENDAR_TYPE = "vnd.android.cursor.item/event"
+    const val EVENT_CALENDAR_RRULE = "FREQ=YEARLY;UNTIL=20301211T000000Z"
+    const val ARTIC_LOCATION = "111 S Michigan Ave, Chicago, IL 60603, USA"
+    const val ARTIC_TITLE = "The Art Institute of Chicago"
+    const val DB_NAME = "artic"
+    const val DB_TABLE_TICKETS = "tickets"
+
+
 }

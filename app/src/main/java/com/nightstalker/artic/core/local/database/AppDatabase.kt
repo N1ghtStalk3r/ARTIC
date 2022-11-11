@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 import com.nightstalker.artic.core.local.ticket.LocalTicket
 import com.nightstalker.artic.core.local.ticket.TicketDao
 
-@Database(  entities = [LocalTicket::class], version = 1, exportSchema = false,  )
+@Database(entities = [LocalTicket::class], version = 1, exportSchema = false)
 
 abstract class AppDatabase : RoomDatabase() {
 

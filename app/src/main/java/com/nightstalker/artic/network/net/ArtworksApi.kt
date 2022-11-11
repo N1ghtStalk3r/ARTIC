@@ -32,7 +32,12 @@ interface ArtworksApi {
     suspend fun getArtworkInformation(@Path(ID) id: Int): ArtworkInformationModel
 
     @GET("artworks/search")
-    suspend fun getArtworksByQuery(@Query(value = "q", encoded = true) search: String): SearchResultsModel<ArtworkData>
+    suspend fun getArtworksByQuery(
+        @Query(
+            value = "q",
+            encoded = true
+        ) search: String
+    ): SearchResultsModel<ArtworkData>
 
     @GET("/search?query[match][artwork_type_title]={$TYPE}")
     suspend fun getArtworksByKind(@Path(TYPE) type: String): SearchResultsModel<ArtworkData>

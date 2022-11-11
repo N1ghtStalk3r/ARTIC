@@ -43,10 +43,10 @@ class ArtworkDetailsFragment : Fragment() {
 
         binding = FragmentArtworkDetailsBinding.bind(view)
         val id = args.posterId
-        // viewModel.getManifest(id)
         initObserver()
 
         viewModel.getArtwork(id)
+        viewModel.getArtworkInformation(id)
     }
 
     override fun onDestroyView() {
@@ -56,6 +56,7 @@ class ArtworkDetailsFragment : Fragment() {
 
     private fun initObserver() = with(viewModel) {
         artworkContentState.observe(viewLifecycleOwner, ::handle)
+        artworkDescriptionState.observe(viewLifecycleOwner, ::handle)
     }
 
     private fun handle(contentResultState: ContentResultState) = when (contentResultState) {
@@ -65,9 +66,15 @@ class ArtworkDetailsFragment : Fragment() {
     }
 
     private fun ContentResultState.Content.handle() {
-        Log.d("ADF", "handle: $contentSingle")
-        setArtworkViews(contentSingle as Artwork)
-        Toast.makeText(activity, "${contentSingle as Artwork}", Toast.LENGTH_SHORT).show()
+        when (contentSingle) {
+            is Artwork -> {
+                Log.d("ADF", "handle: $contentSingle")
+                setArtworkViews(contentSingle as Artwork)
+            }
+            is ArtworkInformation -> {
+                setManViews(contentSingle as ArtworkInformation)
+            }
+        }
     }
 
     private fun ContentResultState.Error.handle() {
@@ -76,7 +83,7 @@ class ArtworkDetailsFragment : Fragment() {
 
     private fun setManViews(artworkInformation: ArtworkInformation?) {
         with(binding) {
-//            this?.tvDescription?.text = artworkInformation?.description
+            this?.tvDescription?.text = artworkInformation?.description
         }
     }
 

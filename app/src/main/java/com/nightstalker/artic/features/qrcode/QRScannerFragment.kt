@@ -27,9 +27,11 @@ class QRScannerFragment : Fragment(), ZBarScannerView.ResultHandler {
     lateinit var scannerView: ZBarScannerView
 
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         mView = inflater.inflate(R.layout.fragment_qrscanner, container, false)
         initializeQRCamera()
         onClicks()
@@ -59,7 +61,7 @@ class QRScannerFragment : Fragment(), ZBarScannerView.ResultHandler {
     }
 
 
-//
+    //
     private fun onClicks() {
         mView.flashToggle.setOnClickListener {
             if (mView.flashToggle.isSelected) {
@@ -96,10 +98,9 @@ class QRScannerFragment : Fragment(), ZBarScannerView.ResultHandler {
         scannerView.stopCamera()
     }
 
-    override fun handleResult(rawResult: Result?)
-    {
+    override fun handleResult(rawResult: Result?) {
 
-        Toast.makeText(context!!,rawResult?.contents,Toast.LENGTH_LONG).show()
+        Toast.makeText(context!!, rawResult?.contents, Toast.LENGTH_LONG).show()
         scannerView.resumeCameraPreview(this)
 
     }
