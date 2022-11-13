@@ -40,28 +40,26 @@ class QRScannerFragment : Fragment(), ZBarScannerView.ResultHandler {
 
 
     private fun initializeQRCamera() {
-        scannerView = ZBarScannerView(context)
-        scannerView.setResultHandler(this)
-        scannerView.setBackgroundColor(ContextCompat.getColor(context!!, R.color.colorTranslucent))
-        scannerView.setBorderColor(ContextCompat.getColor(context!!, R.color.colorPrimaryDark))
-        scannerView.setLaserColor(ContextCompat.getColor(context!!, R.color.colorPrimaryDark))
-        scannerView.setBorderStrokeWidth(10)
-        scannerView.setSquareViewFinder(true)
-        scannerView.setupScanner()
-        scannerView.setAutoFocus(true)
-        startQRCamera()
-        mView.containerScanner.addView(scannerView)
-
-
+        val lContext = context
+        if(lContext != null) {
+            scannerView = ZBarScannerView(context)
+            scannerView.setResultHandler(this)
+            scannerView.setBackgroundColor(ContextCompat.getColor(lContext, R.color.colorTranslucent))
+            scannerView.setBorderColor(ContextCompat.getColor(lContext, R.color.colorPrimaryDark))
+            scannerView.setLaserColor(ContextCompat.getColor(lContext, R.color.colorPrimaryDark))
+            scannerView.setBorderStrokeWidth(10)
+            scannerView.setSquareViewFinder(true)
+            scannerView.setupScanner()
+            scannerView.setAutoFocus(true)
+            startQRCamera()
+            mView.containerScanner.addView(scannerView)
+        }
     }
-
 
     private fun startQRCamera() {
         scannerView.startCamera()
     }
 
-
-    //
     private fun onClicks() {
         mView.flashToggle.setOnClickListener {
             if (mView.flashToggle.isSelected) {
@@ -99,10 +97,8 @@ class QRScannerFragment : Fragment(), ZBarScannerView.ResultHandler {
     }
 
     override fun handleResult(rawResult: Result?) {
-
-        Toast.makeText(context!!, rawResult?.contents, Toast.LENGTH_LONG).show()
+        Toast.makeText(context, rawResult?.contents, Toast.LENGTH_LONG).show()
         scannerView.resumeCameraPreview(this)
-
     }
 
 }

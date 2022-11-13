@@ -47,6 +47,8 @@
     <string name="event_location">The Art Institute of Chicago</string>
 
     <string name="db_table_tickets">tickets</string>
+    <string name="exhibition_start">Дата открытия</string>
+    <string name="exhibition_end">Дата закрытия</string>
 
 
     <string-array name="places_of_origin">

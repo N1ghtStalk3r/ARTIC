@@ -15,7 +15,16 @@ import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
 import com.nightstalker.artic.features.ticket.domain.TicketUseCase
 import com.nightstalker.artic.network.ApiConstants.ARTIC_LOCATION
 import com.nightstalker.artic.network.ApiConstants.ARTIC_TITLE
+import com.nightstalker.artic.network.ApiConstants.EVENT_ALLDAY
+import com.nightstalker.artic.network.ApiConstants.EVENT_BEGIN
 import com.nightstalker.artic.network.ApiConstants.EVENT_CALENDAR_RRULE
+import com.nightstalker.artic.network.ApiConstants.EVENT_DESCRIPTION
+import com.nightstalker.artic.network.ApiConstants.EVENT_END
+import com.nightstalker.artic.network.ApiConstants.EVENT_LOCATION
+import com.nightstalker.artic.network.ApiConstants.EVENT_RULE
+import com.nightstalker.artic.network.ApiConstants.EVENT_TITLE
+import com.nightstalker.artic.network.ApiConstants.USER_FORMAT_DATE
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -121,20 +130,26 @@ fun String.toCalendarInMillis(): Long {
 fun Long.normalizeEventDateTime(): Long =
     if (this < Date().time) Date().time else this
 
+// Перевод даты ISO 8601 в заданной формат
+fun String.reformatIso8601(): String = SimpleDateFormat(USER_FORMAT_DATE, Locale.getDefault())
+    .format(
+        this.toCalendarInMillis()
+    )
+
 fun TicketUseCase.toCalendarEvent(): Map<String, String> = mapOf(
-    "beginTime" to aicStartAt
+    EVENT_BEGIN to aicStartAt
         .toCalendarInMillis()
         .normalizeEventDateTime()
         .toString(),
-    "allDay" to "false",
-    "rule" to EVENT_CALENDAR_RRULE,
-    "endTime" to aicEndAt
+    EVENT_ALLDAY to "false",
+    EVENT_RULE to EVENT_CALENDAR_RRULE,
+    EVENT_END to aicEndAt
         .toCalendarInMillis()
         .normalizeEventDateTime()
         .toString(),
-    "title" to "Exhibition: ${title}",
-    "description" to "Place:  ${galleryTitle} of $ARTIC_TITLE",
-    "eventLocation" to ARTIC_LOCATION,
+    EVENT_TITLE to "Exhibition: ${title}",
+    EVENT_DESCRIPTION to "Place:  ${galleryTitle} of $ARTIC_TITLE",
+    EVENT_LOCATION to ARTIC_LOCATION,
 )
 
 

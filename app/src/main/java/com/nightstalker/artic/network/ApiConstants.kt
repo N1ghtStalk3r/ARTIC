@@ -111,6 +111,21 @@ object ApiConstants {
     const val ARTIC_TITLE = "The Art Institute of Chicago"
     const val DB_NAME = "artic"
     const val DB_TABLE_TICKETS = "tickets"
+    const val DEFAULT_TICKET_ID = -1L
+    const val DEFAULT_EXHIBITION_ID = -1
+    const val USER_FORMAT_DATE = "dd/MM/yyyy"
+    const val LABEL_AICSTARTAT = "Oткрытие"
+    const val LABEL_AICENDAT = "Закрытие"
+    const val EVENT_BEGIN = "beginTime"
+    const val EVENT_PERIOD = "Time"
+    const val EVENT_ALLDAY = "allDay"
+    const val EVENT_RULE = "rule"
+    const val EVENT_END = "endTime"
+    const val EVENT_TITLE = "title"
+    const val EVENT_DESCRIPTION = "description"
+    const val EVENT_LOCATION = "eventLocation"
+
+
 
 
 }

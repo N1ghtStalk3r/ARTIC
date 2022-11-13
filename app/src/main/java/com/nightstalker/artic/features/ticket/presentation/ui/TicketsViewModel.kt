@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nightstalker.artic.core.domain.ContentResultState
 import com.nightstalker.artic.core.local.ticket.LocalTicket
 import com.nightstalker.artic.core.local.ticket.TicketDao
 import com.nightstalker.artic.features.ticket.domain.TicketUseCase

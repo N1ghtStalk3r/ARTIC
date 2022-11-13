@@ -16,12 +16,17 @@ import com.nightstalker.artic.databinding.FragmentTicketDetailsBinding
 import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
 import com.nightstalker.artic.features.exhibition.presentation.ui.ExhibitionsViewModel
 import com.nightstalker.artic.features.qrcode.QrCodeGenerator
+import com.nightstalker.artic.features.reformatIso8601
 import com.nightstalker.artic.features.ticket.domain.TicketUseCase
 import com.nightstalker.artic.features.ticket.presentation.ui.TicketsViewModel
 import com.nightstalker.artic.features.ticket.presentation.ui.list.TicketsListAdapter
 import com.nightstalker.artic.features.toCalendarEvent
 import com.nightstalker.artic.features.toLocalTicket
 import com.nightstalker.artic.features.toTicketUseCase
+import com.nightstalker.artic.network.ApiConstants.DEFAULT_EXHIBITION_ID
+import com.nightstalker.artic.network.ApiConstants.DEFAULT_TICKET_ID
+import com.nightstalker.artic.network.ApiConstants.LABEL_AICENDAT
+import com.nightstalker.artic.network.ApiConstants.LABEL_AICSTARTAT
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TicketDetailsFragment : Fragment() {
@@ -33,9 +38,8 @@ class TicketDetailsFragment : Fragment() {
     private lateinit var adapter: TicketsListAdapter
 
     // В форму DetailsFragment переходят из списка билетов  и  при покупке билета
-
-    private var exhibition_id: Int? = -1   // заполняется в ExhibitionDetailsFragment
-    private var ticket_id: Long? = -1     // заполняется в TicketsListFragment
+    private var exhibition_id: Int = -1   // заполняется в ExhibitionDetailsFragment
+    private var ticket_id: Long = -1L     // заполняется в TicketsListFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,28 +56,26 @@ class TicketDetailsFragment : Fragment() {
         // Из списка билетов получаем положительные args.ticketId,
         // при покупке билета получаем args.ticketId < 0
 
-        exhibition_id = arguments?.getInt("ExhibitionId")
+        exhibition_id = arguments?.getInt("ExhibitionId") ?: DEFAULT_EXHIBITION_ID
         ticket_id = args.ticketId.toLong()
         Log.d("TicketDetails", " ExhibitionId  = ${exhibition_id}, ticket_id = ${ticket_id} ")
 
         when {
-            exhibition_id!! > 0 -> {
-                exhibitionsViewModel.getExhibition(exhibition_id!!)
+            exhibition_id > 0 -> {
+                exhibitionsViewModel.getExhibition(exhibition_id)
                 initExhibitionObserver()
             }
-            ticket_id!! > 0 -> {
-                ticketsViewModel.getTicket(ticket_id!!)
+            ticket_id > 0 -> {
+                ticketsViewModel.getTicket(ticket_id)
                 initTicketObserver()
             }
         }
-
-        Log.d("TicketDetails", " ExhibitionId  = $exhibition_id, ticket_id = $ticket_id ")
 
         // удаление билета
         binding.deleteTicketButton.setOnClickListener {
             Log.d("deleteTicketButton", " was clicked")
             ticketsViewModel.deleteTicket(
-                ticketId = (ticket_id ?: -1L).toLong(),
+                ticketId = ticket_id ?: DEFAULT_TICKET_ID,
                 exhibitionId = exhibition_id.toString()
             )
             findNavController().navigate(R.id.ticketsListFragment)
@@ -124,6 +126,11 @@ class TicketDetailsFragment : Fragment() {
         this.titleTextView.text = ticket?.title.orEmpty()
         this.exhibitionIdTextView.text = ticket?.galleryTitle.toString()
 
+        this.aicStartAtTextView.text = "$LABEL_AICSTARTAT : ${ticket?.aicStartAt.toString().reformatIso8601()}"
+        this.aicEndAtTextView.text = "$LABEL_AICENDAT : ${ticket?.aicEndAt.toString().reformatIso8601()}"
+
+
+
         //QRCode
         this.qrCodeImageView.setImageBitmap(
             QrCodeGenerator().makeImage("ЭПИК и ARTIC представляют: ${ticket?.title} в ${ticket?.galleryTitle}")
@@ -133,7 +140,7 @@ class TicketDetailsFragment : Fragment() {
         binding.addCalendarEventButton.setOnClickListener {
             Log.d("addCalendarEventButton", " was clicked")
             if (ticket != null)
-                (activity as MainActivity?)!!.addCalendarEvent(ticket.toCalendarEvent())
+                (activity as MainActivity).addCalendarEvent(ticket.toCalendarEvent())
         }
     }
 }

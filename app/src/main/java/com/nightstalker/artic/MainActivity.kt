@@ -2,7 +2,6 @@ package com.nightstalker.artic
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.CalendarContract
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -13,13 +12,11 @@ import com.nightstalker.artic.databinding.ActivityMainBinding
 import com.nightstalker.artic.features.artwork.presentation.ui.ArtworkViewModel
 import com.nightstalker.artic.features.exhibition.presentation.ui.ExhibitionsViewModel
 import com.nightstalker.artic.features.ticket.presentation.ui.TicketsViewModel
+import com.nightstalker.artic.network.ApiConstants.EVENT_BEGIN
 import com.nightstalker.artic.network.ApiConstants.EVENT_CALENDAR_TYPE
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
+import com.nightstalker.artic.network.ApiConstants.EVENT_END
+import com.nightstalker.artic.network.ApiConstants.EVENT_RULE
+import com.nightstalker.artic.network.ApiConstants.EVENT_PERIOD
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -59,16 +56,12 @@ class MainActivity : AppCompatActivity() {
         params.forEach {
             when {
                 // Период работы выставки, Long параметры
-                listOf(
-                    "beginTime",
-                    "endTime",
-                ).contains(it.key) -> intent.putExtra(
+                it.key in listOf(EVENT_BEGIN, EVENT_END) -> intent.putExtra(
                     it.key,
                     it.value.toLong()
                 )
                 // Boolean параметры - "Событие длится весь день"
-                listOf("allDay").contains(it.key) -> intent.putExtra(it.key, it.value == "true")
-
+                it.key == EVENT_RULE -> intent.putExtra(it.key, it.value == "true")
                 // String параметры
                 else -> intent.putExtra(it.key, it.value)
             }

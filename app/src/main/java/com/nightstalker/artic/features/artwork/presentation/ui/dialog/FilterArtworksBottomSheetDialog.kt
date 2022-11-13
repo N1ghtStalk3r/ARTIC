@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FilterArtworksBottomSheetDialog : BottomSheetDialogFragment() {
-    private var binding: FragmentFilterArtworksBottomSheetDialogBinding? = null
+    private lateinit var binding: FragmentFilterArtworksBottomSheetDialogBinding
     private val artworksViewModel by viewModel<ArtworkViewModel>()
 
     override fun onCreateView(
@@ -49,17 +49,17 @@ class FilterArtworksBottomSheetDialog : BottomSheetDialogFragment() {
         val typesAdapter =
             ArrayAdapter(requireContext(), android.R.layout.select_dialog_item, types)
 
-        applyForTextView(placesAdapter, this!!.countries, Color.GREEN)
+        applyForTextView(placesAdapter, this.countries, Color.GREEN)
         applyForTextView(typesAdapter, tvTypes, Color.GREEN)
 
         // Проверка связи Bottom Sheet Dialog и основного фрагмента через VM
-        this?.countries?.addTextChangedListener {
+        this.countries.addTextChangedListener {
             artworksViewModel.setSearchQuery(it.toString())
         }
 
 
 
-        this?.btnApply?.setOnClickListener {
+        this.btnApply.setOnClickListener {
             passArgs()
             lifecycleScope.launch {
                 artworksViewModel.networkOperationResult.collect() {
@@ -73,8 +73,8 @@ class FilterArtworksBottomSheetDialog : BottomSheetDialogFragment() {
     private fun passArgs() {
         Bundle().apply {
             with(binding) {
-                putString("place", this?.countries?.text?.toString())
-                putString("type", this?.tvTypes?.text?.toString())
+                putString("place", this.countries.text.toString())
+                putString("type", this.tvTypes.text.toString())
             }
         }.run {
             findNavController().navigate(
