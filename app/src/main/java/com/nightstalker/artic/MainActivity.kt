@@ -54,14 +54,11 @@ class MainActivity : AppCompatActivity() {
         intent.type = EVENT_CALENDAR_TYPE
 
         params.forEach {
-            when {
+            when (it.key) {
                 // Период работы выставки, Long параметры
-                it.key in listOf(EVENT_BEGIN, EVENT_END) -> intent.putExtra(
-                    it.key,
-                    it.value.toLong()
-                )
+                EVENT_BEGIN, EVENT_END -> intent.putExtra(it.key, it.value.toLong())
                 // Boolean параметры - "Событие длится весь день"
-                it.key == EVENT_RULE -> intent.putExtra(it.key, it.value == "true")
+                EVENT_RULE -> intent.putExtra(it.key, it.value == "true")
                 // String параметры
                 else -> intent.putExtra(it.key, it.value)
             }

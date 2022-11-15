@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.nightstalker.artic.R
+import com.nightstalker.artic.features.qrcode.QrConstants.QR_BORDER_STROKE_WIDTH
 import kotlinx.android.synthetic.main.fragment_qrscanner.view.containerScanner
 import kotlinx.android.synthetic.main.fragment_qrscanner.view.flashToggle
 import me.dm7.barcodescanner.zbar.Result
@@ -47,7 +48,7 @@ class QRScannerFragment : Fragment(), ZBarScannerView.ResultHandler {
             scannerView.setBackgroundColor(ContextCompat.getColor(lContext, R.color.colorTranslucent))
             scannerView.setBorderColor(ContextCompat.getColor(lContext, R.color.colorPrimaryDark))
             scannerView.setLaserColor(ContextCompat.getColor(lContext, R.color.colorPrimaryDark))
-            scannerView.setBorderStrokeWidth(10)
+            scannerView.setBorderStrokeWidth(QR_BORDER_STROKE_WIDTH)
             scannerView.setSquareViewFinder(true)
             scannerView.setupScanner()
             scannerView.setAutoFocus(true)

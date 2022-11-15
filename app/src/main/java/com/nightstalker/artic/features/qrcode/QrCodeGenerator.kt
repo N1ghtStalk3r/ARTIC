@@ -7,6 +7,9 @@ import android.util.Log
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
+import com.nightstalker.artic.features.qrcode.QrConstants.QR_CHARACTER_SET
+import com.nightstalker.artic.features.qrcode.QrConstants.QR_IMAGE_SIZE
+import com.nightstalker.artic.features.qrcode.QrConstants.QR_MARGIN
 
 /**
  * Генератор QR-кодов
@@ -16,10 +19,10 @@ import com.google.zxing.qrcode.QRCodeWriter
 class QrCodeGenerator {
 
     fun makeImage(text: String): Bitmap {
-        val size = 256
+        val size = QR_IMAGE_SIZE
         val hints = hashMapOf<EncodeHintType, Any>()
-        hints[EncodeHintType.CHARACTER_SET] = "UTF-8" // Make the QR code support Cyrillic symbols
-        hints[EncodeHintType.MARGIN] = 1  // Make the QR code buffer border narrower
+        hints[EncodeHintType.CHARACTER_SET] = QR_CHARACTER_SET // Make the QR code support Cyrillic symbols
+        hints[EncodeHintType.MARGIN] = QR_MARGIN  // Make the QR code buffer border narrower
 
         Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565).run {
             if (text.isNotEmpty()) {
