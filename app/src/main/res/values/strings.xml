@@ -35,4 +35,11 @@
     <string name="audio_player_cancel_audio_content_description">Close</string>
     <string name="exo_controls_pause_description">Pause</string>
 
+
+    <string name="db_table_tickets">tickets</string>
+
+    <string name="exhibition_start">Дата открытия</string>
+    <string name="exhibition_end">Дата закрытия</string>
+
+
 </resources>

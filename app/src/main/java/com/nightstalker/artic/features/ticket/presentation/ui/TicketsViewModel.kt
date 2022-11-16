@@ -4,9 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nightstalker.artic.features.ticket.domain.Ticket
+import com.nightstalker.artic.core.local.ticket.TicketDao
+import com.nightstalker.artic.features.ticket.domain.TicketUseCase
 
 import com.nightstalker.artic.features.ticket.domain.repo.TicketsRepo
+import com.nightstalker.artic.features.toLocalTicket
+import com.nightstalker.artic.features.toTicketUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
@@ -16,39 +20,38 @@ import kotlinx.coroutines.launch
  * @created 2022-10-13
  */
 
-class TicketsViewModel(private val repo: TicketsRepo)  : ViewModel() {
-    private var _ticketLoaded = MutableLiveData<Ticket>()
-    val ticketLoaded: LiveData<Ticket> get() = _ticketLoaded
+class TicketsViewModel(private val dao: TicketDao) : ViewModel() {
+    private var _ticketLoaded = MutableLiveData<TicketUseCase>()
+    val ticketLoaded: LiveData<TicketUseCase> get() = _ticketLoaded
 
-    private var _ticketsLoaded = MutableLiveData<List<Ticket>>()
-    val ticketsLoaded: LiveData<List<Ticket>> get() = _ticketsLoaded
+    private var _ticketsLoaded = MutableLiveData<List<TicketUseCase>>()
+    val ticketsLoaded: LiveData<List<TicketUseCase>> get() = _ticketsLoaded
 
     fun getTicket(id: Long) {
-        viewModelScope.launch {
-            _ticketLoaded.postValue(repo.getTicketById(id))
+        viewModelScope.launch(Dispatchers.IO) {
+            _ticketLoaded.postValue(
+                dao.get(id).toTicketUseCase()
+            )
         }
     }
 
-    fun getTickets() {
-        viewModelScope.launch {
+    fun deleteTicket(ticketId: Long, exhibitionId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            dao.remove(ticketId = ticketId, exhibitionId = exhibitionId)
+        }
+    }
+
+    fun saveTicket(ticket: TicketUseCase) {
+        viewModelScope.launch(Dispatchers.IO) {
+            dao.save(ticket = ticket.toLocalTicket())
+        }
+    }
+
+
+    fun getAllTickets() {
+        viewModelScope.launch(Dispatchers.IO) {
             _ticketsLoaded.postValue(
-//                repo.getTickets()?: listOf(Ticket())
-                 listOf(
-                    Ticket(id=-1L,
-                        title = "ARCTIC",
-                        exhibitionId = "123",
-                        galleryId = 3,
-                        galleryTitle = "First",
-                        timestamp = 10000L
-                    ),
-                     Ticket(id=-2L,
-                     title = "ARCTIC-2",
-                     exhibitionId = "1234",
-                     galleryId = 4,
-                     galleryTitle = "Second",
-                     timestamp = 10000L
-                 )
-                 )
+                dao.getTickets().map { it.toTicketUseCase() }
             )
         }
     }

@@ -1,5 +1,6 @@
 package com.nightstalker.artic
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -11,6 +12,7 @@ import com.nightstalker.artic.databinding.ActivityMainBinding
 import com.nightstalker.artic.features.artwork.presentation.ui.ArtworkViewModel
 import com.nightstalker.artic.features.exhibition.presentation.ui.ExhibitionsViewModel
 import com.nightstalker.artic.features.ticket.presentation.ui.TicketsViewModel
+import com.nightstalker.artic.network.ApiConstants
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -42,4 +44,23 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean =
         findNavController(R.id.navHostFragment).navigateUp() || super.onSupportNavigateUp()
+
+// Регистрация события в календаре Google
+    fun addCalendarEvent(params: Map<String, String>) {
+        val intent = Intent(Intent.ACTION_EDIT)
+        intent.type = ApiConstants.EVENT_CALENDAR_TYPE
+
+        params.forEach {
+            when (it.key) {
+                // Период работы выставки, Long параметры
+                ApiConstants.EVENT_BEGIN, ApiConstants.EVENT_END -> intent.putExtra(it.key, it.value.toLong())
+                // Boolean параметры - "Событие длится весь день"
+                ApiConstants.EVENT_RULE -> intent.putExtra(it.key, it.value == "true")
+                // String параметры
+                else -> intent.putExtra(it.key, it.value)
+            }
+        }
+        startActivity(intent)
+    }
+
 }
