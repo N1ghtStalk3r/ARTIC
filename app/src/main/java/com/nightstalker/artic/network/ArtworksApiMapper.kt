@@ -24,4 +24,10 @@ class ArtworksApiMapper(private val api: ArtworksApi) : BaseApiMapper() {
 
     suspend fun getArtworksByQuery(search: String): List<Artwork> =
         api.getArtworksByQuery(search).data.toListOfArtworks()
+
+    suspend fun getArtworksByKind(type: String): List<Artwork> =
+        api.getArtworksByKind(type).data.toListOfArtworks()
+
+    suspend fun getArtworksByPlace(type: String): List<Artwork> =
+        api.getArtworksByPlace(type).data.toListOfArtworks()
 }

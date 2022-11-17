@@ -2,30 +2,38 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="16dp"
     tools:context=".features.exhibition.presentation.ui.list.ExhibitionsListFragment">
 
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivFilterExh"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:tooltipText="@string/iv_filter"
-        app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/ic_filter_list"
-        android:id="@+id/ivFilterExh" />
+        android:tooltipText="@string/iv_filter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvExhibitions"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/item_exhibition"
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivFilterExh"
-        android:id="@+id/rvExhibitions" />
+        tools:listitem="@layout/item_exhibition" />
 
+    <include
+        android:id="@+id/error_layout"
+        layout="@layout/layout_error"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

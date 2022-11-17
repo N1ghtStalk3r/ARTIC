@@ -12,6 +12,8 @@ import com.nightstalker.artic.features.exhibition.domain.repo.ExhibitionsRepo
 class ExhibitionsUseCase(
     private val repo: ExhibitionsRepo,
 ) {
-    suspend fun getExhibitionById(id: Int): ResultState<Exhibition> = safeCall { repo.getExhibitionById(id) }
+    suspend fun getExhibitionById(id: Int): ResultState<Exhibition> =
+        safeCall { repo.getExhibitionById(id) }
+
     suspend fun getExhibitions(): ResultState<List<Exhibition>> = safeCall { repo.getExhibitions() }
 }

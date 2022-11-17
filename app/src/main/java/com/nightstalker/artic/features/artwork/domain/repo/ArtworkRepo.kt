@@ -13,4 +13,6 @@ interface ArtworkRepo {
     suspend fun getArtworks(): List<Artwork>
     suspend fun getArtworkInformation(id: Int): ArtworkInformation
     suspend fun getArtworksByQuery(search: String): List<Artwork>
+    suspend fun getArtworksByKind(search: String): List<Artwork>
+    suspend fun getArtworksByPlace(search: String): List<Artwork>
 }
