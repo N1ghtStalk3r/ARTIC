@@ -3,9 +3,12 @@ package com.nightstalker.artic.core.local.ticket
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.nightstalker.artic.network.ApiConstants
+import com.nightstalker.artic.network.ApiConstants.DB_TABLE_TICKETS
+import java.util.*
 
 
-@Entity(tableName = "ticket")
+@Entity(tableName = DB_TABLE_TICKETS)
 data class LocalTicket(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -14,6 +17,8 @@ data class LocalTicket(
         val title: String = "",
     @ColumnInfo(name = "exhibition_id")
         val exhibitionId: String = "",
+    @ColumnInfo(name = "image_url")
+        val imageUrl: String = "",
     @ColumnInfo(name = "gallery_id")
         val galleryId: Int = 0,
     @ColumnInfo(name = "gallery_title")
@@ -27,11 +32,7 @@ data class LocalTicket(
         val shortDescription: String = "",
     @ColumnInfo(name = "number_of_persons")
         val numberOfPersons: Int = 1,
-//    @ColumnInfo(name = "qr_code",
-//        typeAffinity = ColumnInfo.BLOB)
-//        val qrCode: ByteArray? = null,
-
     @ColumnInfo(name = "timestamp")
-        val timestamp: Long = System.currentTimeMillis(),
+        val timestamp: Long = Date().time,
 
-)
+    )

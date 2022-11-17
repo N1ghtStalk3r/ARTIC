@@ -1,5 +1,7 @@
 package com.nightstalker.artic.features.ticket.domain
 
+import androidx.room.ColumnInfo
+
 
 /**
  * Билет для View
@@ -16,10 +18,11 @@ package com.nightstalker.artic.features.ticket.domain
  *
  * @author Maxim Zimin
  */
-data class Ticket(
+data class TicketUseCase(
     val id: Long = 0L,
     val title: String = "",
     val exhibitionId: String = "",
+    val imageUrl: String = "",
     val galleryId: Int = 0,
     val galleryTitle: String = "",
     val aicEndAt: String = "",

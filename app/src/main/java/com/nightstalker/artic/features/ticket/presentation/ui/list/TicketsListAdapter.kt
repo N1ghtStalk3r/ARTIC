@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.nightstalker.artic.R
 import com.nightstalker.artic.databinding.ItemTicketBinding
-import com.nightstalker.artic.features.ticket.domain.Ticket
+import com.nightstalker.artic.features.ticket.domain.TicketUseCase
 
 
 /**
@@ -15,7 +15,7 @@ import com.nightstalker.artic.features.ticket.domain.Ticket
  */
 class TicketsListAdapter(private val onItemClicked: (id: Long) -> Unit)
     : RecyclerView.Adapter<TicketsListAdapter.ViewHolder>() {
-        private var _data: List<Ticket> = mutableListOf()
+        private var _data: List<TicketUseCase> = mutableListOf()
         val data get() = _data
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
@@ -40,7 +40,7 @@ class TicketsListAdapter(private val onItemClicked: (id: Long) -> Unit)
 
         override fun getItemCount(): Int = _data.size
 
-        fun setData(data: List<Ticket>) {
+        fun setData(data: List<TicketUseCase>) {
             if (data.isNotEmpty()) {
                 this._data = data
             }

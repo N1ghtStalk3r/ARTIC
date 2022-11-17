@@ -14,6 +14,10 @@
         android:icon="@drawable/ic_qr_code_24"
         android:title="Сканер" />
     <item
+        android:id="@+id/ticketsListFragment"
+        android:icon="@drawable/ic_shop"
+        android:title="Билеты" />
+    <item
         android:id="@+id/audioLookupFragment"
         android:icon="@drawable/ic_audio_large"
         android:title="Аудио" />
