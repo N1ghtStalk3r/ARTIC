@@ -1,6 +1,6 @@
 package com.nightstalker.artic.features.ticket.domain.repo
 
-import com.nightstalker.artic.features.ticket.domain.Ticket
+import com.nightstalker.artic.features.ticket.domain.TicketUseCase
 
 
 /**
@@ -10,8 +10,8 @@ import com.nightstalker.artic.features.ticket.domain.Ticket
  */
 
 interface TicketsRepo {
-    suspend fun getTicketById(id: Long): Ticket?
+    suspend fun getTicketById(id: Long): TicketUseCase?
 
-    suspend fun getTickets(): List<Ticket>?
+    suspend fun getTickets(): List<TicketUseCase>?
 
 }

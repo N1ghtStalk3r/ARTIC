@@ -15,6 +15,7 @@ import com.nightstalker.artic.core.domain.ContentResultState
 import com.nightstalker.artic.databinding.FragmentExhibitionDetailsBinding
 import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
 import com.nightstalker.artic.features.exhibition.presentation.ui.ExhibitionsViewModel
+import com.nightstalker.artic.network.ApiConstants
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -43,10 +44,10 @@ class ExhibitionDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentExhibitionDetailsBinding.bind(view)
 
-        setViewQRcode(view)
         val id = args.exhibitionId
         exhibitionsViewModel.getExhibition(id)
         initObserver()
+        buyTicket()
     }
 
     override fun onDestroyView() {
@@ -86,13 +87,12 @@ class ExhibitionDetailsFragment : Fragment() {
         }
     }
 
-    private fun setViewQRcode(view: View) {
-        buyTicketFloatingActionButton = view.findViewById(R.id.buyTicketFloatingActionButton)
+    private fun buyTicket() {
+        val bundle =  Bundle()
 
-        buyTicketFloatingActionButton?.setOnClickListener {
-            ExhibitionDetailsFragmentDirections
-                .toTicketDetailsFragment(args.exhibitionId)
-                .run { findNavController().navigate(this) }
+        binding?.buyTicketFloatingActionButton?.setOnClickListener {
+            bundle.putInt(ApiConstants.BUNDLE_EXHIBITION_ID, args.exhibitionId)
+            findNavController().navigate(R.id.ticketDetailsFragment, bundle)
         }
     }
 }

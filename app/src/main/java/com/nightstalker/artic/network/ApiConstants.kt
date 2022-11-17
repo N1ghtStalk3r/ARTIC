@@ -103,4 +103,27 @@ object ApiConstants {
     const val LAST_UPDATED_SOURCE = "last_updated_source"
     const val LAST_UPDATED = "last_updated"
     const val TIMESTAMP = "timestamp"
+    const val AICSTARTAT = "aic_start_at"
+    const val AICENDAT = "aic_end_at"
+    const val EVENT_CALENDAR_TYPE = "vnd.android.cursor.item/event"
+    const val EVENT_CALENDAR_RRULE = "FREQ=YEARLY;UNTIL=20301211T000000Z"
+    const val ARTIC_LOCATION = "111 S Michigan Ave, Chicago, IL 60603, USA"
+    const val ARTIC_TITLE = "The Art Institute of Chicago"
+    const val DB_NAME = "artic"
+    const val DB_TABLE_TICKETS = "tickets"
+    const val DEFAULT_TICKET_ID = -1L
+    const val DEFAULT_EXHIBITION_ID = -1
+    const val BUNDLE_EXHIBITION_ID = "ExhibitionId"
+    const val USER_FORMAT_DATE = "dd/MM/yyyy"
+    const val LABEL_AICSTARTAT = "Oткрытие"
+    const val LABEL_AICENDAT = "Закрытие"
+    const val EVENT_BEGIN = "beginTime"
+    const val EVENT_PERIOD = "Time"
+    const val EVENT_ALLDAY = "allDay"
+    const val EVENT_RULE = "rule"
+    const val EVENT_END = "endTime"
+    const val EVENT_TITLE = "title"
+    const val EVENT_DESCRIPTION = "description"
+    const val EVENT_LOCATION = "eventLocation"
+
 }
