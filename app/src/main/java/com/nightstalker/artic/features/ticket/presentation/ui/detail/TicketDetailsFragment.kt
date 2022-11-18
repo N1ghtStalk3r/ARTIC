@@ -25,6 +25,8 @@ import com.nightstalker.artic.features.ticket.presentation.ui.list.TicketsListAd
 import com.nightstalker.artic.features.toCalendarEvent
 import com.nightstalker.artic.features.toTicketUseCase
 import com.nightstalker.artic.network.ApiConstants
+import kotlinx.android.synthetic.main.fragment_ticket_details.deleteTicketButton
+import kotlinx.android.synthetic.main.fragment_ticket_details.undoTicketButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TicketDetailsFragment : Fragment() {
@@ -34,6 +36,7 @@ class TicketDetailsFragment : Fragment() {
     private val ticketViewModel by viewModel<TicketsViewModel>()
     private lateinit var binding: FragmentTicketDetailsBinding
 
+    private lateinit var undoTicketUseCase: TicketUseCase
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,14 +80,28 @@ class TicketDetailsFragment : Fragment() {
         }
         Log.d("TicketDetails", " ExhibitionId  = ${exhibition_id}, ticket_id = ${ticket_id} ")
 
+
+
         // удаление билета
         binding.deleteTicketButton.setOnClickListener {
             Log.d("deleteTicketButton", " was clicked")
+
             ticketsViewModel.deleteTicket(
                 ticketId = ticket_id,
                 exhibitionId = exhibition_id.toString()
             )
-            findNavController().navigate(R.id.ticketsListFragment)
+
+            this.deleteTicketButton.visibility = View.INVISIBLE
+            this.undoTicketButton.visibility = View.VISIBLE
+        }
+        // восстановление билета
+        binding.undoTicketButton.setOnClickListener {
+            Log.d("undoTicketButton", " was clicked")
+
+            ticketViewModel.saveTicket(undoTicketUseCase)
+
+            this.deleteTicketButton.visibility = View.VISIBLE
+            this.undoTicketButton.visibility = View.INVISIBLE
         }
     }
 
@@ -128,6 +145,8 @@ class TicketDetailsFragment : Fragment() {
             "TicketDetails setData",
             " ExhibitionId  = ${ticket?.exhibitionId}, ticket_id = ${ticket?.id} "
         )
+
+        undoTicketUseCase = ticket?:TicketUseCase()
 
         this.titleTextView.text = ticket?.title.orEmpty()
         this.exhibitionIdTextView.text = ticket?.galleryTitle.toString()
