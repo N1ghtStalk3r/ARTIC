@@ -2,13 +2,20 @@ package com.nightstalker.artic.core.local.ticket
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.nightstalker.artic.network.ApiConstants
 import com.nightstalker.artic.network.ApiConstants.DB_TABLE_TICKETS
 import java.util.*
 
 
-@Entity(tableName = DB_TABLE_TICKETS)
+@Entity(
+    tableName = DB_TABLE_TICKETS,
+    indices = [Index(
+        value = ["exhibition_id"],
+        unique = true
+    )]
+)
 data class LocalTicket(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")

@@ -15,7 +15,7 @@
         android:title="Сканер" />
     <item
         android:id="@+id/ticketsListFragment"
-        android:icon="@drawable/ic_shop"
+        android:icon="@drawable/ic_shopping_cart"
         android:title="Билеты" />
     <item
         android:id="@+id/audioLookupFragment"

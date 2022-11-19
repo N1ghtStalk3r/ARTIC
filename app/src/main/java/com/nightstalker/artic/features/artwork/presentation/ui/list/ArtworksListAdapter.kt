@@ -37,7 +37,7 @@ class ArtworksListAdapter(
             Glide.with(context).load(imageUrl).into(placeImage)
 
             root.setOnClickListener {
-                onItemClicked(item.id.toInt())
+                onItemClicked(item.id)
             }
         }
     }

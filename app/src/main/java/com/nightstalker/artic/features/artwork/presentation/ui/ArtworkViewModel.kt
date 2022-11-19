@@ -1,18 +1,11 @@
 package com.nightstalker.artic.features.artwork.presentation.ui
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.nightstalker.artic.core.domain.ContentResultState
-import com.nightstalker.artic.core.domain.ResultState
-import com.nightstalker.artic.core.presentation.onResultStateError
-import com.nightstalker.artic.core.presentation.onResultStateSuccess
-import com.nightstalker.artic.features.artwork.domain.model.Artwork
-import com.nightstalker.artic.features.artwork.domain.model.ArtworkInformation
+import com.nightstalker.artic.core.presentation.viewModelCall
 import com.nightstalker.artic.features.artwork.domain.usecase.ArtworksUseCase
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.launch
 
 /**
  * Вью модель для получения экспонатов
@@ -31,51 +24,31 @@ class ArtworkViewModel(
     private val _artworkContentState = MutableLiveData<ContentResultState>()
     val artworkContentState get() = _artworkContentState
 
-    private var m_artworkInformationContentState = MutableLiveData<ArtworkInformation>()
-    val artworkInformationContentState: LiveData<ArtworkInformation> get() = m_artworkInformationContentState
+    private val _artworkDescriptionState = MutableLiveData<ContentResultState>()
+    val artworkDescriptionState get() = _artworkDescriptionState
 
-    private var _searchedArtworksContentState = MutableLiveData<List<Artwork>>()
-    val searchedArtworksContentState: LiveData<List<Artwork>> get() = _searchedArtworksContentState
+    private var _searchedArtworksContentState = MutableLiveData<ContentResultState>()
+    val searchedArtworksContentState get() = _searchedArtworksContentState
 
-    fun getArtworks() = viewModelScope.launch(dispatcher) {
-        when (val artworks = useCase.getArtworks()) {
-            is ResultState.Success -> {
-                onResultStateSuccess(contentsList = artworks.data, contentResultState = _artworksContentState)
-            }
-            is ResultState.Error -> {
-                onResultStateError(isNetworkError = artworks.errorData, contentResultState = _artworksContentState)
-            }
-        }
-    }
+    fun getArtworks() =
+        viewModelCall(call = { useCase.getArtworks() }, contentResultState = _artworksContentState)
 
-    fun getArtwork(id: Int) = viewModelScope.launch(dispatcher) {
-        when (val artwork = useCase.getArtworkById(id)) {
-            is ResultState.Success -> {
-                onResultStateSuccess(contentSingle = artwork.data, contentResultState = _artworkContentState)
-            }
-            is ResultState.Error -> {
-                onResultStateError(isNetworkError = artwork.errorData, contentResultState = _artworksContentState)
-            }
-        }
-    }
+    fun getArtwork(id: Int) =
+        viewModelCall(
+            call = { useCase.getArtworkById(id) },
+            contentResultState = _artworkContentState
+        )
 
-    fun getArtworksByQuery(query: String) = viewModelScope.launch(dispatcher) {
-        when (val artworks = useCase.getArtworksByQuery(query)) {
-            is ResultState.Success -> {
-                onResultStateSuccess(contentsList = artworks.data, contentResultState = _artworksContentState)
-            }
-            is ResultState.Error -> {
-                onResultStateError(isNetworkError = artworks.errorData, contentResultState = _artworksContentState)
-            }
-        }
-    }
+    fun getArtworksByQuery(query: String) =
+        viewModelCall(
+            call = { useCase.getArtworksByQuery(query) },
+            contentResultState = _artworksContentState
+        )
 
-    fun getManifest(id: Int) = viewModelScope.launch(dispatcher) {
-        when (val manifest = useCase.getArtworkInformation(id)) {
-            is ResultState.Success -> {
-            }
-            is ResultState.Error -> {
-            }
-        }
-    }
+    fun getArtworkInformation(id: Int) =
+        viewModelCall(
+            dispatcher,
+            { useCase.getArtworkInformation(id) },
+            _artworkDescriptionState
+        )
 }

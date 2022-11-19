@@ -7,6 +7,8 @@ import com.nightstalker.artic.core.data.model.common.SearchResultsModel
 import com.nightstalker.artic.network.ApiConstants.ARTIST_DISPLAY
 import com.nightstalker.artic.network.ApiConstants.ID
 import com.nightstalker.artic.network.ApiConstants.IMAGE_ID
+import com.nightstalker.artic.network.ApiConstants.PARAMS
+import com.nightstalker.artic.network.ApiConstants.PLACE_OF_ORIGIN
 import com.nightstalker.artic.network.ApiConstants.SOUND_IDS
 import com.nightstalker.artic.network.ApiConstants.TITLE
 import retrofit2.http.GET
@@ -19,7 +21,7 @@ import retrofit2.http.Query
  * @author Tamerlan Mamukhov on 2022-09-13
  */
 interface ArtworksApi {
-    @GET("artworks/{$ID}?fields=$ID,$TITLE,$IMAGE_ID,$ARTIST_DISPLAY,$SOUND_IDS")
+    @GET("artworks/{$ID}?fields=$ID,$TITLE,$IMAGE_ID,$ARTIST_DISPLAY,$SOUND_IDS,$PLACE_OF_ORIGIN")
     suspend fun getArtworkById(@Path(ID) id: Int): ArtworkModel
 
     @GET("artworks?fields=$ID,$TITLE,$IMAGE_ID,$ARTIST_DISPLAY")
@@ -28,6 +30,8 @@ interface ArtworksApi {
     @GET("artworks/{$ID}/manifest.json")
     suspend fun getArtworkInformation(@Path(ID) id: Int): ArtworkInformationModel
 
-    @GET("artworks/search")
-    suspend fun getArtworksByQuery(@Query(value = "q", encoded = true) search: String): SearchResultsModel<ArtworkData>
+    @GET("artworks/search?")
+    suspend fun getArtworksByQuery(
+        @Query(PARAMS) search: String,
+    ): SearchResultsModel<ArtworkData>
 }

@@ -25,6 +25,8 @@ import com.nightstalker.artic.features.ticket.presentation.ui.list.TicketsListAd
 import com.nightstalker.artic.features.toCalendarEvent
 import com.nightstalker.artic.features.toTicketUseCase
 import com.nightstalker.artic.network.ApiConstants
+import kotlinx.android.synthetic.main.fragment_ticket_details.deleteTicketButton
+import kotlinx.android.synthetic.main.fragment_ticket_details.undoTicketButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TicketDetailsFragment : Fragment() {
@@ -33,11 +35,8 @@ class TicketDetailsFragment : Fragment() {
     private val ticketsViewModel by viewModel<TicketsViewModel>()
     private val ticketViewModel by viewModel<TicketsViewModel>()
     private lateinit var binding: FragmentTicketDetailsBinding
-    private lateinit var adapter: TicketsListAdapter
 
-    // В форму DetailsFragment переходят из списка билетов  и  при покупке билета
-    private var exhibition_id: Int = -1   // заполняется в ExhibitionDetailsFragment
-    private var ticket_id: Long = -1L     // заполняется в TicketsListFragment
+    private lateinit var undoTicketUseCase: TicketUseCase
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,32 +50,58 @@ class TicketDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentTicketDetailsBinding.bind(view)
 
-        // Из списка билетов получаем положительные args.ticketId,
-        // при покупке билета получаем args.ticketId < 0
+        initTicketDetailsFragment()
+    }
 
-        exhibition_id = arguments?.getInt("ExhibitionId") ?: ApiConstants.DEFAULT_EXHIBITION_ID
-        ticket_id = args.ticketId.toLong()
-        Log.d("TicketDetails", " ExhibitionId  = ${exhibition_id}, ticket_id = ${ticket_id} ")
+    private fun initTicketDetailsFragment() {
+        // Форма TicketDetailsFragment открывается при покупке билета и из списка билетов
+        // При покупке билета нам известен только id выставки
+        // Из списка билетов получаем id билета
 
-        when {
-            exhibition_id > 0 -> {
+        var exhibition_id: Int = -1   // заполняется в ExhibitionDetailsFragment
+        var ticket_id: Long = -1L     // заполняется в TicketsListFragment
+
+        // exhibition_id получаем из ExhibitionDetailsFragment через bundle
+        arguments?.getInt(ApiConstants.BUNDLE_EXHIBITION_ID)?.let {
+            if (it > 0) {
+                exhibition_id = it
                 exhibitionsViewModel.getExhibition(exhibition_id)
                 initExhibitionObserver()
             }
-            ticket_id > 0 -> {
-                ticketsViewModel.getTicket(ticket_id)
+        }
+
+        // ticket_id получаем из TicketsListFragment как аргумент фрагмента
+        args.ticketId.toLong().let {
+            if (it > 0L) {
+                ticket_id = it
+                ticketsViewModel.getTicket(it)
                 initTicketObserver()
             }
         }
+        Log.d("TicketDetails", " ExhibitionId  = ${exhibition_id}, ticket_id = ${ticket_id} ")
+
+
 
         // удаление билета
         binding.deleteTicketButton.setOnClickListener {
             Log.d("deleteTicketButton", " was clicked")
+
             ticketsViewModel.deleteTicket(
                 ticketId = ticket_id,
                 exhibitionId = exhibition_id.toString()
             )
-            findNavController().navigate(R.id.ticketsListFragment)
+
+            this.deleteTicketButton.visibility = View.INVISIBLE
+            this.undoTicketButton.visibility = View.VISIBLE
+        }
+        // восстановление билета
+        binding.undoTicketButton.setOnClickListener {
+            Log.d("undoTicketButton", " was clicked")
+
+            ticketViewModel.saveTicket(undoTicketUseCase)
+
+            this.deleteTicketButton.visibility = View.VISIBLE
+            this.undoTicketButton.visibility = View.INVISIBLE
         }
     }
 
@@ -95,7 +120,7 @@ class TicketDetailsFragment : Fragment() {
     private fun handle(contentResultState: ContentResultState) = when (contentResultState) {
         is ContentResultState.Content -> contentResultState.handle()
         is ContentResultState.Error -> contentResultState.handle()
-        ContentResultState.Loading -> TODO()
+        else -> {}
     }
 
     private fun ContentResultState.Content.handle() {
@@ -120,6 +145,8 @@ class TicketDetailsFragment : Fragment() {
             "TicketDetails setData",
             " ExhibitionId  = ${ticket?.exhibitionId}, ticket_id = ${ticket?.id} "
         )
+
+        undoTicketUseCase = ticket?:TicketUseCase()
 
         this.titleTextView.text = ticket?.title.orEmpty()
         this.exhibitionIdTextView.text = ticket?.galleryTitle.toString()

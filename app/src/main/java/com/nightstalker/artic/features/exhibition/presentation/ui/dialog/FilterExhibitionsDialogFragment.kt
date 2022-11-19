@@ -16,7 +16,11 @@ class FilterExhibitionsDialogFragment : DialogFragment() {
 
     private lateinit var binding: FragmentFilterExhibitionsDialogBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentFilterExhibitionsDialogBinding.inflate(layoutInflater, container, false)
         return binding.root
     }

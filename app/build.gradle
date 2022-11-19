@@ -46,6 +46,11 @@ android {
 
 dependencies {
 
+    def player_version = "2.18.1"
+    implementation "com.google.android.exoplayer:exoplayer-core:$player_version"
+    implementation "com.google.android.exoplayer:exoplayer-dash:$player_version"
+    implementation "com.google.android.exoplayer:exoplayer-ui:$player_version"
+
     // Room
     def room_version = "2.4.3"
     implementation("androidx.room:room-runtime:$room_version")

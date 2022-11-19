@@ -3,14 +3,15 @@ package com.nightstalker.artic.features
 import com.nightstalker.artic.core.data.model.artwork.detail.ArtworkData
 import com.nightstalker.artic.core.data.model.artwork.detail.ArtworkModel
 import com.nightstalker.artic.core.data.model.artwork.detail.information.ArtworkInformationModel
+import com.nightstalker.artic.core.data.model.audio.MobileSoundData
 import com.nightstalker.artic.core.data.model.exhibition.detail.ExhibitionData
 import com.nightstalker.artic.core.data.model.exhibition.detail.ExhibitionModel
 import com.nightstalker.artic.core.local.ticket.LocalTicket
 import com.nightstalker.artic.features.artwork.domain.model.Artwork
 import com.nightstalker.artic.features.artwork.domain.model.ArtworkInformation
+import com.nightstalker.artic.features.audio.domain.model.AudioFileModel
 import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
 import com.nightstalker.artic.features.ticket.domain.TicketUseCase
-import com.nightstalker.artic.network.ApiConstants
 import com.nightstalker.artic.network.ApiConstants.ARTIC_LOCATION
 import com.nightstalker.artic.network.ApiConstants.ARTIC_TITLE
 import com.nightstalker.artic.network.ApiConstants.EVENT_ALLDAY
@@ -21,12 +22,14 @@ import com.nightstalker.artic.network.ApiConstants.EVENT_END
 import com.nightstalker.artic.network.ApiConstants.EVENT_LOCATION
 import com.nightstalker.artic.network.ApiConstants.EVENT_RULE
 import com.nightstalker.artic.network.ApiConstants.EVENT_TITLE
+import com.nightstalker.artic.network.ApiConstants.USER_FORMAT_DATE
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 /**
  * Функции для преобразования данных из дата слоя в домайн
@@ -39,7 +42,8 @@ fun ArtworkModel.toArtwork(): Artwork =
         title = data.title,
         imageId = data.imageId,
         artist = data.artistDisplay,
-        audioUrl = data.soundIds.firstOrNull()
+        audioUrl = data.soundIds.firstOrNull(),
+        placeOfOrigin = data.placeOfOrigin
     )
 
 fun List<ArtworkData>.toListOfArtworks(): List<Artwork> =
@@ -49,7 +53,8 @@ fun List<ArtworkData>.toListOfArtworks(): List<Artwork> =
             title = it.title,
             imageId = it.imageId,
             artist = it.artistDisplay,
-            audioUrl = it.objectSelectorNumber
+            audioUrl = it.objectSelectorNumber,
+            placeOfOrigin = it.placeOfOrigin
         )
     }
 
@@ -57,7 +62,6 @@ fun ArtworkInformationModel.toArtworkInformation(): ArtworkInformation =
     ArtworkInformation(
         description = description.first()?.value
     )
-
 
 fun ExhibitionModel.toExhibition(): Exhibition =
     Exhibition(
@@ -100,7 +104,6 @@ fun Exhibition.toTicketUseCase(): TicketUseCase =
         timestamp = Date().time
     )
 
-
 fun TicketUseCase.toLocalTicket(): LocalTicket =
     LocalTicket(
         id = id,
@@ -129,11 +132,10 @@ fun Long.normalizeEventDateTime(): Long =
     if (this < Date().time) Date().time else this
 
 // Перевод даты ISO 8601 в заданной формат
-fun String.reformatIso8601(): String =
-    SimpleDateFormat(ApiConstants.USER_FORMAT_DATE, Locale.getDefault())
-        .format(
-            this.toCalendarInMillis()
-        )
+fun String.reformatIso8601(): String = SimpleDateFormat(USER_FORMAT_DATE, Locale.getDefault())
+    .format(
+        this.toCalendarInMillis()
+    )
 
 fun TicketUseCase.toCalendarEvent(): Map<String, String> = mapOf(
     EVENT_BEGIN to aicStartAt
@@ -150,7 +152,6 @@ fun TicketUseCase.toCalendarEvent(): Map<String, String> = mapOf(
     EVENT_DESCRIPTION to "Place:  ${galleryTitle} of $ARTIC_TITLE",
     EVENT_LOCATION to ARTIC_LOCATION,
 )
-
 
 fun LocalTicket.toTicketUseCase(): TicketUseCase =
     TicketUseCase(
@@ -183,3 +184,6 @@ fun List<LocalTicket>.toListOfTicketUseCase(): List<TicketUseCase> =
             timestamp = it.timestamp,
         )
     }
+
+fun MobileSoundData.toAudioFileModel(): AudioFileModel =
+    AudioFileModel(title, webUrl, transcript)

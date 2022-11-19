@@ -1,4 +1,4 @@
-package com.nightstalker.artic.features.audio.utils
+package com.nightstalker.artic.features.audio.player.utils
 
 /**
  * Создатель ссылки на аудио файл
