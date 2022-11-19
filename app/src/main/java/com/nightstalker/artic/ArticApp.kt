@@ -3,6 +3,7 @@ package com.nightstalker.artic
 import android.app.Application
 import com.nightstalker.artic.core.di.dispatchersModule
 import com.nightstalker.artic.features.artwork.di.artworkModules
+import com.nightstalker.artic.features.audio.di.audioModules
 import com.nightstalker.artic.features.di.databaseModule
 import com.nightstalker.artic.features.di.networkModule
 import com.nightstalker.artic.features.exhibition.di.exhibitionModules
@@ -28,6 +29,7 @@ class ArticApp: Application() {
             modules(networkModule)
             modules(databaseModule)
             modules(ticketModules)
+            modules(audioModules)
         }
     }
     override fun onTerminate() {

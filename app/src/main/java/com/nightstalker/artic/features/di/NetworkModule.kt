@@ -2,12 +2,13 @@ package com.nightstalker.artic.features.di
 
 import com.nightstalker.artic.network.ApiConstants.BASE_URL
 import com.nightstalker.artic.network.net.ArtworksApi
+import com.nightstalker.artic.network.net.AudioApi
 import com.nightstalker.artic.network.net.ExhibitionsApi
+import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
 /**
  * Сетевой модуль Koin
@@ -31,5 +32,6 @@ val networkModule = module {
 
     factory { retrofit.create(ArtworksApi::class.java) }
     factory { retrofit.create(ExhibitionsApi::class.java) }
+    factory { retrofit.create(AudioApi::class.java) }
 
 }

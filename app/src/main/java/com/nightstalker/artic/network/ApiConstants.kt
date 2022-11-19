@@ -126,4 +126,7 @@ object ApiConstants {
     const val EVENT_DESCRIPTION = "description"
     const val EVENT_LOCATION = "eventLocation"
 
+    const val WEB_URL = "web_url"
+    const val TRANSCRIPT = "transcript"
+    const val PARAMS = "params"
 }

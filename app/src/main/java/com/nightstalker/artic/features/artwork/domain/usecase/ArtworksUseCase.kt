@@ -20,10 +20,4 @@ class ArtworksUseCase(
 
     suspend fun getArtworksByQuery(query: String): ResultState<List<Artwork>> =
         safeCall { repo.getArtworksByQuery(query) }
-
-    suspend fun getArtworksByKind(type: String): ResultState<List<Artwork>> =
-        safeCall { repo.getArtworksByKind(type) }
-
-    suspend fun getArtworksByPlace(type: String): ResultState<List<Artwork>> =
-        safeCall { repo.getArtworksByPlace(type) }
 }

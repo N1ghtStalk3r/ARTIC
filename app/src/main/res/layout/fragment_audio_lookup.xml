@@ -26,49 +26,26 @@
         android:layout_marginTop="12dp"
         android:importantForAccessibility="no"
         android:src="@drawable/ic_audio_large"
-        app:layout_constraintBottom_toTopOf="@+id/lookup_field"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/lookup_field"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@null"
-        android:editable="false"
-        android:focusable="true"
-        android:importantForAutofill="no"
-        android:inputType="none"
-        android:maxLength="5"
-        android:textColorHint="@color/white"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintBottom_toTopOf="@+id/subheader"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/screen_icon"
-        tools:hint="Look It Up"
-        tools:ignore="Deprecated,UnusedAttribute" />
 
     <TextView
         android:id="@+id/subheader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="50dp"
+        style="@style/TextAppearance.AppCompat.Headline"
+        android:layout_marginStart="50dp"
         android:includeFontPadding="false"
-        android:labelFor="@id/lookup_field"
-        android:text="Enter the number next to the headphone icon on the artwork label."
+        android:layout_marginTop="32dp"
+        android:text="@string/enter_num_from_art_table"
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lookup_field"
+        app:layout_constraintTop_toBottomOf="@id/screen_icon"
         tools:ignore="LabelFor" />
-
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/number"

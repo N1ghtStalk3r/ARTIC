@@ -1,7 +1,6 @@
 package com.nightstalker.artic.features.exhibition.presentation.ui.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -77,8 +76,10 @@ class ExhibitionsListFragment : Fragment() {
     }
 
     private fun ContentResultState.Content.handle() {
-        adapter.setData(contentsList as List<Exhibition>)
-        binding?.rvExhibitions?.adapter = adapter
+        if (adapter.data.isEmpty()) {
+            adapter.setData(contentsList as List<Exhibition>)
+            binding?.rvExhibitions?.adapter = adapter
+        }
     }
 
     private fun ContentResultState.Error.handle() {
