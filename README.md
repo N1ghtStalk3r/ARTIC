@@ -14,16 +14,18 @@
 ## Методы и технологии
 
 Информационная составляющая приложения всецело базируется на обширном информационном ресурсе музея  [Artic](https://api.artic.edu/api/v1/)
-
+Архитектура приложения соответствует принципам **MVVM**.
 Само приложение написано на **Kotlin** с использованием следующих библиотек и технологий
   - Retrofit
   - Ktor
-  - Room
+  - LiveData
+  - Room 
+  - SQLite
   - Koin
   - Fragment navigation
   - NavComponent
   - Zxing (qr-code)
-  
+ 
 
 ## Установка
 Скопируйте это репозиторий и загрузите в **Android Studio**
@@ -43,5 +45,5 @@ git@github.com:N1ghtStalk3r/ARTIC.git
 
 ## Распространение
 
-1. Please fork it
+Just fork it
 
