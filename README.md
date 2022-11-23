@@ -40,7 +40,7 @@ git@github.com:N1ghtStalk3r/ARTIC.git
 ## Поддержка
 Этот проект сопровождается:
 * [N1ghtStalk3r](http://github.com/N1ghtStalk3r)
-* [Zimaxim] (http://github.com/Zimaxim)
+* [Zimaxim](http://github.com/Zimaxim)
 
 
 ## Распространение
