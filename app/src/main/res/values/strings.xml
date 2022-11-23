@@ -23,6 +23,7 @@
     <string name="qr_code_url">get QR-code from poster URL</string>
     <string name="qr_code_ticket">get QR-code from title</string>
     <string name="get_enjoy">Get enjoy</string>
+    <string name="undo_label_button">Restore the deleted ticket</string>
 
     <string name="cancel">Cancel</string>
     <string name="favourites_scanned_results">Favourite Scanned Results</string>
