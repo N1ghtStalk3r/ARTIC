@@ -7,13 +7,6 @@
     android:padding="16dp"
     tools:context=".features.artwork.presentation.ui.list.ArtworksListFragment">
 
-    <Button
-        android:id="@+id/btnFilterByOne"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/place_of_origin" />
-
-
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivFilterArts"
         android:layout_width="40dp"
@@ -28,7 +21,6 @@
         android:id="@+id/searchView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:background="@drawable/bg_searchview"
         app:iconifiedByDefault="false"
         android:focusable="false"
@@ -37,21 +29,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:queryBackground="@android:color/transparent"
         app:queryHint="Enter the name">
-
     </androidx.appcompat.widget.SearchView>
-
-    <androidx.constraintlayout.helper.widget.Flow
-        android:id="@+id/flowFilters"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:visibility="gone"
-        app:constraint_referenced_ids="btnFilterByOne"
-        app:flow_wrapMode="aligned"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvArtworks"
@@ -61,7 +39,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/flowFilters"
+        app:layout_constraintTop_toBottomOf="@id/searchView"
         tools:listitem="@layout/item_artwork" />
 
     <include
