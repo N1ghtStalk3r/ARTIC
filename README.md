@@ -50,5 +50,5 @@ Just fork it
 ![Welcome-screen](https://images2.imgbox.com/69/0c/Kq0OvbBt_o.png)
 ![Fragment-List](https://images2.imgbox.com/7b/4e/RRRuBnId_o.png)
 ![Fragment-Details](https://images2.imgbox.com/d0/c8/xhZey57o_o.png)
-![Bye-ticket](https://images2.imgbox.com/fd/39/nR0Nny6E_o.gif)
-![Add-Event](https://images2.imgbox.com/23/28/YLsURRLz_o.gif)
+![Bye-ticket](https://images2.imgbox.com/bb/59/RGYnDMQe_o.gif)
+![Delete-undo-ticket](https://images2.imgbox.com/e7/61/saMTK2bw_o.gif))
