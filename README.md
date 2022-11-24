@@ -48,8 +48,8 @@ Just fork it
 
 ## Скришоты 
 ![Welcome-screen](https://images2.imgbox.com/69/0c/Kq0OvbBt_o.png){height=360px width=200px}
-![Fragment-List](https://images2.imgbox.com/7b/4e/RRRuBnId_o.png =200x360)
-![Fragment-Details](https://images2.imgbox.com/d0/c8/xhZey57o_o.png =200x360)
+![Fragment-List](https://images2.imgbox.com/7b/4e/RRRuBnId_o.png|=x200)
+![Fragment-Details](https://images2.imgbox.com/d0/c8/xhZey57o_o.png=200x360)
 ![Bye-ticket](https://images2.imgbox.com/fd/39/nR0Nny6E_o.gif)
 ![Add-Event](https://images2.imgbox.com/23/28/YLsURRLz_o.gif)
 
