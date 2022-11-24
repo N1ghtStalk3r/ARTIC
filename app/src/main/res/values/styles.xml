@@ -40,7 +40,7 @@
         <item name="android:textColorPrimary">@color/white</item>
     </style>
 
-    <style name="AutoCompleteTextViewDropDown">
+    <style name="SpinnerStyle">
         <item name="android:clickable">false</item>
         <item name="android:cursorVisible">false</item>
         <item name="android:focusable">false</item>

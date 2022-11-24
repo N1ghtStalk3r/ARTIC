@@ -7,17 +7,7 @@
     android:layout_margin="16dp"
     tools:context=".features.exhibition.presentation.ui.list.ExhibitionsListFragment">
 
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivFilterExh"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:src="@drawable/ic_filter_list"
-        android:tooltipText="@string/iv_filter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
+   <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvExhibitions"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -25,7 +15,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivFilterExh"
+        app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_exhibition" />
 
     <include

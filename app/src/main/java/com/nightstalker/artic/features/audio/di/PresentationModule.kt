@@ -1,6 +1,6 @@
 package com.nightstalker.artic.features.audio.di
 
-import com.nightstalker.artic.features.audio.presentation.viewmodel.AudioLookupViewModel
+import com.nightstalker.artic.features.audio.presentation.viewmodel.AudioViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -9,5 +9,5 @@ import org.koin.dsl.module
  * @created 2022-11-17
  */
 val audioPresentationModule = module {
-    viewModel { AudioLookupViewModel(get()) }
+    viewModel { AudioViewModel(get()) }
 }

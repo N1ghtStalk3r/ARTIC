@@ -6,24 +6,17 @@
     android:orientation="vertical"
     tools:context=".features.artwork.presentation.ui.dialog.FilterArtworksBottomSheetDialog">
 
-    <Button
-        android:id="@+id/btnApply"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:text="Применить" />
+
 
     <Spinner
-        android:id="@+id/tvCountries"
-        style="@style/AutoCompleteTextViewDropDown"
-        android:layout_marginTop="36dp"
-        android:hint="@string/enter_place_of_origin" />
+        android:id="@+id/spCountries"
+        style="@style/SpinnerStyle"
+        android:layout_marginTop="36dp" />
 
     <Spinner
-        android:id="@+id/tvTypes"
-        style="@style/AutoCompleteTextViewDropDown"
-        android:layout_marginTop="36dp"
-        android:hint="@string/enter_type" />
+        android:id="@+id/spTypes"
+        style="@style/SpinnerStyle"
+        android:layout_marginTop="36dp"/>
 
     <TextView
         android:id="@+id/tvFilterRes"
@@ -32,4 +25,10 @@
         android:layout_marginTop="36dp"
         tools:text="Найдено... экспонатов по запросу ..." />
 
+    <Button
+        android:id="@+id/btnApply"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="Применить" />
 </LinearLayout>

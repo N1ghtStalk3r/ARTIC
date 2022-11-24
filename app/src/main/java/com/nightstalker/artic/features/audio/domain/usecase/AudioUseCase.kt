@@ -11,4 +11,5 @@ import com.nightstalker.artic.features.audio.domain.repo.AudioRepo
  */
 class AudioUseCase(private val repo: AudioRepo) {
     suspend fun getAudioById(id: Int): ResultState<AudioFileModel> = safeCall { repo.getAudioById(id) }
+    suspend fun getSoundByArtworkTitle(title: String): ResultState<AudioFileModel> = safeCall { repo.getSoundByArtworkTitle(title) }
 }

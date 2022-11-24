@@ -16,7 +16,7 @@ import com.nightstalker.artic.features.artwork.domain.model.Artwork
 class ArtworksListAdapter(
     private val onItemClicked: (id: Int) -> Unit
 ) : RecyclerView.Adapter<ArtworksListAdapter.ViewHolder>() {
-    private var _data: List<Artwork> = mutableListOf()
+    private var _data: MutableList<Artwork> = mutableListOf()
     val data get() = _data
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
@@ -46,9 +46,15 @@ class ArtworksListAdapter(
 
     fun setData(data: List<Artwork>) {
         if (data.isNotEmpty()) {
-            this._data = data
+            this._data.addAll(data)
             notifyDataSetChanged()
         }
+    }
+
+    fun setSearchedData(data: List<Artwork>) {
+        this._data.clear()
+        this._data.addAll(data)
+        notifyDataSetChanged()
     }
 
     class ViewHolder(val binding: ItemArtworkBinding) :

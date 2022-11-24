@@ -14,11 +14,6 @@
             android:id="@+id/action_filterArtworksBottomSheetDialog_to_artworksListFragment"
             app:destination="@id/artworksListFragment" />
     </dialog>
-    <dialog
-        android:id="@+id/filterExhibitionsDialogFragment"
-        android:name="com.nightstalker.artic.features.exhibition.presentation.ui.dialog.FilterExhibitionsDialogFragment"
-        android:label="FilterArtworksDialogFragment"
-        tools:layout="@layout/fragment_filter_exhibitions_dialog" />
     <fragment
         android:id="@+id/artworkDetailsFragment"
         android:name="com.nightstalker.artic.features.artwork.presentation.ui.detail.ArtworkDetailsFragment"
@@ -28,6 +23,9 @@
             android:name="poster_id"
             app:argType="integer"
             android:defaultValue="-1" />
+        <action
+            android:id="@+id/action_artworkDetailsFragment_to_audioPlayerBottomSheetDialog"
+            app:destination="@id/audioPlayerBottomSheetDialog" />
     </fragment>
 
     <fragment
@@ -103,6 +101,11 @@
             android:defaultValue='""'
             app:argType="string" />
     </fragment>
+    <dialog
+        tools:layout="@layout/fragment_audio_player_bottom_sheet_dialog"
+        android:id="@+id/audioPlayerBottomSheetDialog"
+        android:name="com.nightstalker.artic.features.audio.presentation.ui.dialog.AudioPlayerBottomSheetDialog"
+        android:label="AudioPlayerBottomSheetDialog" />
 
 
 </navigation>

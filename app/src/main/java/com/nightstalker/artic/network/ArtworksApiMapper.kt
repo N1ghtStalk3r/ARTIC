@@ -15,7 +15,7 @@ import com.nightstalker.artic.network.net.ArtworksApi
  * @author Tamerlan Mamukhov on 2022-09-16
  */
 class ArtworksApiMapper(private val api: ArtworksApi) : BaseApiMapper() {
-    suspend fun getArtWorkById(id: Int): Artwork = api.getArtworkById(id).toArtwork()
+    suspend fun getArtWorkById(id: Int): Artwork = api.getArtworkById(id).data.toArtwork()
 
     suspend fun getArtworks(): List<Artwork> = api.getArtworks().data.toListOfArtworks()
 

@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.nightstalker.artic.databinding.ActivityMainBinding
 import com.nightstalker.artic.features.artwork.presentation.ui.ArtworkViewModel
+import com.nightstalker.artic.features.audio.presentation.viewmodel.AudioViewModel
 import com.nightstalker.artic.features.exhibition.presentation.ui.ExhibitionsViewModel
 import com.nightstalker.artic.features.ticket.presentation.ui.TicketsViewModel
 import com.nightstalker.artic.network.ApiConstants
@@ -18,6 +19,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val artworksViewModel by viewModel<ArtworkViewModel>()
+    private val audioViewModel by viewModel<AudioViewModel>()
     private val exhibitionsViewModel by viewModel<ExhibitionsViewModel>()
     private val ticketsViewModel by viewModel<TicketsViewModel>()
 

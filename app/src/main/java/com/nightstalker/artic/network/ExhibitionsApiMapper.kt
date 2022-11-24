@@ -13,7 +13,7 @@ import com.nightstalker.artic.network.net.ExhibitionsApi
  * @author Tamerlan Mamukhov on 2022-09-16
  */
 class ExhibitionsApiMapper(private val api: ExhibitionsApi) : BaseApiMapper() {
-    suspend fun getExhibitionById(id: Int) = api.getExhibitionById(id).toExhibition()
+    suspend fun getExhibitionById(id: Int) = api.getExhibitionById(id).data.toExhibition()
 
     suspend fun getExhibitions() = api.getExhibitions().data.toListOfExhibitions()
 }

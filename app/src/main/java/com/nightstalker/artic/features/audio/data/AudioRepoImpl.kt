@@ -12,4 +12,6 @@ class AudioRepoImpl(
     private val apiMapper: AudioApiMapper,
 ) : AudioRepo {
     override suspend fun getAudioById(id: Int): AudioFileModel = apiMapper.getAudioById(id)
+    override suspend fun getSoundByArtworkTitle(title: String): AudioFileModel = apiMapper.getSoundByArtworkTitle(title)
+
 }

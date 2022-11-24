@@ -1,5 +1,6 @@
 package com.nightstalker.artic.features.exhibition.presentation.ui.detail
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -45,7 +46,6 @@ class ExhibitionDetailsFragment : Fragment() {
         exhibitionsViewModel.getExhibition(id)
         initObserver()
         buyTicket()
-
     }
 
     override fun onDestroyView() {
@@ -63,13 +63,15 @@ class ExhibitionDetailsFragment : Fragment() {
         else -> {}
     }
 
+    @SuppressLint("LongLogTag")
     private fun ContentResultState.Content.handle() {
-        Log.d("ADF", "handle: $contentSingle")
+        Log.d(TAG, "handle: $contentSingle")
         setViews(contentSingle as Exhibition)
     }
 
+    @SuppressLint("LongLogTag")
     private fun ContentResultState.Error.handle() {
-        Log.d("ADF", "handle: $error")
+        Log.d(TAG, "handle: $error")
     }
 
     private fun setViews(exhibition: Exhibition) = with(binding) {
@@ -84,13 +86,13 @@ class ExhibitionDetailsFragment : Fragment() {
         }
     }
 
-    //  Для разведения значений с ticket_id из списка Билетов
-    //  передаем отрицательные значения args.exhibitionId
-    private fun buyTicket() {
-
+    private fun buyTicket() =
         binding?.buyTicketFloatingActionButton?.setOnClickListener {
             bundle.putInt(ApiConstants.BUNDLE_EXHIBITION_ID, args.exhibitionId)
             findNavController().navigate(R.id.ticketDetailsFragment, bundle)
         }
+
+    companion object {
+        const val TAG = "ExhibitionDetailFragment"
     }
 }

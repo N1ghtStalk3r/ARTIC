@@ -1,10 +1,12 @@
 package com.nightstalker.artic.features.artwork.presentation.ui.detail
 
+// import kotlinx.android.synthetic.main.fragment_artwork_details.audioPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -15,9 +17,6 @@ import com.nightstalker.artic.databinding.FragmentArtworkDetailsBinding
 import com.nightstalker.artic.features.artwork.domain.model.Artwork
 import com.nightstalker.artic.features.artwork.domain.model.ArtworkInformation
 import com.nightstalker.artic.features.artwork.presentation.ui.ArtworkViewModel
-import com.nightstalker.artic.features.audio.domain.model.AudioFileModel
-import com.nightstalker.artic.features.audio.player.AudioPlayerService
-import com.nightstalker.artic.features.audio.player.utils.AudioFileLinkCreator
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -29,7 +28,7 @@ class ArtworkDetailsFragment : Fragment() {
     private val args: ArtworkDetailsFragmentArgs by navArgs()
     private var _binding: FragmentArtworkDetailsBinding? = null
     private val binding get() = _binding
-    private val viewModel by sharedViewModel<ArtworkViewModel>()
+    private val artworkViewModel by sharedViewModel<ArtworkViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,8 +45,8 @@ class ArtworkDetailsFragment : Fragment() {
         val id = args.posterId
         initObserver()
 
-        viewModel.getArtwork(id)
-        viewModel.getArtworkInformation(id)
+        artworkViewModel.getArtwork(id)
+        artworkViewModel.getArtworkInformation(id)
     }
 
     override fun onDestroyView() {
@@ -55,9 +54,11 @@ class ArtworkDetailsFragment : Fragment() {
         _binding = null
     }
 
-    private fun initObserver() = with(viewModel) {
-        artworkContentState.observe(viewLifecycleOwner, ::handle)
-        artworkDescriptionState.observe(viewLifecycleOwner, ::handle)
+    private fun initObserver() {
+        with(artworkViewModel) {
+            artworkContentState.observe(viewLifecycleOwner, ::handle)
+            artworkDescriptionState.observe(viewLifecycleOwner, ::handle)
+        }
     }
 
     private fun handle(contentResultState: ContentResultState) = when (contentResultState) {
@@ -72,16 +73,16 @@ class ArtworkDetailsFragment : Fragment() {
                 setArtworkViews(contentSingle as Artwork)
             }
             is ArtworkInformation -> {
-                setManViews(contentSingle as ArtworkInformation)
+                setDescriptionView(contentSingle as ArtworkInformation)
             }
         }
     }
 
     private fun ContentResultState.Error.handle() {
-        Log.d("ADF", "handle: $error")
+        Log.d(TAG, "handle: $error")
     }
 
-    private fun setManViews(artworkInformation: ArtworkInformation?) {
+    private fun setDescriptionView(artworkInformation: ArtworkInformation?) {
         with(binding) {
             this?.tvDescription?.text = artworkInformation?.description
         }
@@ -89,27 +90,36 @@ class ArtworkDetailsFragment : Fragment() {
 
     private fun setArtworkViews(artwork: Artwork) {
         with(binding) {
+
+            val context = binding?.placeImage?.context
+            val place = binding?.placeImage
+            val btnPlay = binding?.btnPlayAudio
+
             this?.titleTextView?.text = artwork.title
             this?.tvAuthor?.text = artwork.artist
 
-            val context = binding?.placeImage?.context
             val imageUrl = artwork.imageId?.let { ImageLinkCreator.createImageDefaultLink(it) }
 
-            val place = binding?.placeImage
             context?.let { place?.let { it1 -> Glide.with(it).load(imageUrl).into(it1) } }
 
             when (artwork.audioUrl) {
                 null -> {
-                    // this?.audioGroup?.visibility = View.GONE
+                    Toast.makeText(activity, "No audio", Toast.LENGTH_SHORT).show()
                 }
                 else -> {
-                    // this?.audioGroup?.visibility = View.VISIBLE
-                    val url = AudioFileLinkCreator.create(artwork.audioUrl)
-                    val fileModel = AudioFileModel(url = url, title = artwork.title)
-
-                    lifecycle.addObserver(AudioPlayerService(requireContext(), fileModel, binding?.player!!))
+                    Toast.makeText(activity, "There's audio", Toast.LENGTH_SHORT).show()
+                    btnPlay?.apply {
+                        visibility = View.VISIBLE
+                        setOnClickListener {
+                            binding?.fragmentAudioBottom?.visibility = View.VISIBLE
+                        }
+                    }
                 }
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "ArtworkDetailsFragment"
     }
 }

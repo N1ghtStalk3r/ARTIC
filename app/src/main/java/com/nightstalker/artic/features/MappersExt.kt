@@ -1,11 +1,9 @@
 package com.nightstalker.artic.features
 
 import com.nightstalker.artic.core.data.model.artwork.detail.ArtworkData
-import com.nightstalker.artic.core.data.model.artwork.detail.ArtworkModel
 import com.nightstalker.artic.core.data.model.artwork.detail.information.ArtworkInformationModel
 import com.nightstalker.artic.core.data.model.audio.MobileSoundData
 import com.nightstalker.artic.core.data.model.exhibition.detail.ExhibitionData
-import com.nightstalker.artic.core.data.model.exhibition.detail.ExhibitionModel
 import com.nightstalker.artic.core.local.ticket.LocalTicket
 import com.nightstalker.artic.features.artwork.domain.model.Artwork
 import com.nightstalker.artic.features.artwork.domain.model.ArtworkInformation
@@ -36,14 +34,14 @@ import java.util.Locale
  *
  * @author Tamerlan Mamukhov
  */
-fun ArtworkModel.toArtwork(): Artwork =
+fun ArtworkData.toArtwork(): Artwork =
     Artwork(
-        id = data.id,
-        title = data.title,
-        imageId = data.imageId,
-        artist = data.artistDisplay,
-        audioUrl = data.soundIds.firstOrNull(),
-        placeOfOrigin = data.placeOfOrigin
+        id = id,
+        title = title,
+        imageId = imageId,
+        artist = artistDisplay,
+        audioUrl = soundIds.firstOrNull(),
+        placeOfOrigin = placeOfOrigin
     )
 
 fun List<ArtworkData>.toListOfArtworks(): List<Artwork> =
@@ -63,17 +61,17 @@ fun ArtworkInformationModel.toArtworkInformation(): ArtworkInformation =
         description = description.first()?.value
     )
 
-fun ExhibitionModel.toExhibition(): Exhibition =
+fun ExhibitionData.toExhibition(): Exhibition =
     Exhibition(
-        id = data.id,
-        imageUrl = data.imageUrl,
-        galleryTitle = data.galleryTitle,
-        title = data.title,
+        id = id,
+        imageUrl = imageUrl,
+        galleryTitle = galleryTitle,
+        title = title,
         altImageIds = listOf(),
-        status = data.status,
-        shortDescription = data.shortDescription,
-        aicEndAt = data.aicEndAt,
-        aicStartAt = data.aicStartAt,
+        status = status,
+        shortDescription = shortDescription,
+        aicEndAt = aicEndAt,
+        aicStartAt = aicStartAt,
     )
 
 fun List<ExhibitionData>.toListOfExhibitions(): List<Exhibition> =
