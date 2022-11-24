@@ -47,9 +47,9 @@ git@github.com:N1ghtStalk3r/ARTIC.git
 Just fork it
 
 ## Скришоты 
-<div style="width:200px">![Welcome-screen](https://images2.imgbox.com/69/0c/Kq0OvbBt_o.png)</div>
-![Fragment-List](https://images2.imgbox.com/7b/4e/RRRuBnId_o.png|=x200)
-![Fragment-Details](https://images2.imgbox.com/d0/c8/xhZey57o_o.png=200x360)
+![Welcome-screen](https://images2.imgbox.com/69/0c/Kq0OvbBt_o.png){ width="200px" }
+![Fragment-List](https://images2.imgbox.com/7b/4e/RRRuBnId_o.png)
+![Fragment-Details](https://images2.imgbox.com/d0/c8/xhZey57o_o.png)
 ![Bye-ticket](https://images2.imgbox.com/fd/39/nR0Nny6E_o.gif)
 ![Add-Event](https://images2.imgbox.com/23/28/YLsURRLz_o.gif)
 
