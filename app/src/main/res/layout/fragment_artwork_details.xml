@@ -9,7 +9,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -26,31 +26,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ivImage"
                 tools:text="The Bedroom" />
-
-            <!--            <com.google.android.material.button.MaterialButton-->
-            <!--                android:id="@+id/btnSite"-->
-            <!--                android:layout_width="60dp"-->
-            <!--                android:layout_height="45dp"-->
-            <!--                android:backgroundTint="@color/lightGray"-->
-            <!--                android:clickable="true"-->
-            <!--                android:elevation="4dp"-->
-            <!--                android:focusable="true"-->
-            <!--                app:cornerRadius="8dp"-->
-            <!--                app:icon="@drawable/ic_baseline_wifi_24"-->
-            <!--                app:iconSize="28dp"-->
-            <!--                app:iconTint="#909090"-->
-            <!--                tools:ignore="RtlSymmetry" />-->
-
-            <!--            <androidx.constraintlayout.helper.widget.Flow-->
-            <!--                android:id="@+id/buttonsFlow"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="16dp"-->
-            <!--                android:visibility="gone"-->
-            <!--                app:constraint_referenced_ids="btnSite"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@id/ivImage" />-->
 
             <TextView
                 android:id="@+id/tvAuthor"
@@ -108,17 +83,40 @@
 
             </androidx.cardview.widget.CardView>
 
-            <com.google.android.exoplayer2.ui.PlayerView
-                android:id="@+id/player"
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/buttonsFlow"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_marginTop="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:constraint_referenced_ids="btnPlayAudio"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvDescription" />
+                app:layout_constraintTop_toBottomOf="@id/ivImage" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPlayAudio"
+                android:layout_width="60dp"
+                android:layout_height="45dp"
+                android:backgroundTint="@color/lightGray"
+                android:clickable="true"
+                android:elevation="4dp"
+                android:focusable="true"
+                app:cornerRadius="8dp"
+                app:icon="@android:drawable/btn_dialog"
+                app:iconSize="28dp"
+                app:iconTint="#909090"
+                tools:ignore="RtlSymmetry" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:layout_width="match_parent"
+        android:id="@+id/fragmentAudioBottom"
+        android:layout_gravity="bottom"
+        android:visibility="gone"
+        android:layout_height="40dp"
+        tools:layout="@layout/fragment_audio_player_bottom"
+        android:name="com.nightstalker.artic.features.audio.presentation.ui.AudioPlayerBottomFragment" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

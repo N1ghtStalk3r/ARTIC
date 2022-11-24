@@ -8,4 +8,5 @@ import com.nightstalker.artic.features.audio.domain.model.AudioFileModel
  */
 interface AudioRepo {
     suspend fun getAudioById(id: Int): AudioFileModel
+    suspend fun getSoundByArtworkTitle(title: String): AudioFileModel
 }

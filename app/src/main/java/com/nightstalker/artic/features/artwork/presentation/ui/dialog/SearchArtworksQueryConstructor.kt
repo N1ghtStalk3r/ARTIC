@@ -12,8 +12,8 @@ import com.nightstalker.artic.network.ApiConstants.PLACE_OF_ORIGIN
 object SearchArtworksQueryConstructor {
     fun create(
         searchQuery: String,
-        place: String,
-        type: String,
+        place: String = "",
+        type: String = "",
     ): String {
         val params = StringBuilder()
         params.apply {
@@ -24,10 +24,10 @@ object SearchArtworksQueryConstructor {
             }
             append(QUERY_BOOL_SHOULD)
             append(LEFT_BRACE)
-            if (!place.isNullOrEmpty()) {
+            if (place.isNotEmpty()) {
                 append(createQueryMatchPart(PLACE_OF_ORIGIN, place))
             }
-            if (!type.isNullOrEmpty()) {
+            if (type.isNotEmpty()) {
                 append(COMMA)
                 append(createQueryMatchPart(ARTWORK_TYPE_TITLE, type))
             }

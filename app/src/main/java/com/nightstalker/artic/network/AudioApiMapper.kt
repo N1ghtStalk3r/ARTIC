@@ -12,5 +12,7 @@ import com.nightstalker.artic.network.net.AudioApi
  * @author Tamerlan Mamukhov on 2022-09-16
  */
 class AudioApiMapper(private val api: AudioApi) {
-    suspend fun getAudioById(id: Int): AudioFileModel = api.getSoundById(id).data.first().toAudioFileModel()
+    suspend fun getAudioById(id: Int): AudioFileModel = api.getSoundById(id).data.toAudioFileModel()
+
+    suspend fun getSoundByArtworkTitle(title: String): AudioFileModel = api.getSoundByArtworkTitle(title).data.first().toAudioFileModel()
 }

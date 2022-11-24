@@ -32,4 +32,6 @@
     <color name="narrowAudioPlayerBackgroundColor">#1e1e1e</color>
     <color name="number_pad_white_half_visible">#80FFFFFF</color>
     <color name="number_pad_white_faint">#5CFFFFFF</color>
+    <color name="audioBufferingColor">#868686</color>
+    <color name="audioBackground">#1e1e1e</color>
 </resources>

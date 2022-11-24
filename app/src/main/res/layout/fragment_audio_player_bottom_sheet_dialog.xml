@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    style="?attr/bottomSheetStyle"
+    app:layout_behavior="@string/bottom_sheet_behavior"
+    android:layout_height="wrap_content"
+    tools:layout_height="wrap_content">
+
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/audioPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        app:auto_show="true"
+        app:hide_on_touch="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/trackTitle"
+        app:show_timeout="0"
+        app:use_artwork="false"
+        app:use_controller="true" />
+
+    <TextView
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:id="@+id/audioDescription"
+        style="@style/TextAppearance.Material3.HeadlineMedium"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="@tools:sample/lorem"/>
+
+</LinearLayout>

@@ -1,9 +1,9 @@
 package com.nightstalker.artic.network.net
 
 import com.nightstalker.artic.core.data.model.artwork.detail.ArtworkData
-import com.nightstalker.artic.core.data.model.artwork.detail.ArtworkModel
 import com.nightstalker.artic.core.data.model.artwork.detail.information.ArtworkInformationModel
-import com.nightstalker.artic.core.data.model.common.SearchResultsModel
+import com.nightstalker.artic.core.data.model.common.ItemsListResultModel
+import com.nightstalker.artic.core.data.model.common.SingeItemResultModel
 import com.nightstalker.artic.network.ApiConstants.ARTIST_DISPLAY
 import com.nightstalker.artic.network.ApiConstants.ID
 import com.nightstalker.artic.network.ApiConstants.IMAGE_ID
@@ -22,10 +22,10 @@ import retrofit2.http.Query
  */
 interface ArtworksApi {
     @GET("artworks/{$ID}?fields=$ID,$TITLE,$IMAGE_ID,$ARTIST_DISPLAY,$SOUND_IDS,$PLACE_OF_ORIGIN")
-    suspend fun getArtworkById(@Path(ID) id: Int): ArtworkModel
+    suspend fun getArtworkById(@Path(ID) id: Int): SingeItemResultModel<ArtworkData>
 
     @GET("artworks?fields=$ID,$TITLE,$IMAGE_ID,$ARTIST_DISPLAY")
-    suspend fun getArtworks(): SearchResultsModel<ArtworkData>
+    suspend fun getArtworks(): ItemsListResultModel<ArtworkData>
 
     @GET("artworks/{$ID}/manifest.json")
     suspend fun getArtworkInformation(@Path(ID) id: Int): ArtworkInformationModel
@@ -33,5 +33,5 @@ interface ArtworksApi {
     @GET("artworks/search?")
     suspend fun getArtworksByQuery(
         @Query(PARAMS) search: String,
-    ): SearchResultsModel<ArtworkData>
+    ): ItemsListResultModel<ArtworkData>
 }

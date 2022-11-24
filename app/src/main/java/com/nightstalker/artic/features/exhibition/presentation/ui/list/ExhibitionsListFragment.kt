@@ -38,7 +38,6 @@ class ExhibitionsListFragment : Fragment() {
         binding = FragmentExhibitionsListBinding.bind(view)
 
         with(binding) {
-
             this?.rvExhibitions?.layoutManager =
                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             adapter = ExhibitionsListAdapter { id -> onItemClicked(id) }
@@ -48,9 +47,6 @@ class ExhibitionsListFragment : Fragment() {
 
             exhibitionsViewModel.getExhibitions()
 
-            this?.ivFilterExh?.setOnClickListener {
-                findNavController().navigate(R.id.filterExhibitionsDialogFragment)
-            }
         }
     }
 

@@ -7,24 +7,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.nightstalker.artic.R
 import com.nightstalker.artic.core.domain.ContentResultState
+import com.nightstalker.artic.core.presentation.onDone
 import com.nightstalker.artic.databinding.FragmentAudioLookupBinding
 import com.nightstalker.artic.features.audio.domain.model.AudioFileModel
-import com.nightstalker.artic.features.audio.presentation.viewmodel.AudioLookupViewModel
+import com.nightstalker.artic.features.audio.presentation.viewmodel.AudioViewModel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filterNot
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -35,9 +31,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  */
 class AudioLookupFragment : Fragment() {
 
-    private val audioViewModel: AudioLookupViewModel by viewModel()
-
-    private var binding: FragmentAudioLookupBinding? = null
+    private val audioViewModel: AudioViewModel by viewModel()
+    private var _binding: FragmentAudioLookupBinding? = null
+    private val binding get() = _binding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,11 +45,8 @@ class AudioLookupFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentAudioLookupBinding.bind(view)
-
+        _binding = FragmentAudioLookupBinding.bind(view)
         initObservers()
-
-        audioViewModel.getSoundById(1605)
         setupView()
     }
 
@@ -70,58 +63,42 @@ class AudioLookupFragment : Fragment() {
     }
 
     private fun ContentResultState.Content.handle() {
-        Log.d("AudioFragment", "handle: ${contentSingle as AudioFileModel}")
-        Log.d("AudioFragment", "handle: ${contentsList as List<AudioFileModel>}")
+        Log.d(TAG, "handle: ${contentSingle as AudioFileModel}")
+
     }
 
     private fun ContentResultState.Error.handle() {
-        with(binding) {
-        }
+        Log.d(TAG, "handle: $error")
+
+        binding?.audioNumber?.error = "Не найдено!"
     }
 
     private fun setupView() {
-        with(binding) {
-            val tv = this?.number?.editText
-            tv?.textChanges()
-                ?.filterNot { it.isNullOrBlank() }
-                ?.debounce(300)
-                ?.distinctUntilChanged()
-                ?.flatMapLatest { execSearch(it?.toString()?.toInt()) }
-                ?.onEach { updateView(it) }
-                ?.launchIn(lifecycleScope)
+        with(_binding) {
+            val tv = this?.audioNumber?.editText
+            tv?.onDone { execSearch(tv.text.trim().toString().toInt()) }
+            this?.audioNumber?.setStartIconOnClickListener {
+                findNavController().navigate(R.id.audioPlayerBottomSheetDialog)
+            }
         }
     }
 
-    private fun updateView(it: Any) {
-    }
-
-    private fun execSearch(sequence: Int?): Flow<Int> {
-        val _searchQuery = MutableStateFlow(0)
+    private fun execSearch(sequence: Int? = 0): Flow<Int> {
+        val query = MutableStateFlow(0)
         if (sequence != null) {
-            _searchQuery.value = sequence
-
-            audioViewModel.getSoundById(_searchQuery.value)
+            query.value = sequence
+            audioViewModel.getSoundById(query.value)
         }
-        Log.d("fds", "execSearch: $sequence")
-        return _searchQuery
+        Log.d(TAG, "execSearch: $sequence")
+        return query
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        binding = null
+        _binding = null
     }
-}
 
-fun EditText.textChanges(): Flow<CharSequence?> {
-    return callbackFlow<CharSequence?> {
-        val listener = object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) = Unit
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                trySend(s)
-            }
-        }
-        addTextChangedListener(listener)
-        awaitClose { removeTextChangedListener(listener) }
-    }.onStart { emit(text) }
+    companion object {
+        private const val TAG = "AudioLookupFragment"
+    }
 }

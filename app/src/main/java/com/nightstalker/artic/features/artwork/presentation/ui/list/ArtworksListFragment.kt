@@ -26,7 +26,6 @@ class ArtworksListFragment : Fragment() {
 
     private var binding: FragmentArtworksListBinding? = null
     private lateinit var adapter: ArtworksListAdapter
-    private lateinit var searchedAdapter: ArtworksListAdapter
     private val viewModel by sharedViewModel<ArtworkViewModel>()
 
     override fun onCreateView(
@@ -66,7 +65,7 @@ class ArtworksListFragment : Fragment() {
     }
 
     private fun initObservers() = with(viewModel) {
-        searchedArtworksContentState.observe(viewLifecycleOwner, ::handleSearched)
+        // searchedArtworksContentState.observe(viewLifecycleOwner, ::handleSearched)
         artworksContentState.observe(viewLifecycleOwner, ::handle)
     }
 
@@ -84,6 +83,7 @@ class ArtworksListFragment : Fragment() {
                     Log.d("FAG", searchQuery)
 
                     viewModel.getArtworksByQuery(searchQuery)
+                    viewModel.searchedArtworksContentState.observe(viewLifecycleOwner, ::handleSearched)
                 }
                 return false
             }
@@ -131,9 +131,9 @@ class ArtworksListFragment : Fragment() {
     }
 
     private fun ContentResultState.Content.handleSearched() {
-        searchedAdapter = ArtworksListAdapter { id -> onItemClick(id) }
-        searchedAdapter.setData(contentsList as List<Artwork>)
-        binding?.rvArtworks?.adapter = searchedAdapter
+        // searchedAdapter = ArtworksListAdapter { id -> onItemClick(id) }
+        adapter.setSearchedData(contentsList as List<Artwork>)
+        binding?.rvArtworks?.adapter = adapter
         Log.d("ArtList", "handleSearched: ${contentsList as List<Artwork>}")
     }
 

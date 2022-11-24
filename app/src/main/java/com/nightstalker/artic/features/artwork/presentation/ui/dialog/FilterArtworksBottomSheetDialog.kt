@@ -46,8 +46,8 @@ class FilterArtworksBottomSheetDialog : BottomSheetDialogFragment() {
         val typesAdapter =
             ArrayAdapter(requireContext(), android.R.layout.select_dialog_item, types)
 
-        applyForSpinner(placesAdapter, this.tvCountries)
-        applyForSpinner(typesAdapter, tvTypes)
+        applyForSpinner(placesAdapter, this.spCountries)
+        applyForSpinner(typesAdapter, spTypes)
 
         this.btnApply.setOnClickListener {
             sendArgs()
@@ -58,8 +58,8 @@ class FilterArtworksBottomSheetDialog : BottomSheetDialogFragment() {
     private fun sendArgs() {
         Bundle().apply {
             with(binding) {
-                putString("place", this.tvCountries.selectedItem.toString())
-                putString("type", this.tvTypes.selectedItem.toString())
+                putString("place", this.spCountries.selectedItem.toString())
+                putString("type", this.spTypes.selectedItem.toString())
             }
         }.run {
             findNavController().navigate(
