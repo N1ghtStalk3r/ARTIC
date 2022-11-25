@@ -34,4 +34,6 @@
     <color name="number_pad_white_faint">#5CFFFFFF</color>
     <color name="audioBufferingColor">#868686</color>
     <color name="audioBackground">#1e1e1e</color>
+    <color name="sea">#37a2a5</color>
+    <color name="warmGrey">#a1a1a1</color>
 </resources>

@@ -9,28 +9,41 @@
     android:layout_height="wrap_content"
     tools:layout_height="wrap_content">
 
-    <com.google.android.exoplayer2.ui.PlayerView
-        android:id="@+id/audioPlayer"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        app:auto_show="true"
-        app:hide_on_touch="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/trackTitle"
-        app:show_timeout="0"
-        app:use_artwork="false"
-        app:use_controller="true" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:layout_marginTop="40dp"
-        android:layout_width="match_parent"
-        android:id="@+id/audioDescription"
-        style="@style/TextAppearance.Material3.HeadlineMedium"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="@tools:sample/lorem"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/audioPlayer"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                app:auto_show="true"
+                app:controller_layout_id="@layout/exo_playback_control_view"
+                app:hide_on_touch="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/trackTitle"
+                app:show_timeout="0"
+                app:use_artwork="false"
+                app:use_controller="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/audioDescription"
+                style="@style/TextAppearance.AppCompat.Body2"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="@tools:sample/lorem"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

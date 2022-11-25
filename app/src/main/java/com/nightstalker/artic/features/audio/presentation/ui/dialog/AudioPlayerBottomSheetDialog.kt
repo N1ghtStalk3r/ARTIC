@@ -9,11 +9,13 @@ import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.nightstalker.artic.R
 import com.nightstalker.artic.core.domain.ContentResultState
+import com.nightstalker.artic.core.presentation.filterHtmlEncodedText
 import com.nightstalker.artic.databinding.FragmentAudioPlayerBottomSheetDialogBinding
 import com.nightstalker.artic.features.audio.domain.model.AudioFileModel
 import com.nightstalker.artic.features.audio.player.AudioPlayerService
 import com.nightstalker.artic.features.audio.presentation.ui.AudioPlayerBottomFragment
 import com.nightstalker.artic.features.audio.presentation.viewmodel.AudioViewModel
+import kotlinx.android.synthetic.main.fragment_audio_lookup.audioNumber
 import kotlinx.android.synthetic.main.fragment_audio_player_bottom_sheet_dialog.audioDescription
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -45,6 +47,11 @@ class AudioPlayerBottomSheetDialog : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentAudioPlayerBottomSheetDialogBinding.bind(view)
 
+        arguments?.getInt("mob_id")?.also {
+            Log.d(TAG, "onViewCreated: $it")
+            audioViewModel.getSoundById(it)
+        }
+
         audioPlayerService = AudioPlayerService(requireContext())
 
         initObserver()
@@ -67,8 +74,11 @@ class AudioPlayerBottomSheetDialog : BottomSheetDialogFragment() {
             is AudioFileModel -> {
                 Log.d(TAG, "handleContent: ${contentSingle as AudioFileModel} ")
                 audioPlayerService.setAudio(contentSingle as AudioFileModel)
-                binding?.audioDescription?.text = (contentSingle as AudioFileModel)?.transcript
-                binding?.audioPlayer?.player = audioPlayerService.exPlayer
+
+                binding?.audioDescription?.text = (contentSingle as AudioFileModel)?.transcript?.filterHtmlEncodedText()
+                audioPlayerService.initPlayer()
+
+                binding?.audioPlayer?.player = audioPlayerService.player
             }
         }
     }
@@ -78,5 +88,6 @@ class AudioPlayerBottomSheetDialog : BottomSheetDialogFragment() {
     }
 
     companion object {
-        const val TAG = "AudioPlayerBottomSheet"
-    }}
+        private const val TAG = "AudioPlayerBottomSheet"
+    }
+}

@@ -1,14 +1,10 @@
 package com.nightstalker.artic.features.audio.presentation.ui
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.nightstalker.artic.R
@@ -17,11 +13,7 @@ import com.nightstalker.artic.core.presentation.onDone
 import com.nightstalker.artic.databinding.FragmentAudioLookupBinding
 import com.nightstalker.artic.features.audio.domain.model.AudioFileModel
 import com.nightstalker.artic.features.audio.presentation.viewmodel.AudioViewModel
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.onStart
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -46,8 +38,8 @@ class AudioLookupFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentAudioLookupBinding.bind(view)
-        initObservers()
         setupView()
+        initObservers()
     }
 
     private fun initObservers() = with(audioViewModel) {
@@ -64,7 +56,6 @@ class AudioLookupFragment : Fragment() {
 
     private fun ContentResultState.Content.handle() {
         Log.d(TAG, "handle: ${contentSingle as AudioFileModel}")
-
     }
 
     private fun ContentResultState.Error.handle() {
@@ -77,20 +68,34 @@ class AudioLookupFragment : Fragment() {
         with(_binding) {
             val tv = this?.audioNumber?.editText
             tv?.onDone { execSearch(tv.text.trim().toString().toInt()) }
+
             this?.audioNumber?.setStartIconOnClickListener {
-                findNavController().navigate(R.id.audioPlayerBottomSheetDialog)
+
+                var soundId = 0
+                if (tv?.text?.toString()?.isNotEmpty() == true) {
+                    soundId = tv.text?.toString()?.toInt()!!
+                }
+
+                Bundle().apply {
+                    if (soundId != null) {
+                        putInt("mob_id", soundId)
+                    }
+                }.run {
+                    findNavController().navigate(R.id.audioPlayerBottomSheetDialog,
+                        args = this)
+                }
             }
+
         }
     }
 
-    private fun execSearch(sequence: Int? = 0): Flow<Int> {
+    private fun execSearch(sequence: Int? = 0) {
         val query = MutableStateFlow(0)
         if (sequence != null) {
             query.value = sequence
             audioViewModel.getSoundById(query.value)
         }
         Log.d(TAG, "execSearch: $sequence")
-        return query
     }
 
     override fun onDestroy() {

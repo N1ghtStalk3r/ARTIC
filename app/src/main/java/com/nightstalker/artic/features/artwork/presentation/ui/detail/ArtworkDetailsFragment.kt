@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.nightstalker.artic.R
@@ -17,6 +18,8 @@ import com.nightstalker.artic.databinding.FragmentArtworkDetailsBinding
 import com.nightstalker.artic.features.artwork.domain.model.Artwork
 import com.nightstalker.artic.features.artwork.domain.model.ArtworkInformation
 import com.nightstalker.artic.features.artwork.presentation.ui.ArtworkViewModel
+import com.nightstalker.artic.features.audio.domain.model.AudioFileModel
+import com.nightstalker.artic.features.audio.presentation.viewmodel.AudioViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -29,6 +32,7 @@ class ArtworkDetailsFragment : Fragment() {
     private var _binding: FragmentArtworkDetailsBinding? = null
     private val binding get() = _binding
     private val artworkViewModel by sharedViewModel<ArtworkViewModel>()
+    private val audioViewModel by sharedViewModel<AudioViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -107,16 +111,40 @@ class ArtworkDetailsFragment : Fragment() {
                     Toast.makeText(activity, "No audio", Toast.LENGTH_SHORT).show()
                 }
                 else -> {
+                    val title = artwork.title.toString()
+                    val query = "query[match][title]={$title}&limit=1"
+
+                    audioViewModel.getSoundByTitle(query)
+
+                    observeAudio()
+
                     Toast.makeText(activity, "There's audio", Toast.LENGTH_SHORT).show()
                     btnPlay?.apply {
                         visibility = View.VISIBLE
                         setOnClickListener {
                             binding?.fragmentAudioBottom?.visibility = View.VISIBLE
+                            findNavController().navigate(R.id.audioPlayerBottomSheetDialog)
                         }
                     }
                 }
             }
         }
+    }
+
+    private fun observeAudio() {
+        audioViewModel.audioFileContentState.observe(viewLifecycleOwner, ::handleAudio)
+    }
+
+    private fun handleAudio(contentResultState: ContentResultState?) {
+        when (contentResultState) {
+            is ContentResultState.Content -> contentResultState.handleAudio()
+            is ContentResultState.Error -> contentResultState.handle()
+            else -> {}
+        }
+    }
+
+    private fun ContentResultState.Content.handleAudio() {
+        Log.d(TAG, "handleAudio: ${contentSingle as AudioFileModel}")
     }
 
     companion object {

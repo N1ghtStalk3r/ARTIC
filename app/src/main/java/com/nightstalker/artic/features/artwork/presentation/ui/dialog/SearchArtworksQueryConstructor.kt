@@ -12,8 +12,8 @@ import com.nightstalker.artic.network.ApiConstants.PLACE_OF_ORIGIN
 object SearchArtworksQueryConstructor {
     fun create(
         searchQuery: String,
-        place: String = "",
-        type: String = "",
+        place: String = "United States",
+        type: String = "Painting",
     ): String {
         val params = StringBuilder()
         params.apply {
