@@ -15,5 +15,5 @@ import com.nightstalker.artic.network.net.ExhibitionsApi
 class ExhibitionsApiMapper(private val api: ExhibitionsApi) : BaseApiMapper() {
     suspend fun getExhibitionById(id: Int) = api.getExhibitionById(id).data.toExhibition()
 
-    suspend fun getExhibitions() = api.getExhibitions().data.toListOfExhibitions()
+    suspend fun getExhibitions() = api.getExhibitions().data.filter { it.imageUrl!= null }.toListOfExhibitions()
 }

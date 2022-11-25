@@ -1,5 +1,6 @@
 package com.nightstalker.artic.features.artwork.presentation.ui.list
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -40,10 +41,17 @@ class ArtworksListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentArtworksListBinding.bind(view)
 
+        prepareSearchEt()
+
         getArgs()
         initObservers()
         initViews()
         artworkViewModel.getArtworks()
+    }
+
+    private fun prepareSearchEt() {
+        val query = getQueryFromPref()
+        binding?.tilSearch?.editText?.setText(query)
     }
 
     override fun onDestroyView() {
@@ -62,6 +70,8 @@ class ArtworksListFragment : Fragment() {
             textInput?.apply {
                 editText?.setOnEditorActionListener { _, actionId, _ ->
                     if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+
+                        editText?.text?.toString()?.let { putQueryToPref(it) }
 
                         var searchQuery =
                             SearchArtworksQueryConstructor.create(searchQuery = editText?.text.toString())
@@ -160,5 +170,20 @@ class ArtworksListFragment : Fragment() {
         private var type = ""
         private const val TAG = "ArtworksListFragment"
         private const val NULL_ARG = "null"
+        private val SHARED_PREF_QUERY_KEY = "query"
+    }
+
+    private fun putQueryToPref(query: String) {
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        with (sharedPref.edit()) {
+            putString(SHARED_PREF_QUERY_KEY, query)
+            apply()
+        }
+    }
+
+    private fun getQueryFromPref() : String?{
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
+        val defValue = "Statue"
+        return sharedPref?.getString(SHARED_PREF_QUERY_KEY, defValue)
     }
 }
