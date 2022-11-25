@@ -13,7 +13,7 @@
 
 ## Методы и технологии
 
-Информационная составляющая приложения всецело базируется на обширном информационном ресурсе музея  [Artic](https://api.artic.edu/api/v1/). 
+Информационная составляющая приложения всецело базируется на обширном информационном ресурсе музея  [Artic API](https://api.artic.edu/api/v1/). 
  Архитектура приложения соответствует принципам **MVVM**.
  Само приложение написано на **Kotlin** с использованием следующих библиотек и технологий
   - Retrofit
@@ -36,7 +36,6 @@ git@github.com:N1ghtStalk3r/ARTIC.git
 ## Настройка
 Приложение готово к работе "из коробки".
 
-
 ## Поддержка
 Этот проект сопровождается:
 * [N1ghtStalk3r](http://github.com/N1ghtStalk3r)
@@ -47,3 +46,9 @@ git@github.com:N1ghtStalk3r/ARTIC.git
 
 Just fork it
 
+## Скришоты 
+![Welcome-screen](https://images2.imgbox.com/69/0c/Kq0OvbBt_o.png)
+![Fragment-List](https://images2.imgbox.com/7b/4e/RRRuBnId_o.png)
+![Fragment-Details](https://images2.imgbox.com/d0/c8/xhZey57o_o.png)
+![Bye-ticket](https://images2.imgbox.com/bb/59/RGYnDMQe_o.gif)
+![Delete-undo-ticket](https://images2.imgbox.com/e7/61/saMTK2bw_o.gif))
