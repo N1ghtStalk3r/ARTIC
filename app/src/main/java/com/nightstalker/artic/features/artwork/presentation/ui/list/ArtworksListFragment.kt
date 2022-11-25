@@ -5,7 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,7 +26,7 @@ class ArtworksListFragment : Fragment() {
 
     private var binding: FragmentArtworksListBinding? = null
     private lateinit var adapter: ArtworksListAdapter
-    private val viewModel by sharedViewModel<ArtworkViewModel>()
+    private val artworkViewModel by sharedViewModel<ArtworkViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,22 +41,9 @@ class ArtworksListFragment : Fragment() {
         binding = FragmentArtworksListBinding.bind(view)
 
         getArgs()
-        setupSearchView()
-
-        with(binding) {
-            this?.rvArtworks?.layoutManager =
-                LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-            adapter = ArtworksListAdapter { id -> onItemClick(id) }
-            this?.rvArtworks?.adapter = adapter
-
-            initObservers()
-
-            viewModel.getArtworks()
-
-            this?.ivFilterArts?.setOnClickListener {
-                findNavController().navigate(R.id.action_artworksListFragment_to_filterArtworksBottomSheetDialog)
-            }
-        }
+        initObservers()
+        initViews()
+        artworkViewModel.getArtworks()
     }
 
     override fun onDestroyView() {
@@ -64,34 +51,48 @@ class ArtworksListFragment : Fragment() {
         binding = null
     }
 
-    private fun initObservers() = with(viewModel) {
-        // searchedArtworksContentState.observe(viewLifecycleOwner, ::handleSearched)
-        artworksContentState.observe(viewLifecycleOwner, ::handle)
+    private fun initViews() {
+        with(binding) {
+            adapter = ArtworksListAdapter { id -> onItemClick(id) }
+            this?.rvArtworks?.layoutManager =
+                LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            this?.rvArtworks?.adapter = adapter
+
+            val textInput = this?.tilSearch
+            textInput?.apply {
+                editText?.setOnEditorActionListener { _, actionId, _ ->
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+
+                        var searchQuery =
+                            SearchArtworksQueryConstructor.create(searchQuery = editText?.text.toString())
+
+                        if (place != NULL_ARG || type != NULL_ARG) {
+                            searchQuery =
+                                SearchArtworksQueryConstructor.create(searchQuery = editText?.text.toString(),
+                                    place,
+                                    type)
+                        }
+
+                        Log.d(TAG, place)
+                        Log.d(TAG, type)
+                        Log.d(TAG, searchQuery)
+
+                        artworkViewModel.getArtworksByQuery(searchQuery)
+                    }
+                    true
+                }
+
+                artworkViewModel.searchedArtworksContentState.observe(viewLifecycleOwner, ::handleSearched)
+
+                setEndIconOnClickListener {
+                    findNavController().navigate(R.id.action_artworksListFragment_to_filterArtworksBottomSheetDialog)
+                }
+            }
+        }
     }
 
-    private fun setupSearchView() {
-        binding?.searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                binding?.searchView?.clearFocus()
-                if (query?.isNotEmpty() == true) {
-                    val searchQuery = SearchArtworksQueryConstructor.create(searchQuery = query,
-                        place = place,
-                        type = type)
-
-                    Log.d("FAG", place)
-                    Log.d("FAG", type)
-                    Log.d("FAG", searchQuery)
-
-                    viewModel.getArtworksByQuery(searchQuery)
-                    viewModel.searchedArtworksContentState.observe(viewLifecycleOwner, ::handleSearched)
-                }
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
-            }
-        })
+    private fun initObservers() = with(artworkViewModel) {
+        artworksContentState.observe(viewLifecycleOwner, ::handle)
     }
 
     private fun handle(contentResultState: ContentResultState) = when (contentResultState) {
@@ -116,7 +117,7 @@ class ArtworksListFragment : Fragment() {
 
     private fun tryAgain() {
         binding?.errorLayout?.root?.visibility = View.INVISIBLE
-        viewModel.getArtworks()
+        artworkViewModel.getArtworks()
     }
 
     private fun onItemClick(id: Int) = ArtworksListFragmentDirections
@@ -124,17 +125,13 @@ class ArtworksListFragment : Fragment() {
         .run { findNavController().navigate(this) }
 
     private fun ContentResultState.Content.handle() {
-        if (adapter.data.isNullOrEmpty()) {
-            adapter.setData(contentsList as List<Artwork>)
-            binding?.rvArtworks?.adapter = adapter
-        }
+        adapter.data = (contentsList as MutableList<Artwork>)
+        binding?.rvArtworks?.adapter = adapter
     }
 
     private fun ContentResultState.Content.handleSearched() {
-        // searchedAdapter = ArtworksListAdapter { id -> onItemClick(id) }
-        adapter.setSearchedData(contentsList as List<Artwork>)
+        adapter.data = (contentsList as MutableList<Artwork>)
         binding?.rvArtworks?.adapter = adapter
-        Log.d("ArtList", "handleSearched: ${contentsList as List<Artwork>}")
     }
 
     private fun ContentResultState.Error.handle() {
@@ -153,13 +150,15 @@ class ArtworksListFragment : Fragment() {
             place = getString("place").toString()
             type = getString("type").toString()
 
-            Log.d("ArtList", "getArgs: $place")
-            Log.d("ArtList", "getArgs: $type")
+            Log.d(TAG, "getArgs: $place")
+            Log.d(TAG, "getArgs: $type")
         }
     }
 
     companion object {
         private var place = ""
         private var type = ""
+        private const val TAG = "ArtworksListFragment"
+        private const val NULL_ARG = "null"
     }
 }

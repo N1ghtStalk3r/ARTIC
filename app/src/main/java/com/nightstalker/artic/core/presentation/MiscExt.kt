@@ -1,5 +1,7 @@
 package com.nightstalker.artic.core.presentation
 
+import android.os.Build
+import android.text.Html
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import com.nightstalker.artic.R
@@ -19,4 +21,14 @@ fun EditText.onDone(callback: (query: String) -> Unit) = setOnEditorActionListen
         return@setOnEditorActionListener false
     }
     false
+}
+
+fun String.filterHtmlEncodedText(): String {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        Html.fromHtml(replace("\n", "<br>"), Html.FROM_HTML_MODE_LEGACY).toString()
+    } else {
+        Html.fromHtml(replace("\n", "<br>")).toString()
+    }.apply {
+        replace("\\</br.*?>", "\\\n")
+    }
 }

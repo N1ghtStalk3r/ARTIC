@@ -63,17 +63,17 @@
             android:maxLength="4" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <fragment
-        android:id="@+id/newPlayer"
-        android:name="com.nightstalker.artic.features.audio.presentation.ui.AudioPlayerBottomFragment"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/playerGuideline"
-        tools:layout="@layout/fragment_audio_player_bottom" />
+<!--    <fragment-->
+<!--        android:id="@+id/newPlayer"-->
+<!--        android:name="com.nightstalker.artic.features.audio.presentation.ui.AudioPlayerBottomFragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/playerGuideline"-->
+<!--        tools:layout="@layout/fragment_audio_player_bottom" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

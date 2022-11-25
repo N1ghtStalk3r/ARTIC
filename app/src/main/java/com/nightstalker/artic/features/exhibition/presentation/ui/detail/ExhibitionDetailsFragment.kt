@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.nightstalker.artic.R
 import com.nightstalker.artic.core.domain.ContentResultState
+import com.nightstalker.artic.core.presentation.filterHtmlEncodedText
 import com.nightstalker.artic.databinding.FragmentExhibitionDetailsBinding
 import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
 import com.nightstalker.artic.features.exhibition.presentation.ui.ExhibitionsViewModel
@@ -76,7 +77,7 @@ class ExhibitionDetailsFragment : Fragment() {
 
     private fun setViews(exhibition: Exhibition) = with(binding) {
         this?.titleTextView?.text = exhibition.title.orEmpty()
-        this?.tvDescription?.text = exhibition.shortDescription.orEmpty()
+        this?.tvDescription?.text = exhibition.shortDescription?.filterHtmlEncodedText()?.orEmpty()
         this?.tvStatus?.text = exhibition.status.orEmpty()
 
         val context = this?.ivImage?.context

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/audioBackground"
     android:paddingStart="@dimen/marginDouble"
     android:paddingEnd="@dimen/marginDouble"
@@ -11,6 +11,7 @@
 
     <TextView
         android:id="@id/exo_position"
+        style="@style/MetadataMediumGray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:includeFontPadding="false"
@@ -19,10 +20,12 @@
         app:layout_constraintBaseline_toBaselineOf="@id/exo_translation_selector"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="0:15" />
+        tools:text="0:15"
+        tools:ignore="RtlSymmetry" />
 
     <TextView
         android:id="@+id/divider"
+        style="@style/MetadataMediumGray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:includeFontPadding="false"
@@ -34,6 +37,7 @@
 
     <TextView
         android:id="@id/exo_duration"
+        style="@style/MetadataMediumGray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:includeFontPadding="false"
@@ -61,7 +65,8 @@
         app:layout_constraintStart_toEndOf="@id/exo_duration"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0"
-        app:layout_constraintWidth_default="wrap" />
+        app:layout_constraintWidth_default="wrap"
+        tools:background="@drawable/exo_scrubber" />
 
 
     <FrameLayout
@@ -98,6 +103,8 @@
         app:buffered_color="@color/audioBufferingColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/playPause"
-        app:layout_constraintTop_toBottomOf="@id/exo_position" />
+        app:layout_constraintTop_toBottomOf="@id/exo_position"
+        app:played_color="@color/sea"
+        app:scrubber_drawable="@drawable/exo_scrubber" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

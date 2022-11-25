@@ -29,7 +29,11 @@ class AudioPlayerService(
     val context: Context,
 ) {
 
-    lateinit var fileModel: AudioFileModel
+    // init {
+    //     initPlayer()
+    // }
+
+    private var fileModel: AudioFileModel?= null
 
     fun setAudio(audio: AudioFileModel) {
         fileModel = audio
@@ -38,14 +42,14 @@ class AudioPlayerService(
     private var playWhenReady = true
     private var currentItem = 0
     private var playbackPosition = 0L
-    private var player: ExoPlayer? = null
-    val exPlayer get() = player
+    var player: ExoPlayer? = null
+    // val exPlayer get() = player
 
-    private fun initPlayer() {
+    fun initPlayer() {
         player = ExoPlayer.Builder(context)
             .build()
             .also {
-                val mediaItem = MediaItem.fromUri(Uri.parse(fileModel.url))
+                val mediaItem = MediaItem.fromUri(Uri.parse(fileModel?.url ?: ""))
                 it.setMediaItem(mediaItem)
                 it.playWhenReady = playWhenReady
                 it.seekTo(currentItem, playbackPosition)
@@ -64,7 +68,7 @@ class AudioPlayerService(
     }
 
     fun play() {
-        initPlayer()
+        // initPlayer()
         player?.play()
     }
 

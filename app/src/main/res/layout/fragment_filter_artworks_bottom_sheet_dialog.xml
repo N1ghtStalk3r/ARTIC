@@ -11,10 +11,12 @@
     <Spinner
         android:id="@+id/spCountries"
         style="@style/SpinnerStyle"
+        android:entries="@array/places_of_origin"
         android:layout_marginTop="36dp" />
 
     <Spinner
         android:id="@+id/spTypes"
+        android:entries="@array/artwork_types"
         style="@style/SpinnerStyle"
         android:layout_marginTop="36dp"/>
 
@@ -30,5 +32,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:text="Применить" />
+        android:text="@string/apply" />
 </LinearLayout>
