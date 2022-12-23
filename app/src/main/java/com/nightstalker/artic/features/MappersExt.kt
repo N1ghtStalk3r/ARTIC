@@ -1,9 +1,9 @@
 package com.nightstalker.artic.features
 
-import com.nightstalker.artic.core.data.model.artwork.detail.ArtworkData
-import com.nightstalker.artic.core.data.model.artwork.detail.information.ArtworkInformationModel
+import com.nightstalker.artic.core.data.model.artwork.ArtworkData
+import com.nightstalker.artic.core.data.model.artwork.information.ArtworkInformationModel
 import com.nightstalker.artic.core.data.model.audio.MobileSoundData
-import com.nightstalker.artic.core.data.model.exhibition.detail.ExhibitionData
+import com.nightstalker.artic.core.data.model.exhibition.ExhibitionData
 import com.nightstalker.artic.core.local.ticket.LocalTicket
 import com.nightstalker.artic.features.artwork.domain.model.Artwork
 import com.nightstalker.artic.features.artwork.domain.model.ArtworkInformation

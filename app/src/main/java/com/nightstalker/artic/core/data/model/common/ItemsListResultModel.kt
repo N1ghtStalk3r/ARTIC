@@ -13,12 +13,8 @@ import com.google.gson.annotations.SerializedName
  * @author Tamerlan Mamukhov
  */
 data class ItemsListResultModel<T>(
-    @SerializedName("config")
-    val config: Config,
     @SerializedName("data")
     val data: List<T>,
-    @SerializedName("info")
-    val info: Info,
     @SerializedName("pagination")
     val pagination: Pagination
 )

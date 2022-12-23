@@ -3,7 +3,6 @@ package com.nightstalker.artic.features.artwork.data
 import com.nightstalker.artic.features.artwork.domain.model.Artwork
 import com.nightstalker.artic.features.artwork.domain.model.ArtworkInformation
 import com.nightstalker.artic.features.artwork.domain.repo.ArtworkRepo
-import com.nightstalker.artic.network.ArtworksApiMapper
 
 class ArtworkRepoImpl(
     private val apiMapper: ArtworksApiMapper

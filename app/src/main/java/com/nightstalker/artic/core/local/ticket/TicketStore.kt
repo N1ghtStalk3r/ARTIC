@@ -1,8 +1,6 @@
 package com.nightstalker.artic.core.local.ticket
 
-import android.util.Log
 import com.nightstalker.artic.core.local.database.AppDatabase
-import com.nightstalker.artic.features.ticket.domain.TicketUseCase
 
 class TicketStore(database: AppDatabase) {
     private val localTickets = database.getTicketsDao()
