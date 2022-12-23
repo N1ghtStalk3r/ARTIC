@@ -1,8 +1,8 @@
-package com.nightstalker.artic.network.net
+package com.nightstalker.artic.features.exhibition.data.api
 
 import com.nightstalker.artic.core.data.model.common.ItemsListResultModel
 import com.nightstalker.artic.core.data.model.common.SingeItemResultModel
-import com.nightstalker.artic.core.data.model.exhibition.detail.ExhibitionData
+import com.nightstalker.artic.core.data.model.exhibition.ExhibitionData
 import com.nightstalker.artic.network.ApiConstants
 import com.nightstalker.artic.network.ApiConstants.ALT_IMAGE_IDS
 import com.nightstalker.artic.network.ApiConstants.GALLERY_TITLE

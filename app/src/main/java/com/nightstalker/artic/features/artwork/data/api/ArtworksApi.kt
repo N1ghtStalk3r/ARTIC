@@ -1,7 +1,7 @@
-package com.nightstalker.artic.network.net
+package com.nightstalker.artic.features.artwork.data.api
 
-import com.nightstalker.artic.core.data.model.artwork.detail.ArtworkData
-import com.nightstalker.artic.core.data.model.artwork.detail.information.ArtworkInformationModel
+import com.nightstalker.artic.core.data.model.artwork.ArtworkData
+import com.nightstalker.artic.core.data.model.artwork.information.ArtworkInformationModel
 import com.nightstalker.artic.core.data.model.common.ItemsListResultModel
 import com.nightstalker.artic.core.data.model.common.SingeItemResultModel
 import com.nightstalker.artic.network.ApiConstants.ARTIST_DISPLAY

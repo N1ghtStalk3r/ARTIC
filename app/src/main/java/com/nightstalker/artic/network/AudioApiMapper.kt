@@ -2,7 +2,7 @@ package com.nightstalker.artic.network
 
 import com.nightstalker.artic.features.audio.domain.model.AudioFileModel
 import com.nightstalker.artic.features.toAudioFileModel
-import com.nightstalker.artic.network.net.ArtworksApi
+import com.nightstalker.artic.features.artwork.data.api.ArtworksApi
 import com.nightstalker.artic.network.net.AudioApi
 
 /**
