@@ -1,7 +1,7 @@
 package com.nightstalker.artic.features.artwork.presentation.ui.dialog
 
-import com.nightstalker.artic.network.ApiConstants.ARTWORK_TYPE_TITLE
-import com.nightstalker.artic.network.ApiConstants.PLACE_OF_ORIGIN
+import com.nightstalker.artic.features.ApiConstants.ARTWORK_TYPE_TITLE
+import com.nightstalker.artic.features.ApiConstants.PLACE_OF_ORIGIN
 
 /**
  *

@@ -1,6 +1,6 @@
 package com.nightstalker.artic.features.artwork.domain.usecase
 
-import com.nightstalker.artic.core.domain.ResultState
+import com.nightstalker.artic.core.domain.model.ResultState
 import java.net.ConnectException
 import java.net.ProtocolException
 import java.net.SocketException

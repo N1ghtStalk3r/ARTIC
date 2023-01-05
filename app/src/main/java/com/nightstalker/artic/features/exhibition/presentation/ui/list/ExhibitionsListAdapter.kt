@@ -3,7 +3,7 @@ package com.nightstalker.artic.features.exhibition.presentation.ui.list
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import coil.load
 import com.nightstalker.artic.R
 import com.nightstalker.artic.databinding.ItemExhibitionBinding
 import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
@@ -27,13 +27,13 @@ class ExhibitionsListAdapter(
         )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val context = holder.binding.placeImage.context
         val item = _data[position]
         with(holder.binding) {
             textTitle.text = item.title
 
             val imageUrl = item.imageUrl
-            Glide.with(context).load(imageUrl).into(placeImage)
+
+            placeImage.load(imageUrl)
 
             root.setOnClickListener {
                 onItemClicked(item.id)

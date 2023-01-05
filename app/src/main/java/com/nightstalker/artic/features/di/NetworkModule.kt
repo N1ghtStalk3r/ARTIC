@@ -1,8 +1,8 @@
 package com.nightstalker.artic.features.di
 
-import com.nightstalker.artic.network.ApiConstants.BASE_URL
+import com.nightstalker.artic.features.ApiConstants.BASE_URL
 import com.nightstalker.artic.features.artwork.data.api.ArtworksApi
-import com.nightstalker.artic.network.net.AudioApi
+import com.nightstalker.artic.features.audio.data.api.AudioApi
 import com.nightstalker.artic.features.exhibition.data.api.ExhibitionsApi
 import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
