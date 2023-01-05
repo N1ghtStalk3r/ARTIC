@@ -3,7 +3,7 @@ package com.nightstalker.artic.features.audio.di
 import com.nightstalker.artic.features.audio.data.AudioRepoImpl
 import com.nightstalker.artic.features.audio.domain.repo.AudioRepo
 import com.nightstalker.artic.features.audio.domain.usecase.AudioUseCase
-import com.nightstalker.artic.network.AudioApiMapper
+import com.nightstalker.artic.features.audio.data.AudioApiMapper
 import org.koin.dsl.module
 
 /**

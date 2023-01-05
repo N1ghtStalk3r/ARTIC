@@ -2,15 +2,15 @@ package com.nightstalker.artic.features.exhibition.data.api
 
 import com.nightstalker.artic.core.data.model.common.ItemsListResultModel
 import com.nightstalker.artic.core.data.model.common.SingeItemResultModel
-import com.nightstalker.artic.core.data.model.exhibition.ExhibitionData
-import com.nightstalker.artic.network.ApiConstants
-import com.nightstalker.artic.network.ApiConstants.ALT_IMAGE_IDS
-import com.nightstalker.artic.network.ApiConstants.GALLERY_TITLE
-import com.nightstalker.artic.network.ApiConstants.ID
-import com.nightstalker.artic.network.ApiConstants.IMAGE_URL
-import com.nightstalker.artic.network.ApiConstants.SHORT_DESCRIPTION
-import com.nightstalker.artic.network.ApiConstants.STATUS
-import com.nightstalker.artic.network.ApiConstants.TITLE
+import com.nightstalker.artic.features.exhibition.data.model.ExhibitionData
+import com.nightstalker.artic.features.ApiConstants
+import com.nightstalker.artic.features.ApiConstants.ALT_IMAGE_IDS
+import com.nightstalker.artic.features.ApiConstants.GALLERY_TITLE
+import com.nightstalker.artic.features.ApiConstants.ID
+import com.nightstalker.artic.features.ApiConstants.IMAGE_URL
+import com.nightstalker.artic.features.ApiConstants.SHORT_DESCRIPTION
+import com.nightstalker.artic.features.ApiConstants.STATUS
+import com.nightstalker.artic.features.ApiConstants.TITLE
 import retrofit2.http.GET
 import retrofit2.http.Path
 

@@ -26,12 +26,15 @@
         <action
             android:id="@+id/action_artworkDetailsFragment_to_audioPlayerBottomSheetDialog"
             app:destination="@id/audioPlayerBottomSheetDialog" />
+        <action
+            android:id="@+id/action_artworkDetailsFragment_to_artworkFullViewFragment"
+            app:destination="@id/artworkFullViewFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/qrScanner"
         android:name="com.nightstalker.artic.features.qrcode.QRScannerFragment"
-        android:label="Scanner"
+        android:label="@string/label_frag_scanner"
         tools:layout="@layout/fragment_qrscanner">
 
     </fragment>
@@ -83,7 +86,7 @@
     <fragment
         android:id="@+id/audioLookupFragment"
         android:name="com.nightstalker.artic.features.audio.presentation.ui.AudioLookupFragment"
-        android:label="Поиск аудио"
+        android:label="@string/label_frag_audio_lookup"
         tools:layout="@layout/fragment_audio_lookup" />
     <fragment
         android:id="@+id/artworksListFragment"
@@ -105,7 +108,16 @@
         tools:layout="@layout/fragment_audio_player_bottom_sheet_dialog"
         android:id="@+id/audioPlayerBottomSheetDialog"
         android:name="com.nightstalker.artic.features.audio.presentation.ui.dialog.AudioPlayerBottomSheetDialog"
-        android:label="AudioPlayerBottomSheetDialog" />
+        android:label="@string/label_frag_audio_player_bottom_sheet" />
+    <fragment
+        android:id="@+id/artworkFullViewFragment"
+        android:name="com.nightstalker.artic.features.artwork.presentation.ui.fullview.ArtworkFullViewFragment"
+        android:label="@string/label_frag_artwork_full"
+        tools:layout="@layout/fragment_artwork_full_view">
+        <argument
+            android:name="imageId"
+            app:argType="string" />
+    </fragment>
 
 
 </navigation>

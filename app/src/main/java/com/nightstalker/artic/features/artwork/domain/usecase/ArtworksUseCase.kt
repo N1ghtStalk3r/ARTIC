@@ -1,6 +1,7 @@
 package com.nightstalker.artic.features.artwork.domain.usecase
 
-import com.nightstalker.artic.core.domain.ResultState
+import com.nightstalker.artic.core.domain.model.ResultState
+import com.nightstalker.artic.core.domain.model.safeCall
 import com.nightstalker.artic.features.artwork.domain.model.Artwork
 import com.nightstalker.artic.features.artwork.domain.model.ArtworkInformation
 import com.nightstalker.artic.features.artwork.domain.repo.ArtworkRepo

@@ -1,33 +1,28 @@
 package com.nightstalker.artic.features
 
-import com.nightstalker.artic.core.data.model.artwork.ArtworkData
-import com.nightstalker.artic.core.data.model.artwork.information.ArtworkInformationModel
-import com.nightstalker.artic.core.data.model.audio.MobileSoundData
-import com.nightstalker.artic.core.data.model.exhibition.ExhibitionData
-import com.nightstalker.artic.core.local.ticket.LocalTicket
+import com.nightstalker.artic.core.presentation.normalizeEventDateTime
+import com.nightstalker.artic.core.presentation.toCalendarInMillis
+import com.nightstalker.artic.features.ApiConstants.ARTIC_LOCATION
+import com.nightstalker.artic.features.ApiConstants.ARTIC_TITLE
+import com.nightstalker.artic.features.ApiConstants.CalendarEventConstants.EVENT_ALLDAY
+import com.nightstalker.artic.features.ApiConstants.CalendarEventConstants.EVENT_BEGIN
+import com.nightstalker.artic.features.ApiConstants.CalendarEventConstants.EVENT_CALENDAR_RRULE
+import com.nightstalker.artic.features.ApiConstants.CalendarEventConstants.EVENT_DESCRIPTION
+import com.nightstalker.artic.features.ApiConstants.CalendarEventConstants.EVENT_END
+import com.nightstalker.artic.features.ApiConstants.CalendarEventConstants.EVENT_LOCATION
+import com.nightstalker.artic.features.ApiConstants.CalendarEventConstants.EVENT_RULE
+import com.nightstalker.artic.features.ApiConstants.CalendarEventConstants.EVENT_TITLE
+import com.nightstalker.artic.features.artwork.data.model.ArtworkData
+import com.nightstalker.artic.features.artwork.data.model.information.ArtworkInformationModel
 import com.nightstalker.artic.features.artwork.domain.model.Artwork
 import com.nightstalker.artic.features.artwork.domain.model.ArtworkInformation
-import com.nightstalker.artic.features.audio.domain.model.AudioFileModel
+import com.nightstalker.artic.features.audio.data.model.MobileSoundData
+import com.nightstalker.artic.features.audio.domain.model.AudioFile
+import com.nightstalker.artic.features.exhibition.data.model.ExhibitionData
 import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
-import com.nightstalker.artic.features.ticket.domain.TicketUseCase
-import com.nightstalker.artic.network.ApiConstants.ARTIC_LOCATION
-import com.nightstalker.artic.network.ApiConstants.ARTIC_TITLE
-import com.nightstalker.artic.network.ApiConstants.EVENT_ALLDAY
-import com.nightstalker.artic.network.ApiConstants.EVENT_BEGIN
-import com.nightstalker.artic.network.ApiConstants.EVENT_CALENDAR_RRULE
-import com.nightstalker.artic.network.ApiConstants.EVENT_DESCRIPTION
-import com.nightstalker.artic.network.ApiConstants.EVENT_END
-import com.nightstalker.artic.network.ApiConstants.EVENT_LOCATION
-import com.nightstalker.artic.network.ApiConstants.EVENT_RULE
-import com.nightstalker.artic.network.ApiConstants.EVENT_TITLE
-import com.nightstalker.artic.network.ApiConstants.USER_FORMAT_DATE
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Date
-import java.util.Locale
+import com.nightstalker.artic.features.ticket.data.room.LocalTicketDbEntity
+import com.nightstalker.artic.features.ticket.domain.model.ExhibitionTicket
+import java.util.*
 
 /**
  * Функции для преобразования данных из дата слоя в домайн
@@ -74,23 +69,9 @@ fun ExhibitionData.toExhibition(): Exhibition =
         aicStartAt = aicStartAt,
     )
 
-fun List<ExhibitionData>.toListOfExhibitions(): List<Exhibition> =
-    map {
-        Exhibition(
-            id = it.id,
-            imageUrl = it.imageUrl,
-            galleryTitle = it.galleryTitle,
-            title = it.title,
-            altImageIds = listOf(),
-            status = it.status,
-            shortDescription = it.shortDescription,
-            aicEndAt = it.aicEndAt,
-            aicStartAt = it.aicStartAt,
-        )
-    }
 
-fun Exhibition.toTicketUseCase(): TicketUseCase =
-    TicketUseCase(
+fun Exhibition.toExhibitionTicket(): ExhibitionTicket =
+    ExhibitionTicket(
         title = title ?: "",
         exhibitionId = id.toString(),
         imageUrl = imageUrl ?: "",
@@ -102,8 +83,8 @@ fun Exhibition.toTicketUseCase(): TicketUseCase =
         timestamp = Date().time
     )
 
-fun TicketUseCase.toLocalTicket(): LocalTicket =
-    LocalTicket(
+fun ExhibitionTicket.toLocalTicket(): LocalTicketDbEntity =
+    LocalTicketDbEntity(
         id = id,
         title = title,
         exhibitionId = exhibitionId,
@@ -117,25 +98,7 @@ fun TicketUseCase.toLocalTicket(): LocalTicket =
         timestamp = timestamp,
     )
 
-fun String.toCalendarInMillis(): Long {
-    if (this.isEmpty()) return Date().time
-    val localDateTime = LocalDateTime.parse(this, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
-    val zdt = ZonedDateTime.of(localDateTime, ZoneId.systemDefault())
-    val planDate = Date.from(zdt.toInstant()).time
-    return planDate
-}
-
-// Время нового события в календаре может быть только в будующем
-fun Long.normalizeEventDateTime(): Long =
-    if (this < Date().time) Date().time else this
-
-// Перевод даты ISO 8601 в заданной формат
-fun String.reformatIso8601(): String = SimpleDateFormat(USER_FORMAT_DATE, Locale.getDefault())
-    .format(
-        this.toCalendarInMillis()
-    )
-
-fun TicketUseCase.toCalendarEvent(): Map<String, String> = mapOf(
+fun ExhibitionTicket.toCalendarEvent(): Map<String, String> = mapOf(
     EVENT_BEGIN to aicStartAt
         .toCalendarInMillis()
         .normalizeEventDateTime()
@@ -151,8 +114,8 @@ fun TicketUseCase.toCalendarEvent(): Map<String, String> = mapOf(
     EVENT_LOCATION to ARTIC_LOCATION,
 )
 
-fun LocalTicket.toTicketUseCase(): TicketUseCase =
-    TicketUseCase(
+fun LocalTicketDbEntity.toExhibitionTicket(): ExhibitionTicket =
+    ExhibitionTicket(
         id = id,
         title = title,
         exhibitionId = exhibitionId,
@@ -166,22 +129,5 @@ fun LocalTicket.toTicketUseCase(): TicketUseCase =
         timestamp = timestamp,
     )
 
-fun List<LocalTicket>.toListOfTicketUseCase(): List<TicketUseCase> =
-    map {
-        TicketUseCase(
-            id = it.id,
-            title = it.title,
-            exhibitionId = it.exhibitionId,
-            imageUrl = it.imageUrl,
-            galleryId = it.galleryId,
-            galleryTitle = it.galleryTitle,
-            aicEndAt = it.aicEndAt,
-            aicStartAt = it.aicStartAt,
-            shortDescription = it.shortDescription,
-            numberOfPersons = it.numberOfPersons,
-            timestamp = it.timestamp,
-        )
-    }
-
-fun MobileSoundData.toAudioFileModel(): AudioFileModel =
-    AudioFileModel(title, webUrl, transcript)
+fun MobileSoundData.toAudioFile(): AudioFile =
+    AudioFile(title, webUrl, transcript)

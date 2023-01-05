@@ -1,15 +1,14 @@
 package com.nightstalker.artic.features.audio.presentation.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.nightstalker.artic.core.domain.ContentResultState
+import com.nightstalker.artic.core.presentation.model.ContentResultState
 import com.nightstalker.artic.core.presentation.viewModelCall
-import com.nightstalker.artic.features.audio.domain.model.AudioFileModel
+import com.nightstalker.artic.features.audio.domain.model.AudioFile
 import com.nightstalker.artic.features.audio.domain.usecase.AudioUseCase
 
 /**
- * ВЬю-модель для получения [AudioFileModel], файла с данными о аудио экспоната
+ * ВЬю-модель для получения [AudioFile], файла с данными о аудио экспоната
  *
  * @property audioUseCase   юз-кейс получения данных
  * @author Tamerlan Mamukhov on 2022-10-04

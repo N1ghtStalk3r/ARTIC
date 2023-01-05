@@ -9,18 +9,19 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.nightstalker.artic.databinding.ActivityMainBinding
-import com.nightstalker.artic.features.artwork.presentation.ui.ArtworkViewModel
+import com.nightstalker.artic.features.ApiConstants.CalendarEventConstants.EVENT_BEGIN
+import com.nightstalker.artic.features.ApiConstants.CalendarEventConstants.EVENT_CALENDAR_TYPE
+import com.nightstalker.artic.features.ApiConstants.CalendarEventConstants.EVENT_END
+import com.nightstalker.artic.features.ApiConstants.CalendarEventConstants.EVENT_RULE
 import com.nightstalker.artic.features.audio.presentation.viewmodel.AudioViewModel
-import com.nightstalker.artic.features.exhibition.presentation.ui.ExhibitionsViewModel
-import com.nightstalker.artic.features.ticket.presentation.ui.TicketsViewModel
-import com.nightstalker.artic.network.ApiConstants
+import com.nightstalker.artic.features.exhibition.presentation.ui.detail.ExhibitionDetailsViewModel
+import com.nightstalker.artic.features.ticket.presentation.ui.list.TicketsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val artworksViewModel by viewModel<ArtworkViewModel>()
     private val audioViewModel by viewModel<AudioViewModel>()
-    private val exhibitionsViewModel by viewModel<ExhibitionsViewModel>()
+    private val exhibitionsViewModel by viewModel<ExhibitionDetailsViewModel>()
     private val ticketsViewModel by viewModel<TicketsViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,14 +51,14 @@ class MainActivity : AppCompatActivity() {
 // Регистрация события в календаре Google
     fun addCalendarEvent(params: Map<String, String>) {
         val intent = Intent(Intent.ACTION_EDIT)
-        intent.type = ApiConstants.EVENT_CALENDAR_TYPE
+        intent.type = EVENT_CALENDAR_TYPE
 
         params.forEach {
             when (it.key) {
                 // Период работы выставки, Long параметры
-                ApiConstants.EVENT_BEGIN, ApiConstants.EVENT_END -> intent.putExtra(it.key, it.value.toLong())
+                EVENT_BEGIN, EVENT_END -> intent.putExtra(it.key, it.value.toLong())
                 // Boolean параметры - "Событие длится весь день"
-                ApiConstants.EVENT_RULE -> intent.putExtra(it.key, it.value == "true")
+                EVENT_RULE -> intent.putExtra(it.key, it.value == "true")
                 // String параметры
                 else -> intent.putExtra(it.key, it.value)
             }

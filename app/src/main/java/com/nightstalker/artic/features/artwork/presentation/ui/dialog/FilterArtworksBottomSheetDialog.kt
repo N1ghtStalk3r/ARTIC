@@ -4,16 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.nightstalker.artic.R
 import com.nightstalker.artic.databinding.FragmentFilterArtworksBottomSheetDialogBinding
-import com.nightstalker.artic.features.artwork.presentation.ui.ArtworkViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FilterArtworksBottomSheetDialog : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentFilterArtworksBottomSheetDialogBinding

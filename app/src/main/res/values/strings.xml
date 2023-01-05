@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">ARTIC</string>
+    <!--    Названия фрагментов-->
     <string name="label_frag_art_list">Экспонаты</string>
     <string name="label_frag_art_det">Экспонат</string>
     <string name="label_frag_exi_list">Выставки</string>
     <string name="label_frag_exi_det">Выставка</string>
+    <string name="label_frag_artwork_full">Полное фото</string>
+
     <string name="fab_scan_qr_tooltip">Сканировать QR-код</string>
     <string name="iv_filter">Фильтровать</string>
     <string name="btn_buy_ticket">Купить билет</string>
@@ -49,12 +52,15 @@
     <string name="db_table_tickets">tickets</string>
     <string name="exhibition_start">Дата открытия</string>
     <string name="exhibition_end">Дата закрытия</string>
-    <string name="tour_audio_channel_name">Audio</string>
-    <string name="audio_channel_descr">Descr</string>
+    <string name="audio_channel_name">Аудио</string>
+    <string name="audio_channel_description">Этот канал отвечает за уведомление аудиоплеера</string>
     <string name="artwork_description">Vincent van Gogh so highly esteemed his bedroom painting that he made three distinct versions: the first, now in the collection of the Van Gogh Museum, Amsterdam; the second, belonging to the Art Institute of Chicago, painted a year later on the same scale and almost identical; and a third, smaller canvas in the collection of the Musée d’Orsay, Paris, which he made as a gift for his mother and sister. Van Gogh conceived the first Bedroom in October 1888, a month after he moved into his “Yellow House” in Arles, France. This moment marked the first time the artist had a home of his own, and he had immediately and enthusiastically set about decorating, painting a suite of canvases to fill the walls. Completely exhausted from the effort, he spent two-and-a-half days in bed and was then inspired to create a painting of his bedroom. As he wrote to his brother Theo, “It amused me enormously doing this bare interior. With a simplicity à la Seurat. In ﬂat tints, but coarsely brushed in full impasto, the walls pale lilac, the ﬂoor in a broken and faded red, the chairs and the bed chrome yellow, the pillows and the sheet very pale lemon green, the bedspread blood-red, the dressing-table orange, the washbasin blue, the window green. I had wished to express utter repose with all these very different tones.” Although the picture symbolized relaxation and peace to the artist, to our eyes the canvas seems to teem with nervous energy, instability, and turmoil, an effect heightened by the sharply receding perspective.</string>
     <string name="enter_num_from_art_table">Введите номер аудио файла из таблички</string>
     <string name="enter_num_val">Введите значение!</string>
     <string name="apply">Применить</string>
+    <string name="label_frag_scanner">Сканер</string>
+    <string name="label_frag_audio_lookup">Поиск аудио</string>
+    <string name="label_frag_audio_player_bottom_sheet">Плеер</string>
 
     <string-array name="artwork_types">
         <item>Select artwork type</item>
