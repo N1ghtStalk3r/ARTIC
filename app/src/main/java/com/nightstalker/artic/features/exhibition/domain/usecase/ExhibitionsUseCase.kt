@@ -1,6 +1,6 @@
 package com.nightstalker.artic.features.exhibition.domain.usecase
 
-import com.nightstalker.artic.core.domain.ResultState
+import com.nightstalker.artic.core.domain.model.ResultState
 import com.nightstalker.artic.features.artwork.domain.usecase.safeCall
 import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
 import com.nightstalker.artic.features.exhibition.domain.repo.ExhibitionsRepo

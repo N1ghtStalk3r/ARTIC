@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_artworkDetailsFragment_to_audioPlayerBottomSheetDialog"
             app:destination="@id/audioPlayerBottomSheetDialog" />
+        <action
+            android:id="@+id/action_artworkDetailsFragment_to_artworkFullViewFragment"
+            app:destination="@id/artworkFullViewFragment" />
     </fragment>
 
     <fragment
@@ -106,6 +109,15 @@
         android:id="@+id/audioPlayerBottomSheetDialog"
         android:name="com.nightstalker.artic.features.audio.presentation.ui.dialog.AudioPlayerBottomSheetDialog"
         android:label="AudioPlayerBottomSheetDialog" />
+    <fragment
+        android:id="@+id/artworkFullViewFragment"
+        android:name="com.nightstalker.artic.features.artwork.presentation.ui.fullview.ArtworkFullViewFragment"
+        android:label="fragment_artwork_full_view"
+        tools:layout="@layout/fragment_artwork_full_view">
+        <argument
+            android:name="imageId"
+            app:argType="string" />
+    </fragment>
 
 
 </navigation>
