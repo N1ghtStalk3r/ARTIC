@@ -1,5 +1,6 @@
 package com.nightstalker.artic.features.audio.presentation.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,10 +9,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.nightstalker.artic.R
-import com.nightstalker.artic.core.domain.ContentResultState
+import com.nightstalker.artic.core.presentation.model.ContentResultState
+import com.nightstalker.artic.core.presentation.model.handleContents
 import com.nightstalker.artic.core.presentation.onDone
 import com.nightstalker.artic.databinding.FragmentAudioLookupBinding
-import com.nightstalker.artic.features.audio.domain.model.AudioFileModel
+import com.nightstalker.artic.features.ApiConstants
+import com.nightstalker.artic.features.audio.domain.model.AudioFile
+import com.nightstalker.artic.features.audio.player.NewAudioPlayerService
 import com.nightstalker.artic.features.audio.presentation.viewmodel.AudioViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -43,26 +47,20 @@ class AudioLookupFragment : Fragment() {
     }
 
     private fun initObservers() = with(audioViewModel) {
-        audioFileContentState.observe(viewLifecycleOwner, ::handle)
+        audioFileContentState.observe(viewLifecycleOwner, ::handleAudioSearch)
     }
 
-    private fun handle(contentResultState: ContentResultState) {
-        when (contentResultState) {
-            is ContentResultState.Content -> contentResultState.handle()
-            is ContentResultState.Error -> contentResultState.handle()
-            else -> {}
-        }
-    }
-
-    private fun ContentResultState.Content.handle() {
-        Log.d(TAG, "handle: ${contentSingle as AudioFileModel}")
-    }
-
-    private fun ContentResultState.Error.handle() {
-        Log.d(TAG, "handle: $error")
-
-        binding?.audioNumber?.error = "Не найдено!"
-    }
+    private fun handleAudioSearch(contentResultState: ContentResultState) =
+        contentResultState.handleContents(
+            onStateSuccess = {
+                val serviceIntent = Intent(activity, NewAudioPlayerService::class.java)
+                serviceIntent.putExtra(ApiConstants.EXTRA_AUDIO_URL, (it as AudioFile).url)
+                activity?.startService(serviceIntent)
+            },
+            onStateError = {
+                binding?.audioNumber?.error = "Не найдено!"
+            }
+        )
 
     private fun setupView() {
         with(_binding) {
@@ -81,8 +79,10 @@ class AudioLookupFragment : Fragment() {
                         putInt("mob_id", soundId)
                     }
                 }.run {
-                    findNavController().navigate(R.id.audioPlayerBottomSheetDialog,
-                        args = this)
+                    findNavController().navigate(
+                        R.id.audioPlayerBottomSheetDialog,
+                        args = this
+                    )
                 }
             }
 

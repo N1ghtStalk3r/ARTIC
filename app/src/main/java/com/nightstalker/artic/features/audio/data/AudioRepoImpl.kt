@@ -1,8 +1,7 @@
 package com.nightstalker.artic.features.audio.data
 
-import com.nightstalker.artic.features.audio.domain.model.AudioFileModel
+import com.nightstalker.artic.features.audio.domain.model.AudioFile
 import com.nightstalker.artic.features.audio.domain.repo.AudioRepo
-import com.nightstalker.artic.network.AudioApiMapper
 
 /**
  * @author Tamerlan Mamukhov
@@ -11,7 +10,9 @@ import com.nightstalker.artic.network.AudioApiMapper
 class AudioRepoImpl(
     private val apiMapper: AudioApiMapper,
 ) : AudioRepo {
-    override suspend fun getAudioById(id: Int): AudioFileModel = apiMapper.getAudioById(id)
-    override suspend fun getSoundByArtworkTitle(title: String): AudioFileModel = apiMapper.getSoundByArtworkTitle(title)
+
+    override suspend fun getAudioById(id: Int): AudioFile = apiMapper.getAudioById(id)
+    override suspend fun getSoundByArtworkTitle(title: String): AudioFile =
+        apiMapper.getSoundByArtworkTitle(title)
 
 }

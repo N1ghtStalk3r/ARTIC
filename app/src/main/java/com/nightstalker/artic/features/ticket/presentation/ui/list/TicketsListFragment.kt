@@ -7,9 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.nightstalker.artic.core.presentation.model.ContentResultState
+import com.nightstalker.artic.core.presentation.model.handleContents
 import com.nightstalker.artic.databinding.FragmentTicketsListBinding
-import com.nightstalker.artic.features.ticket.domain.TicketUseCase
-import com.nightstalker.artic.features.ticket.presentation.ui.TicketsViewModel
+import com.nightstalker.artic.features.ticket.domain.model.ExhibitionTicket
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -46,18 +47,24 @@ class TicketsListFragment : Fragment() {
         }
     }
 
+    private fun initObserver() {
+        ticketsViewModel.ticketsContent.observe(viewLifecycleOwner, ::handleTickets)
+    }
+
+    private fun handleTickets(contentResultState: ContentResultState) =
+        contentResultState.handleContents(
+            onStateSuccess = {
+                adapter.setData(it as List<ExhibitionTicket>)
+            },
+            onStateError = {
+
+            }
+        )
+
     private fun onItemClicked(id: Long) {
         TicketsListFragmentDirections
             .toTicketDetailsFragment(id.toInt())
             .run { findNavController().navigate(this) }
-    }
-
-    private fun initObserver() {
-        ticketsViewModel.ticketsLoaded.observe(viewLifecycleOwner, ::setData)
-    }
-
-    private fun setData(tickets: List<TicketUseCase>) {
-        adapter.setData(tickets)
     }
 
 }

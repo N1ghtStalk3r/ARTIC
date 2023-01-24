@@ -1,8 +1,8 @@
 package com.nightstalker.artic.features.di
 
 import androidx.room.Room
-import com.nightstalker.artic.core.local.database.AppDatabase
-import com.nightstalker.artic.core.local.ticket.TicketDao
+import com.nightstalker.artic.core.data.database.AppDatabase
+import com.nightstalker.artic.features.ticket.data.room.TicketDao
 import org.koin.dsl.module
 
 

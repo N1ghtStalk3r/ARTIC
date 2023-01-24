@@ -1,26 +1,21 @@
 package com.nightstalker.artic.features.artwork.presentation.ui.detail
 
-// import kotlinx.android.synthetic.main.fragment_artwork_details.audioPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
+import coil.load
 import com.nightstalker.artic.R
-import com.nightstalker.artic.core.domain.ContentResultState
-import com.nightstalker.artic.core.utils.ImageLinkCreator
+import com.nightstalker.artic.core.presentation.model.ContentResultState
 import com.nightstalker.artic.databinding.FragmentArtworkDetailsBinding
+import com.nightstalker.artic.features.ImageLinkCreator
 import com.nightstalker.artic.features.artwork.domain.model.Artwork
 import com.nightstalker.artic.features.artwork.domain.model.ArtworkInformation
-import com.nightstalker.artic.features.artwork.presentation.ui.ArtworkViewModel
-import com.nightstalker.artic.features.audio.domain.model.AudioFileModel
-import com.nightstalker.artic.features.audio.presentation.viewmodel.AudioViewModel
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * Фрагмент для отображения деталей эскпоната
@@ -31,8 +26,7 @@ class ArtworkDetailsFragment : Fragment() {
     private val args: ArtworkDetailsFragmentArgs by navArgs()
     private var _binding: FragmentArtworkDetailsBinding? = null
     private val binding get() = _binding
-    private val artworkViewModel by sharedViewModel<ArtworkViewModel>()
-    private val audioViewModel by sharedViewModel<AudioViewModel>()
+    private val artworkViewModel by viewModel<ArtworkDetailsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,12 +66,12 @@ class ArtworkDetailsFragment : Fragment() {
     }
 
     private fun ContentResultState.Content.handle() {
-        when (contentSingle) {
+        when (content) {
             is Artwork -> {
-                setArtworkViews(contentSingle as Artwork)
+                setArtworkViews(content)
             }
             is ArtworkInformation -> {
-                setDescriptionView(contentSingle as ArtworkInformation)
+                setDescriptionView(content)
             }
         }
     }
@@ -94,57 +88,27 @@ class ArtworkDetailsFragment : Fragment() {
 
     private fun setArtworkViews(artwork: Artwork) {
         with(binding) {
-
-            val context = binding?.placeImage?.context
             val place = binding?.placeImage
-            val btnPlay = binding?.btnPlayAudio
 
             this?.titleTextView?.text = artwork.title
             this?.tvAuthor?.text = artwork.artist
 
             val imageUrl = artwork.imageId?.let { ImageLinkCreator.createImageDefaultLink(it) }
 
-            context?.let { place?.let { it1 -> Glide.with(it).load(imageUrl).into(it1) } }
+            place?.load(imageUrl)
 
-            when (artwork.audioUrl) {
-                null -> {
-                    Toast.makeText(activity, "No audio", Toast.LENGTH_SHORT).show()
+            place?.setOnClickListener {
+                artwork.imageId?.let { it1 ->
+                    ArtworkDetailsFragmentDirections.actionArtworkDetailsFragmentToArtworkFullViewFragment(
+                        it1
+                    )
                 }
-                else -> {
-                    val title = artwork.title.toString()
-                    val query = "query[match][title]={$title}&limit=1"
-
-                    audioViewModel.getSoundByTitle(query)
-
-                    observeAudio()
-
-                    Toast.makeText(activity, "There's audio", Toast.LENGTH_SHORT).show()
-                    btnPlay?.apply {
-                        visibility = View.VISIBLE
-                        setOnClickListener {
-                            binding?.fragmentAudioBottom?.visibility = View.VISIBLE
-                            findNavController().navigate(R.id.audioPlayerBottomSheetDialog)
-                        }
+                    .run {
+                        findNavController().navigate(this!!)
                     }
-                }
             }
+
         }
-    }
-
-    private fun observeAudio() {
-        audioViewModel.audioFileContentState.observe(viewLifecycleOwner, ::handleAudio)
-    }
-
-    private fun handleAudio(contentResultState: ContentResultState?) {
-        when (contentResultState) {
-            is ContentResultState.Content -> contentResultState.handleAudio()
-            is ContentResultState.Error -> contentResultState.handle()
-            else -> {}
-        }
-    }
-
-    private fun ContentResultState.Content.handleAudio() {
-        Log.d(TAG, "handleAudio: ${contentSingle as AudioFileModel}")
     }
 
     companion object {

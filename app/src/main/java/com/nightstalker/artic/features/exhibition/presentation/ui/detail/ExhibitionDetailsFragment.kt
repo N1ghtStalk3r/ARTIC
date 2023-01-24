@@ -1,6 +1,5 @@
 package com.nightstalker.artic.features.exhibition.presentation.ui.detail
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,24 +8,23 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
+import coil.load
 import com.nightstalker.artic.R
-import com.nightstalker.artic.core.domain.ContentResultState
 import com.nightstalker.artic.core.presentation.filterHtmlEncodedText
+import com.nightstalker.artic.core.presentation.model.ContentResultState
+import com.nightstalker.artic.core.presentation.model.handleContents
 import com.nightstalker.artic.databinding.FragmentExhibitionDetailsBinding
+import com.nightstalker.artic.features.ApiConstants
 import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
-import com.nightstalker.artic.features.exhibition.presentation.ui.ExhibitionsViewModel
-import com.nightstalker.artic.network.ApiConstants
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * Фрагмент для отображения деталей выставки
- * @author Tamerlan Mamukhov
- * @created 2022-09-18
+ * @author Tamerlan Mamukhov on 2022-09-18
  */
 class ExhibitionDetailsFragment : Fragment() {
     private val args: ExhibitionDetailsFragmentArgs by navArgs()
-    private val exhibitionsViewModel by viewModel<ExhibitionsViewModel>()
+    private val exhibitionsViewModel by viewModel<ExhibitionDetailsViewModel>()
     private var binding: FragmentExhibitionDetailsBinding? = null
 
     private val bundle = Bundle()
@@ -55,36 +53,26 @@ class ExhibitionDetailsFragment : Fragment() {
     }
 
     private fun initObserver() {
-        exhibitionsViewModel.exhibitionContentState.observe(viewLifecycleOwner, ::handle)
+        exhibitionsViewModel.exhibitionContentState.observe(viewLifecycleOwner, ::handleExhibition)
     }
 
-    private fun handle(contentResultState: ContentResultState) = when (contentResultState) {
-        is ContentResultState.Content -> contentResultState.handle()
-        is ContentResultState.Error -> contentResultState.handle()
-        else -> {}
-    }
-
-    @SuppressLint("LongLogTag")
-    private fun ContentResultState.Content.handle() {
-        Log.d(TAG, "handle: $contentSingle")
-        setViews(contentSingle as Exhibition)
-    }
-
-    @SuppressLint("LongLogTag")
-    private fun ContentResultState.Error.handle() {
-        Log.d(TAG, "handle: $error")
-    }
+    private fun handleExhibition(contentResultState: ContentResultState) =
+        contentResultState.handleContents(
+            onStateSuccess = {
+                setViews(it as Exhibition)
+            },
+            onStateError = {
+                Log.d(TAG, "handle: $it")
+            }
+        )
 
     private fun setViews(exhibition: Exhibition) = with(binding) {
         this?.titleTextView?.text = exhibition.title.orEmpty()
         this?.tvDescription?.text = exhibition.shortDescription?.filterHtmlEncodedText()?.orEmpty()
         this?.tvStatus?.text = exhibition.status.orEmpty()
 
-        val context = this?.ivImage?.context
         val imageUrl = exhibition.imageUrl.orEmpty()
-        if (context != null) {
-            this?.ivImage?.let { Glide.with(context).load(imageUrl).into(it) }
-        }
+        this?.ivImage?.load(imageUrl)
     }
 
     private fun buyTicket() =

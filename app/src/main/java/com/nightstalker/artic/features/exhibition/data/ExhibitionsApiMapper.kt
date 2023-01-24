@@ -3,7 +3,6 @@ package com.nightstalker.artic.features.exhibition.data
 import com.nightstalker.artic.features.artwork.data.api.ArtworksApi
 import com.nightstalker.artic.features.exhibition.data.api.ExhibitionsApi
 import com.nightstalker.artic.features.toExhibition
-import com.nightstalker.artic.features.toListOfExhibitions
 
 /**
  * Класс получения данных с помощью [ArtworksApi]
@@ -15,5 +14,5 @@ class ExhibitionsApiMapper(private val api: ExhibitionsApi) {
     suspend fun getExhibitionById(id: Int) = api.getExhibitionById(id).data.toExhibition()
 
     suspend fun getExhibitions() =
-        api.getExhibitions().data.filter { it.imageUrl != null }.toListOfExhibitions()
+        api.getExhibitions().data.filter { it.imageUrl != null }.map { it.toExhibition() }
 }

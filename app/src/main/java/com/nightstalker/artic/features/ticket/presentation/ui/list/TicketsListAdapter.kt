@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.nightstalker.artic.R
 import com.nightstalker.artic.databinding.ItemTicketBinding
-import com.nightstalker.artic.features.ticket.domain.TicketUseCase
+import com.nightstalker.artic.features.ticket.domain.model.ExhibitionTicket
 
 
 /**
@@ -17,7 +17,7 @@ import com.nightstalker.artic.features.ticket.domain.TicketUseCase
  */
 class TicketsListAdapter(private val onItemClicked: (id: Long) -> Unit) :
     RecyclerView.Adapter<TicketsListAdapter.ViewHolder>() {
-    private var _data: List<TicketUseCase> = mutableListOf()
+    private var _data: List<ExhibitionTicket> = mutableListOf()
     val data get() = _data
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
@@ -47,7 +47,7 @@ class TicketsListAdapter(private val onItemClicked: (id: Long) -> Unit) :
 
     override fun getItemCount(): Int = _data.size
 
-    fun setData(data: List<TicketUseCase>) {
+    fun setData(data: List<ExhibitionTicket>) {
         Log.d("TicketListAdapter", "list size = ${data.size} -- getItemCount() = ${getItemCount()}")
         if (data.isNotEmpty()) {
             this._data = data

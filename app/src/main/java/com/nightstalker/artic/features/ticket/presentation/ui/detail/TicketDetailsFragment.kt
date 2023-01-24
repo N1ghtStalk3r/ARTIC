@@ -6,37 +6,32 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.nightstalker.artic.MainActivity
 import com.nightstalker.artic.R
-import com.nightstalker.artic.core.domain.ContentResultState
+import com.nightstalker.artic.core.presentation.model.ContentResultState
+import com.nightstalker.artic.core.presentation.model.handleContents
+import com.nightstalker.artic.core.presentation.reformatIso8601
 import com.nightstalker.artic.databinding.FragmentTicketDetailsBinding
+import com.nightstalker.artic.features.ApiConstants
 import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
-import com.nightstalker.artic.features.exhibition.presentation.ui.ExhibitionsViewModel
+import com.nightstalker.artic.features.exhibition.presentation.ui.detail.ExhibitionDetailsViewModel
 import com.nightstalker.artic.features.qrcode.QrCodeGenerator
-import com.nightstalker.artic.features.reformatIso8601
-import com.nightstalker.artic.features.ticket.domain.TicketUseCase
-import com.nightstalker.artic.features.ticket.presentation.ui.TicketsViewModel
-import com.nightstalker.artic.features.ticket.presentation.ui.list.TicketsListAdapter
+import com.nightstalker.artic.features.ticket.domain.model.ExhibitionTicket
 import com.nightstalker.artic.features.toCalendarEvent
-import com.nightstalker.artic.features.toTicketUseCase
-import com.nightstalker.artic.network.ApiConstants
-import kotlinx.android.synthetic.main.fragment_ticket_details.deleteTicketButton
-import kotlinx.android.synthetic.main.fragment_ticket_details.undoTicketButton
+import com.nightstalker.artic.features.toExhibitionTicket
+import kotlinx.android.synthetic.main.fragment_ticket_details.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class TicketDetailsFragment : Fragment() {
     private val args: TicketDetailsFragmentArgs by navArgs()
-    private val exhibitionsViewModel by viewModel<ExhibitionsViewModel>()
-    private val ticketsViewModel by viewModel<TicketsViewModel>()
-    private val ticketViewModel by viewModel<TicketsViewModel>()
+    private val exhibitionsViewModel by viewModel<ExhibitionDetailsViewModel>()
+    private val ticketViewModel by viewModel<TicketDetailsViewModel>()
     private lateinit var binding: FragmentTicketDetailsBinding
 
-    private lateinit var undoTicketUseCase: TicketUseCase
+    private lateinit var undoExhibitionTicket: ExhibitionTicket
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,6 +48,12 @@ class TicketDetailsFragment : Fragment() {
         initTicketDetailsFragment()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+    }
+
+    // 2023-01-10 Не могу пока разобраться с логикой здесь. Этот код писал не я
+    // Разберу его обязательно...
     private fun initTicketDetailsFragment() {
         // Форма TicketDetailsFragment открывается при покупке билета и из списка билетов
         // При покупке билета нам известен только id выставки
@@ -74,19 +75,18 @@ class TicketDetailsFragment : Fragment() {
         args.ticketId.toLong().let {
             if (it > 0L) {
                 ticket_id = it
-                ticketsViewModel.getTicket(it)
+                ticketViewModel.getTicket(it)
                 initTicketObserver()
             }
         }
         Log.d("TicketDetails", " ExhibitionId  = ${exhibition_id}, ticket_id = ${ticket_id} ")
 
 
-
         // удаление билета
         binding.deleteTicketButton.setOnClickListener {
             Log.d("deleteTicketButton", " was clicked")
 
-            ticketsViewModel.deleteTicket(
+            ticketViewModel.deleteTicket(
                 ticketId = ticket_id,
                 exhibitionId = exhibition_id.toString()
             )
@@ -98,55 +98,50 @@ class TicketDetailsFragment : Fragment() {
         binding.undoTicketButton.setOnClickListener {
             Log.d("undoTicketButton", " was clicked")
 
-            ticketViewModel.saveTicket(undoTicketUseCase)
+            ticketViewModel.saveTicket(undoExhibitionTicket)
 
             this.deleteTicketButton.visibility = View.VISIBLE
             this.undoTicketButton.visibility = View.INVISIBLE
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+
+    private fun initTicketObserver() {
+        ticketViewModel.ticketContent.observe(viewLifecycleOwner, ::handleTicket)
     }
 
     private fun initExhibitionObserver() {
-        exhibitionsViewModel.exhibitionContentState.observe(viewLifecycleOwner, ::handle)
+        exhibitionsViewModel.exhibitionContentState.observe(viewLifecycleOwner, ::handleTicket)
     }
 
-    private fun initTicketObserver() {
-        ticketViewModel.ticketLoaded.observe(viewLifecycleOwner, ::setData)
-    }
+    private fun handleTicket(contentResultState: ContentResultState) =
+        contentResultState.handleContents(
+            onStateSuccess = {
+                when (it) {
+                    is Exhibition -> setViews(it)
+                    is ExhibitionTicket -> setData(it)
+                }
+            },
+            onStateError = {
+                Log.d("Ticket ADF", "handle: $it")
+            }
+        )
 
-    private fun handle(contentResultState: ContentResultState) = when (contentResultState) {
-        is ContentResultState.Content -> contentResultState.handle()
-        is ContentResultState.Error -> contentResultState.handle()
-        else -> {}
-    }
-
-    private fun ContentResultState.Content.handle() {
-        Log.d("Ticket ADF", "handle: $contentSingle")
-        setViews(contentSingle as Exhibition)
-    }
-
-    private fun ContentResultState.Error.handle() {
-        Log.d("Ticket ADF", "handle: $error")
-    }
-
-    private fun setViews(exhibition: Exhibition?) = with(binding) {
+    private fun setViews(exhibition: Exhibition?) {
         if (exhibition != null) {
-            ticketViewModel.saveTicket(exhibition.toTicketUseCase())
-            setData(exhibition.toTicketUseCase())
+            ticketViewModel.saveTicket(exhibition.toExhibitionTicket())
+            setData(exhibition.toExhibitionTicket())
         }
     }
 
-    private fun setData(ticket: TicketUseCase?) = with(binding) {
+    private fun setData(ticket: ExhibitionTicket?) = with(binding) {
 
         Log.d(
             "TicketDetails setData",
             " ExhibitionId  = ${ticket?.exhibitionId}, ticket_id = ${ticket?.id} "
         )
 
-        undoTicketUseCase = ticket?:TicketUseCase()
+        undoExhibitionTicket = ticket ?: ExhibitionTicket()
 
         this.titleTextView.text = ticket?.title.orEmpty()
         this.exhibitionIdTextView.text = ticket?.galleryTitle.toString()
