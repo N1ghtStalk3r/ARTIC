@@ -1,4 +1,4 @@
-package com.nightstalker.artic.core.presentation
+package com.nightstalker.artic.core.presentation.ext
 
 import android.os.Build
 import android.text.Html
@@ -8,7 +8,8 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 /**
  * Функция для строк. Убирает тэги [Html]
@@ -28,8 +29,7 @@ fun String.toCalendarInMillis(): Long {
     if (this.isEmpty()) return Date().time
     val localDateTime = LocalDateTime.parse(this, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
     val zdt = ZonedDateTime.of(localDateTime, ZoneId.systemDefault())
-    val planDate = Date.from(zdt.toInstant()).time
-    return planDate
+    return Date.from(zdt.toInstant()).time
 }
 
 // Перевод даты ISO 8601 в заданной формат

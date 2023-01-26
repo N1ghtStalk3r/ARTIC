@@ -1,4 +1,4 @@
-package com.nightstalker.artic.core.presentation
+package com.nightstalker.artic.core.presentation.ext.ui
 
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText

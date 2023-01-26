@@ -1,4 +1,4 @@
-package com.nightstalker.artic.core.presentation
+package com.nightstalker.artic.core.presentation.ext
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

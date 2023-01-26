@@ -1,5 +1,9 @@
 package com.nightstalker.artic.core.presentation.model
 
+typealias SuccessStateAction = (content: Any?) -> Unit
+typealias ErrorStateAction = (error: ErrorModel) -> Unit
+typealias LoadingStateAction = () -> Unit
+
 /**
  * Функция для удобной работы с готовым [ContentResultState] в фрагментах
  *
@@ -8,8 +12,9 @@ package com.nightstalker.artic.core.presentation.model
  * @author Tamerlan Mamukhov on 2023-01-07
  */
 fun ContentResultState.handleContents(
-    onStateSuccess: (content: Any?) -> Unit,
-    onStateError: (error: ErrorModel) -> Unit
+    onStateSuccess: SuccessStateAction,
+    onStateError: ErrorStateAction,
+    onStateLoading: LoadingStateAction? = null
 ) = when (this) {
     is ContentResultState.Content -> {
         onStateSuccess.invoke(this.content)
@@ -17,5 +22,7 @@ fun ContentResultState.handleContents(
     is ContentResultState.Error -> {
         onStateError.invoke(this.error)
     }
-    else -> {}
+    is ContentResultState.Loading -> {
+        onStateLoading?.invoke()
+    }
 }
