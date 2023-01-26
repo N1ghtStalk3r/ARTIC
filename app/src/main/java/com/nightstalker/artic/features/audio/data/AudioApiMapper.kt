@@ -2,8 +2,8 @@ package com.nightstalker.artic.features.audio.data
 
 import com.nightstalker.artic.features.artwork.data.api.ArtworksApi
 import com.nightstalker.artic.features.audio.data.api.AudioApi
+import com.nightstalker.artic.features.audio.data.mappers.toAudioFile
 import com.nightstalker.artic.features.audio.domain.model.AudioFile
-import com.nightstalker.artic.features.toAudioFile
 
 /**
  * Класс получения данных с помощью [ArtworksApi]

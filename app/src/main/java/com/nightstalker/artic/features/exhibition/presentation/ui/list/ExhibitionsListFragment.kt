@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.nightstalker.artic.R
 import com.nightstalker.artic.core.presentation.model.ContentResultState
 import com.nightstalker.artic.core.presentation.model.handleContents
+import com.nightstalker.artic.core.presentation.ui.LayoutErrorHandler
 import com.nightstalker.artic.databinding.FragmentExhibitionsListBinding
 import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -67,13 +68,16 @@ class ExhibitionsListFragment : Fragment() {
             },
             onStateError = {
                 with(binding) {
-                    this?.errorLayout?.apply {
-                        root.visibility = View.VISIBLE
-                        btnErrorTryAgain.setOnClickListener { tryAgain() }
-                        textErrorDescription.setText(it.title)
-                        textErrorDescription.setText(it.description)
-                    }
+                    LayoutErrorHandler(
+                        this?.errorLayout!!,
+                        { tryAgain() },
+                        it,
+                        this.rvExhibitions
+                    )
                 }
+            },
+            onStateLoading = {
+
             }
         )
 

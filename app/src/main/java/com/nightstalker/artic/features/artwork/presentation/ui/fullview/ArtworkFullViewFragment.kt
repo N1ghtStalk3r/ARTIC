@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import coil.load
-import com.nightstalker.artic.core.presentation.ViewBindingFragment
+import com.nightstalker.artic.core.presentation.ui.ViewBindingFragment
 import com.nightstalker.artic.databinding.FragmentArtworkFullViewBinding
 import com.nightstalker.artic.features.ImageLinkCreator
-import kotlinx.android.synthetic.main.fragment_artwork_full_view.*
+import kotlinx.android.synthetic.main.fragment_artwork_full_view.ivFullArtwork
 
 /**
  * Фрагмент для отображения полного изображения экспоната

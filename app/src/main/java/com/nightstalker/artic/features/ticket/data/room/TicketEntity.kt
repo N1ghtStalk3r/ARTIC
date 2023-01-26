@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.nightstalker.artic.features.ApiConstants.DB_TABLE_TICKETS
-import java.util.*
+import com.nightstalker.artic.features.ApiConstants.AppDatabaseConstants.DB_TABLE_TICKETS
+import java.util.Date
 
 /**
  * Сущность билета
@@ -18,7 +18,7 @@ import java.util.*
         unique = true
     )]
 )
-data class LocalTicketDbEntity(
+data class TicketEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Long = 0L,

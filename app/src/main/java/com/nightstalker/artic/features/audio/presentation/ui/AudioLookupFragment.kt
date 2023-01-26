@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.nightstalker.artic.R
+import com.nightstalker.artic.core.presentation.ext.ui.onDone
 import com.nightstalker.artic.core.presentation.model.ContentResultState
 import com.nightstalker.artic.core.presentation.model.handleContents
-import com.nightstalker.artic.core.presentation.onDone
 import com.nightstalker.artic.databinding.FragmentAudioLookupBinding
 import com.nightstalker.artic.features.ApiConstants
 import com.nightstalker.artic.features.audio.domain.model.AudioFile

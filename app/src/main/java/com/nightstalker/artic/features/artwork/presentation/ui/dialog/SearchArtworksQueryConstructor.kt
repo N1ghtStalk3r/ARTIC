@@ -4,10 +4,8 @@ import com.nightstalker.artic.features.ApiConstants.ARTWORK_TYPE_TITLE
 import com.nightstalker.artic.features.ApiConstants.PLACE_OF_ORIGIN
 
 /**
- *
  * Конструктор забросов в сеть для поиска экспонатов
- * @author Tamerlan Mamukhov
- * @created 2022-11-15
+ * @author Tamerlan Mamukhov on 2022-11-15
  */
 object SearchArtworksQueryConstructor {
     fun create(

@@ -10,18 +10,19 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.nightstalker.artic.MainActivity
 import com.nightstalker.artic.R
+import com.nightstalker.artic.core.presentation.ext.reformatIso8601
 import com.nightstalker.artic.core.presentation.model.ContentResultState
 import com.nightstalker.artic.core.presentation.model.handleContents
-import com.nightstalker.artic.core.presentation.reformatIso8601
 import com.nightstalker.artic.databinding.FragmentTicketDetailsBinding
 import com.nightstalker.artic.features.ApiConstants
+import com.nightstalker.artic.features.exhibition.data.mappers.toExhibitionTicket
 import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
 import com.nightstalker.artic.features.exhibition.presentation.ui.detail.ExhibitionDetailsViewModel
 import com.nightstalker.artic.features.qrcode.QrCodeGenerator
+import com.nightstalker.artic.features.ticket.data.mappers.toCalendarEvent
 import com.nightstalker.artic.features.ticket.domain.model.ExhibitionTicket
-import com.nightstalker.artic.features.toCalendarEvent
-import com.nightstalker.artic.features.toExhibitionTicket
-import kotlinx.android.synthetic.main.fragment_ticket_details.*
+import kotlinx.android.synthetic.main.fragment_ticket_details.deleteTicketButton
+import kotlinx.android.synthetic.main.fragment_ticket_details.undoTicketButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -147,9 +148,13 @@ class TicketDetailsFragment : Fragment() {
         this.exhibitionIdTextView.text = ticket?.galleryTitle.toString()
 
         this.aicStartAtTextView.text =
-            "${ApiConstants.LABEL_AICSTARTAT} : ${ticket?.aicStartAt.toString().reformatIso8601()}"
+            "${getString(R.string.exhibition_start)} : ${
+                ticket?.aicStartAt.toString().reformatIso8601()
+            }"
         this.aicEndAtTextView.text =
-            "${ApiConstants.LABEL_AICENDAT} : ${ticket?.aicEndAt.toString().reformatIso8601()}"
+            "${getString(R.string.exhibition_end)} : ${
+                ticket?.aicEndAt.toString().reformatIso8601()
+            }"
 
 
         //QRCode

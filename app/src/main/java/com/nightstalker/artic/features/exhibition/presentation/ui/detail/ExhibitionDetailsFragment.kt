@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.nightstalker.artic.R
-import com.nightstalker.artic.core.presentation.filterHtmlEncodedText
+import com.nightstalker.artic.core.presentation.ext.filterHtmlEncodedText
 import com.nightstalker.artic.core.presentation.model.ContentResultState
 import com.nightstalker.artic.core.presentation.model.handleContents
 import com.nightstalker.artic.databinding.FragmentExhibitionDetailsBinding

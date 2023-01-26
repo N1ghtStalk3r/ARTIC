@@ -1,11 +1,11 @@
 package com.nightstalker.artic.features.ticket.data
 
 
+import com.nightstalker.artic.features.ticket.data.mappers.toExhibitionTicket
+import com.nightstalker.artic.features.ticket.data.mappers.toLocalTicket
 import com.nightstalker.artic.features.ticket.data.room.TicketDao
 import com.nightstalker.artic.features.ticket.domain.model.ExhibitionTicket
 import com.nightstalker.artic.features.ticket.domain.repo.TicketsRepo
-import com.nightstalker.artic.features.toExhibitionTicket
-import com.nightstalker.artic.features.toLocalTicket
 
 class TicketsRepoImpl(
     private val dao: TicketDao
