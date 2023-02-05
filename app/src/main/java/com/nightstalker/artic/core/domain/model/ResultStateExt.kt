@@ -1,6 +1,11 @@
 package com.nightstalker.artic.core.domain.model
 
-import java.net.*
+import java.net.ConnectException
+import java.net.ProtocolException
+import java.net.SocketException
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
+
 
 inline fun <T> safeCall(action: () -> T): ResultState<T> {
     return try {

@@ -1,4 +1,4 @@
-package com.nightstalker.artic.core.presentation
+package com.nightstalker.artic.core.presentation.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

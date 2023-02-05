@@ -12,7 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.nightstalker.artic.R
-import com.nightstalker.artic.core.presentation.filterHtmlEncodedText
+import com.nightstalker.artic.core.presentation.ext.filterHtmlEncodedText
 import com.nightstalker.artic.core.presentation.model.ContentResultState
 import com.nightstalker.artic.core.presentation.model.handleContents
 import com.nightstalker.artic.databinding.FragmentAudioPlayerBottomSheetDialogBinding

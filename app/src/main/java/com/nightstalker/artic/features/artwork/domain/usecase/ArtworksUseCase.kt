@@ -21,4 +21,6 @@ class ArtworksUseCase(
 
     suspend fun getArtworksByQuery(query: String): ResultState<List<Artwork>> =
         safeCall { repo.getArtworksByQuery(query) }
+
+    suspend fun getNumber(query: String): ResultState<Int> = safeCall { repo.getNumber(query) }
 }

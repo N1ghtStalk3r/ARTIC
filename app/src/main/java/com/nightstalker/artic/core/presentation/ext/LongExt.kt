@@ -1,6 +1,6 @@
-package com.nightstalker.artic.core.presentation
+package com.nightstalker.artic.core.presentation.ext
 
-import java.util.*
+import java.util.Date
 
 // Время нового события в календаре может быть только в будующем
 fun Long.normalizeEventDateTime(): Long =

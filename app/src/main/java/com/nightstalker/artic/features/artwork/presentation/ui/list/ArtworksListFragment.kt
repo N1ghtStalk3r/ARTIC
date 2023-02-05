@@ -6,15 +6,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nightstalker.artic.R
-import com.nightstalker.artic.core.presentation.handleErrorMessage
 import com.nightstalker.artic.core.presentation.model.ContentResultState
 import com.nightstalker.artic.core.presentation.model.handleContents
+import com.nightstalker.artic.core.presentation.ui.LayoutErrorHandler
 import com.nightstalker.artic.databinding.FragmentArtworksListBinding
 import com.nightstalker.artic.features.artwork.domain.model.Artwork
+import com.nightstalker.artic.features.artwork.presentation.ui.dialog.SearchArtworksQueryConstructor
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -41,27 +44,69 @@ class ArtworksListFragment : Fragment() {
         binding = FragmentArtworksListBinding.bind(view)
 
         getArgs()
+        viewModel.getArtworks()
+        initObservers()
+        prepareSearch()
+        prepareAdapter()
+    }
 
+
+    private fun prepareAdapter() {
         with(binding) {
             this?.rvArtworks?.layoutManager =
                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             adapter = ArtworksListAdapter { id -> onItemClick(id) }
             this?.rvArtworks?.adapter = adapter
-
-            initObservers()
-            viewModel.getArtworks()
         }
-
     }
+
+    private fun prepareSearch() {
+        with(binding) {
+            val textInput = this?.tilSearch
+            textInput?.apply {
+                editText?.setOnEditorActionListener { _, actionId, _ ->
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+
+                        var searchQuery =
+                            SearchArtworksQueryConstructor.create(searchQuery = editText?.text.toString())
+
+                        if (place != NULL_ARG || type != NULL_ARG) {
+                            searchQuery =
+                                SearchArtworksQueryConstructor.create(
+                                    searchQuery = editText?.text.toString(),
+                                    place,
+                                    type
+                                )
+                        }
+
+                        Log.d(TAG, place)
+                        Log.d(TAG, type)
+                        Log.d(TAG, searchQuery)
+
+                        viewModel.getArtworksByQuery(searchQuery)
+
+                        initObserversForSearched()
+                    }
+                    true
+                }
+                this?.setEndIconOnClickListener {
+                    findNavController().navigate(R.id.action_artworksListFragment_to_filterArtworksBottomSheetDialog)
+                }
+            }
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
     }
 
-    private fun initObservers() = with(viewModel) {
-        artworksContentState.observe(viewLifecycleOwner, ::handleArtworks)
-    }
+    private fun initObservers() =
+        viewModel.artworksContentState.observe(viewLifecycleOwner, ::handleArtworks)
+
+    private fun initObserversForSearched() =
+        viewModel.searchedArtworksContentState.observe(viewLifecycleOwner, ::handleSearchedArtworks)
 
     private fun handleArtworks(contentResultState: ContentResultState?) {
         contentResultState?.handleContents(
@@ -73,30 +118,46 @@ class ArtworksListFragment : Fragment() {
             },
             onStateError = {
                 with(binding) {
-                    this?.rvArtworks?.adapter
-                        ?.handleErrorMessage(
-                            onAdapterEmpty = {
-                                this.errorLayout.apply {
-                                    root.visibility = View.VISIBLE
-                                    btnErrorTryAgain.setOnClickListener { tryAgain() }
-                                    textErrorDescription.setText(it.title)
-                                    textErrorDescription.setText(it.description)
-                                }
-                            },
-                            onAdapterNotEmpty = {
-                                this.errorLayout.apply {
-                                    root.visibility = View.GONE
-                                }
-                            }
-                        )
+                    LayoutErrorHandler(
+                        this?.errorLayout!!,
+                        { tryAgain() },
+                        it,
+                        this.rvArtworks
+                    )
                 }
+            },
+            onStateLoading = {
+                Toast.makeText(activity, "Loading...", Toast.LENGTH_SHORT).show()
+            }
+        )
+    }
+
+
+    private fun handleSearchedArtworks(contentResultState: ContentResultState?) {
+        contentResultState?.handleContents(
+            onStateSuccess = {
+                adapter.setData(it as List<Artwork>)
+                binding?.rvArtworks?.adapter = adapter
+            },
+            onStateError = {
+                with(binding) {
+                    LayoutErrorHandler(
+                        this?.errorLayout!!,
+                        { tryAgain() },
+                        it,
+                        this.rvArtworks
+                    )
+                }
+            },
+            onStateLoading = {
+                Toast.makeText(activity, "Loading...", Toast.LENGTH_SHORT).show()
             }
         )
     }
 
     private fun tryAgain() {
-        binding?.errorLayout?.root?.visibility = View.GONE
         viewModel.getArtworks()
+        initObservers()
     }
 
     private fun onItemClick(id: Int) = ArtworksListFragmentDirections

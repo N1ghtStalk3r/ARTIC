@@ -105,18 +105,12 @@ object ApiConstants {
     const val TIMESTAMP = "timestamp"
     const val AICSTARTAT = "aic_start_at"
     const val AICENDAT = "aic_end_at"
-    const val ARTIC_LOCATION = "111 S Michigan Ave, Chicago, IL 60603, USA"
-    const val ARTIC_TITLE = "The Art Institute of Chicago"
-    const val DB_NAME = "artic"
-    const val DB_TABLE_TICKETS = "tickets"
-    const val DEFAULT_TICKET_ID = -1L
-    const val DEFAULT_EXHIBITION_ID = -1
     const val BUNDLE_EXHIBITION_ID = "ExhibitionId"
     const val USER_FORMAT_DATE = "dd/MM/yyyy"
-    const val LABEL_AICSTARTAT = "Oткрытие"
-    const val LABEL_AICENDAT = "Закрытие"
 
     object CalendarEventConstants {
+        const val ARTIC_LOCATION = "111 S Michigan Ave, Chicago, IL 60603, USA"
+        const val ARTIC_TITLE = "The Art Institute of Chicago"
         const val EVENT_CALENDAR_TYPE = "vnd.android.cursor.item/event"
         const val EVENT_CALENDAR_RRULE = "FREQ=YEARLY;UNTIL=20301211T000000Z"
         const val EVENT_BEGIN = "beginTime"
@@ -130,7 +124,8 @@ object ApiConstants {
     }
 
     object AppDatabaseConstants {
-
+        const val DB_NAME = "artic"
+        const val DB_TABLE_TICKETS = "tickets"
     }
 
     const val WEB_URL = "web_url"

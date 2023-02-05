@@ -17,4 +17,7 @@ class ArtworkRepoImpl(
 
     override suspend fun getArtworksByQuery(search: String): List<Artwork> =
         apiMapper.getArtworksByQuery(search)
+
+    override suspend fun getNumber(search: String): Int =
+        apiMapper.getNumber(search)
 }

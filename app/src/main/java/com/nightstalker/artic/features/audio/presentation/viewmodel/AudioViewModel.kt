@@ -2,8 +2,8 @@ package com.nightstalker.artic.features.audio.presentation.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.nightstalker.artic.core.presentation.ext.viewModelCall
 import com.nightstalker.artic.core.presentation.model.ContentResultState
-import com.nightstalker.artic.core.presentation.viewModelCall
 import com.nightstalker.artic.features.audio.domain.model.AudioFile
 import com.nightstalker.artic.features.audio.domain.usecase.AudioUseCase
 

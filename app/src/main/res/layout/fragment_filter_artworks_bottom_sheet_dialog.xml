@@ -20,17 +20,10 @@
         style="@style/SpinnerStyle"
         android:layout_marginTop="36dp"/>
 
-    <TextView
-        android:id="@+id/tvFilterRes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        tools:text="Найдено... экспонатов по запросу ..." />
-
     <Button
         android:id="@+id/btnApply"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:text="@string/apply" />
+        android:text="@string/text_found_artworks" />
 </LinearLayout>

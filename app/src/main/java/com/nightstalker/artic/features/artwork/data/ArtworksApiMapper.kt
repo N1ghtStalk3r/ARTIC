@@ -1,11 +1,11 @@
 package com.nightstalker.artic.features.artwork.data
 
 import com.nightstalker.artic.features.artwork.data.api.ArtworksApi
+import com.nightstalker.artic.features.artwork.data.mappers.toArtwork
+import com.nightstalker.artic.features.artwork.data.mappers.toArtworkInformation
+import com.nightstalker.artic.features.artwork.data.mappers.toListOfArtworks
 import com.nightstalker.artic.features.artwork.domain.model.Artwork
 import com.nightstalker.artic.features.artwork.domain.model.ArtworkInformation
-import com.nightstalker.artic.features.toArtwork
-import com.nightstalker.artic.features.toArtworkInformation
-import com.nightstalker.artic.features.toListOfArtworks
 
 /**
  * Класс получения данных с помощью [ArtworksApi]
@@ -25,4 +25,7 @@ class ArtworksApiMapper(private val api: ArtworksApi) {
         api.getArtworksByQuery(search).data.map {
             api.getArtworkById(it.id).data
         }.toListOfArtworks()
+
+    suspend fun getNumber(search: String): Int =
+        api.getArtworksByQuery(search).pagination.total
 }
