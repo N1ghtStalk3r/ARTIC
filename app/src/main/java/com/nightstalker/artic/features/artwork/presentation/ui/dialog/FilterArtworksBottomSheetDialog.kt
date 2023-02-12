@@ -11,6 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.nightstalker.artic.R
 import com.nightstalker.artic.core.presentation.model.ContentResultState
 import com.nightstalker.artic.core.presentation.model.handleContents
+import com.nightstalker.artic.core.presentation.model.refreshPage
 import com.nightstalker.artic.databinding.FragmentFilterArtworksBottomSheetDialogBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -37,32 +38,57 @@ class FilterArtworksBottomSheetDialog : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentFilterArtworksBottomSheetDialogBinding.bind(view)
+        restorePositions()
         setViews()
-
+        saveArgs()
         handleSearchArguments()
-//        filterArtworksViewModel.getNumberOfArtworks("")
-//        filterArtworksViewModel.numberOfArtworks.observe(viewLifecycleOwner, ::handleFilterResult)
+
+        filterArtworksViewModel.country.observe(viewLifecycleOwner) {
+            Log.d(TAG, "onViewCreated: $it")
+        }
+
+        filterArtworksViewModel.type.observe(viewLifecycleOwner) {
+            Log.d(TAG, "onViewCreated: $it")
+        }
+    }
+
+    private fun restorePositions() {
+
+        with(filterArtworksViewModel) {
+            with(binding) {
+                countryPos.observe(viewLifecycleOwner) {
+                    spCountries.setSelection(it)
+                }
+                typePos.observe(viewLifecycleOwner) {
+                    spTypes.setSelection(it)
+                }
+            }
+        }
+    }
+
+    private fun saveArgs() {
+
+        with(filterArtworksViewModel) {
+            setCountry(binding.spCountries.selectedItem.toString())
+            setType(binding.spTypes.selectedItem.toString())
+
+            setCountryPos(binding.spCountries.selectedItemPosition)
+            setTypePos(binding.spTypes.selectedItemPosition)
+        }
+
     }
 
     private fun handleSearchArguments() {
 
-        var searchQuery =
-            SearchArtworksQueryConstructor.create("")
+        val query = filterArtworksViewModel.queryFull.value ?: ""
+        query?.let { filterArtworksViewModel.getNumberOfArtworks(it) }
 
-        if (place != NULL_ARG || type != NULL_ARG) {
-            searchQuery =
-                SearchArtworksQueryConstructor.create(
-                    searchQuery = "",
-                    place,
-                    type
-                )
-        }
-        filterArtworksViewModel.getNumberOfArtworks(searchQuery)
         filterArtworksViewModel.numberOfArtworks.observe(viewLifecycleOwner, ::handleFilterResult)
 
     }
 
-    private fun handleFilterResult(contentResultState: ContentResultState) =
+    private fun handleFilterResult(contentResultState: ContentResultState) {
+        contentResultState.refreshPage(binding.content, binding.progressBar)
         contentResultState.handleContents(
             onStateSuccess = {
                 Log.d(TAG, "numberOfArts: $it")
@@ -75,10 +101,12 @@ class FilterArtworksBottomSheetDialog : BottomSheetDialogFragment() {
                 Toast.makeText(activity, "Найдено: ", Toast.LENGTH_SHORT).show()
             }
         )
+    }
 
 
     private fun setViews() = with(binding) {
         this.btnApply.setOnClickListener {
+            saveArgs()
             sendArgs()
         }
     }
@@ -99,9 +127,6 @@ class FilterArtworksBottomSheetDialog : BottomSheetDialogFragment() {
 
     companion object {
         private const val TAG = "FilterArtworks"
-        private var place = ""
-        private var type = ""
-        private const val NULL_ARG = "null"
     }
 
 }

@@ -1,5 +1,11 @@
 package com.nightstalker.artic.core.presentation.model
 
+import android.view.ViewGroup
+import android.widget.ProgressBar
+import androidx.core.view.isVisible
+import com.nightstalker.artic.core.presentation.ui.TryAgainAction
+import com.nightstalker.artic.databinding.LayoutErrorBinding
+
 typealias SuccessStateAction = (content: Any?) -> Unit
 typealias ErrorStateAction = (error: ErrorModel) -> Unit
 typealias LoadingStateAction = () -> Unit
@@ -25,4 +31,24 @@ fun ContentResultState.handleContents(
     is ContentResultState.Loading -> {
         onStateLoading?.invoke()
     }
+}
+
+fun ContentResultState.refreshPage(
+    view: ViewGroup,
+    progressBar: ProgressBar,
+    errorLayout: LayoutErrorBinding? = null,
+    tryAgainAction: TryAgainAction? = null
+) {
+    view.isVisible = this is ContentResultState.Content
+    if (this is ContentResultState.Error) {
+        errorLayout?.root?.isVisible = true
+        errorLayout?.apply {
+            textErrorTitle.setText(this@refreshPage.error.title.toString())
+            textErrorDescription.setText(this@refreshPage.error.description.toString())
+            btnErrorTryAgain.setOnClickListener {
+                tryAgainAction
+            }
+        }
+    }
+    progressBar.isVisible = this is ContentResultState.Loading
 }

@@ -16,11 +16,19 @@ class ArtworksListViewModel(
     private val useCase: ArtworksUseCase
 ) : ViewModel() {
 
-    private val _artworksContentState = MutableLiveData<ContentResultState>()
+    private val _artworksContentState =
+        MutableLiveData<ContentResultState>(ContentResultState.Loading)
     val artworksContentState get() = _artworksContentState
 
-    private var _searchedArtworksContentState = MutableLiveData<ContentResultState>()
+    private var _searchedArtworksContentState =
+        MutableLiveData<ContentResultState>(ContentResultState.Loading)
     val searchedArtworksContentState get() = _searchedArtworksContentState
+
+    fun loadArtworks() {
+        if (_artworksContentState.value is ContentResultState.Loading) {
+            getArtworks()
+        }
+    }
 
     fun getArtworks() =
         viewModelCall(call = { useCase.getArtworks() }, contentResultState = _artworksContentState)

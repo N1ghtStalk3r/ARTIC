@@ -13,6 +13,7 @@ import com.nightstalker.artic.R
 import com.nightstalker.artic.core.presentation.ext.filterHtmlEncodedText
 import com.nightstalker.artic.core.presentation.model.ContentResultState
 import com.nightstalker.artic.core.presentation.model.handleContents
+import com.nightstalker.artic.core.presentation.model.refreshPage
 import com.nightstalker.artic.databinding.FragmentExhibitionDetailsBinding
 import com.nightstalker.artic.features.ApiConstants
 import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
@@ -56,7 +57,10 @@ class ExhibitionDetailsFragment : Fragment() {
         exhibitionsViewModel.exhibitionContentState.observe(viewLifecycleOwner, ::handleExhibition)
     }
 
-    private fun handleExhibition(contentResultState: ContentResultState) =
+    private fun handleExhibition(contentResultState: ContentResultState) {
+        contentResultState.refreshPage(
+            binding?.content!!, binding?.progressBar!!
+        )
         contentResultState.handleContents(
             onStateSuccess = {
                 setViews(it as Exhibition)
@@ -65,6 +69,7 @@ class ExhibitionDetailsFragment : Fragment() {
                 Log.d(TAG, "handle: $it")
             }
         )
+    }
 
     private fun setViews(exhibition: Exhibition) = with(binding) {
         this?.titleTextView?.text = exhibition.title.orEmpty()

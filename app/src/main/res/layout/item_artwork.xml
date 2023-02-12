@@ -34,19 +34,9 @@
         style="@style/ListItemsTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivArtworkImage"
-        tools:text="@tools:sample/lorem" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/text_description"
-        style="@style/ListItemsShortDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_title"
+        app:layout_constraintTop_toBottomOf="@id/ivArtworkImage"
         tools:text="@tools:sample/lorem" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
