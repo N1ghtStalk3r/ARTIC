@@ -22,10 +22,10 @@ object SearchArtworksQueryConstructor {
             }
             append(QUERY_BOOL_SHOULD)
             append(LEFT_BRACE)
-            if (place.isNotEmpty()) {
+            if (place != "null") {
                 append(createQueryMatchPart(PLACE_OF_ORIGIN, place))
             }
-            if (type.isNotEmpty()) {
+            if (type != "null") {
                 append(COMMA)
                 append(createQueryMatchPart(ARTWORK_TYPE_TITLE, type))
             }
@@ -37,7 +37,8 @@ object SearchArtworksQueryConstructor {
 
     private fun createQueryPath(searchQuery: String) = "\"q\":\"$searchQuery\""
 
-    private fun createQueryMatchPart(field: String, value: String) = "{ \"match\": { \"$field\": \"$value\" } }"
+    private fun createQueryMatchPart(field: String, value: String) =
+        "{ \"match\": { \"$field\": \"$value\" } }"
 
     private const val QUERY_BOOL_SHOULD = "\"query\": {\"bool\": {\"should\":"
 

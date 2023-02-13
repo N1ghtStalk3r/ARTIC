@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.nightstalker.artic.R
 import com.nightstalker.artic.core.presentation.model.ContentResultState
 import com.nightstalker.artic.core.presentation.model.handleContents
+import com.nightstalker.artic.core.presentation.model.refreshPage
 import com.nightstalker.artic.core.presentation.ui.LayoutErrorHandler
 import com.nightstalker.artic.databinding.FragmentExhibitionsListBinding
 import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
@@ -38,14 +39,15 @@ class ExhibitionsListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentExhibitionsListBinding.bind(view)
 
+        initObserver()
+        viewModel.getExhibitions()
+
         with(binding) {
             this?.rvExhibitions?.layoutManager =
                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             adapter = ExhibitionsListAdapter { id -> onItemClicked(id) }
             this?.rvExhibitions?.adapter = adapter
 
-            initObserver()
-            viewModel.getExhibitions()
         }
     }
 
@@ -58,7 +60,10 @@ class ExhibitionsListFragment : Fragment() {
         exhibitionsContentState.observe(viewLifecycleOwner, ::setExhibitions)
     }
 
-    private fun setExhibitions(contentResultState: ContentResultState) =
+    private fun setExhibitions(contentResultState: ContentResultState) {
+        contentResultState.refreshPage(
+            binding?.rvExhibitions!!, binding?.progressBar!!, binding?.errorLayout!!
+        )
         contentResultState.handleContents(
             onStateSuccess = {
                 if (adapter.data.isEmpty()) {
@@ -75,11 +80,9 @@ class ExhibitionsListFragment : Fragment() {
                         this.rvExhibitions
                     )
                 }
-            },
-            onStateLoading = {
-
             }
         )
+    }
 
     private fun onItemClicked(id: Int) {
         ExhibitionsListFragmentDirections

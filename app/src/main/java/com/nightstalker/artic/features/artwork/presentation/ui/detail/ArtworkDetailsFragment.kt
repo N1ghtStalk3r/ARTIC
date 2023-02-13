@@ -1,7 +1,6 @@
 package com.nightstalker.artic.features.artwork.presentation.ui.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,8 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import com.nightstalker.artic.R
 import com.nightstalker.artic.core.presentation.model.ContentResultState
+import com.nightstalker.artic.core.presentation.model.handleContents
+import com.nightstalker.artic.core.presentation.model.refreshPage
 import com.nightstalker.artic.databinding.FragmentArtworkDetailsBinding
 import com.nightstalker.artic.features.ImageLinkCreator
 import com.nightstalker.artic.features.artwork.domain.model.Artwork
@@ -59,25 +60,19 @@ class ArtworkDetailsFragment : Fragment() {
         }
     }
 
-    private fun handle(contentResultState: ContentResultState) = when (contentResultState) {
-        is ContentResultState.Content -> contentResultState.handle()
-        is ContentResultState.Error -> contentResultState.handle()
-        else -> {}
-    }
+    private fun handle(contentResultState: ContentResultState) {
+        contentResultState.refreshPage(binding?.content!!, binding?.progressBar!!)
+        contentResultState.handleContents(
+            onStateSuccess = { content ->
+                when (content) {
+                    is Artwork -> setArtworkViews(content)
+                    is ArtworkInformation -> setDescriptionView(content)
+                }
+            },
+            onStateError = {
 
-    private fun ContentResultState.Content.handle() {
-        when (content) {
-            is Artwork -> {
-                setArtworkViews(content)
             }
-            is ArtworkInformation -> {
-                setDescriptionView(content)
-            }
-        }
-    }
-
-    private fun ContentResultState.Error.handle() {
-        Log.d(TAG, "handle: $error")
+        )
     }
 
     private fun setDescriptionView(artworkInformation: ArtworkInformation?) {

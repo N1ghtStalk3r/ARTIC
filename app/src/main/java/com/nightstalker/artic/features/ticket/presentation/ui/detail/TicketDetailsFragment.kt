@@ -13,6 +13,7 @@ import com.nightstalker.artic.R
 import com.nightstalker.artic.core.presentation.ext.reformatIso8601
 import com.nightstalker.artic.core.presentation.model.ContentResultState
 import com.nightstalker.artic.core.presentation.model.handleContents
+import com.nightstalker.artic.core.presentation.model.refreshPage
 import com.nightstalker.artic.databinding.FragmentTicketDetailsBinding
 import com.nightstalker.artic.features.ApiConstants
 import com.nightstalker.artic.features.exhibition.data.mappers.toExhibitionTicket
@@ -60,14 +61,14 @@ class TicketDetailsFragment : Fragment() {
         // При покупке билета нам известен только id выставки
         // Из списка билетов получаем id билета
 
-        var exhibition_id: Int = -1   // заполняется в ExhibitionDetailsFragment
-        var ticket_id: Long = -1L     // заполняется в TicketsListFragment
+        var exhibitionId = -1   // заполняется в ExhibitionDetailsFragment
+        var ticketId = -1L     // заполняется в TicketsListFragment
 
         // exhibition_id получаем из ExhibitionDetailsFragment через bundle
         arguments?.getInt(ApiConstants.BUNDLE_EXHIBITION_ID)?.let {
             if (it > 0) {
-                exhibition_id = it
-                exhibitionsViewModel.getExhibition(exhibition_id)
+                exhibitionId = it
+                exhibitionsViewModel.getExhibition(exhibitionId)
                 initExhibitionObserver()
             }
         }
@@ -75,21 +76,19 @@ class TicketDetailsFragment : Fragment() {
         // ticket_id получаем из TicketsListFragment как аргумент фрагмента
         args.ticketId.toLong().let {
             if (it > 0L) {
-                ticket_id = it
+                ticketId = it
                 ticketViewModel.getTicket(it)
                 initTicketObserver()
             }
         }
-        Log.d("TicketDetails", " ExhibitionId  = ${exhibition_id}, ticket_id = ${ticket_id} ")
 
 
         // удаление билета
         binding.deleteTicketButton.setOnClickListener {
-            Log.d("deleteTicketButton", " was clicked")
 
             ticketViewModel.deleteTicket(
-                ticketId = ticket_id,
-                exhibitionId = exhibition_id.toString()
+                ticketId = ticketId,
+                exhibitionId = exhibitionId.toString()
             )
 
             this.deleteTicketButton.visibility = View.INVISIBLE
@@ -97,7 +96,6 @@ class TicketDetailsFragment : Fragment() {
         }
         // восстановление билета
         binding.undoTicketButton.setOnClickListener {
-            Log.d("undoTicketButton", " was clicked")
 
             ticketViewModel.saveTicket(undoExhibitionTicket)
 
@@ -115,7 +113,10 @@ class TicketDetailsFragment : Fragment() {
         exhibitionsViewModel.exhibitionContentState.observe(viewLifecycleOwner, ::handleTicket)
     }
 
-    private fun handleTicket(contentResultState: ContentResultState) =
+    private fun handleTicket(contentResultState: ContentResultState) {
+        contentResultState.refreshPage(
+            binding.content, binding.progressBar
+        )
         contentResultState.handleContents(
             onStateSuccess = {
                 when (it) {
@@ -124,9 +125,9 @@ class TicketDetailsFragment : Fragment() {
                 }
             },
             onStateError = {
-                Log.d("Ticket ADF", "handle: $it")
             }
         )
+    }
 
     private fun setViews(exhibition: Exhibition?) {
         if (exhibition != null) {
@@ -136,12 +137,6 @@ class TicketDetailsFragment : Fragment() {
     }
 
     private fun setData(ticket: ExhibitionTicket?) = with(binding) {
-
-        Log.d(
-            "TicketDetails setData",
-            " ExhibitionId  = ${ticket?.exhibitionId}, ticket_id = ${ticket?.id} "
-        )
-
         undoExhibitionTicket = ticket ?: ExhibitionTicket()
 
         this.titleTextView.text = ticket?.title.orEmpty()

@@ -2,7 +2,6 @@ package com.nightstalker.artic.features.audio.presentation.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,39 +63,48 @@ class AudioLookupFragment : Fragment() {
 
     private fun setupView() {
         with(_binding) {
-            val tv = this?.audioNumber?.editText
-            tv?.onDone { execSearch(tv.text.trim().toString().toInt()) }
+            val inputLayout = this?.audioNumber
+            val tv = inputLayout?.editText
 
-            this?.audioNumber?.setStartIconOnClickListener {
+            tv?.onDone {
+                if (execSearch(tv.text.trim().toString().toInt())) {
+                    inputLayout?.setStartIconOnClickListener {
 
-                var soundId = 0
-                if (tv?.text?.toString()?.isNotEmpty() == true) {
-                    soundId = tv.text?.toString()?.toInt()!!
-                }
+                        var soundId = 0
+                        if (tv?.text?.toString()?.isNotEmpty() == true) {
+                            soundId = tv.text?.toString()?.toInt()!!
+                        }
 
-                Bundle().apply {
-                    if (soundId != null) {
-                        putInt("mob_id", soundId)
+                        Bundle().apply {
+                            if (soundId != null) {
+                                putInt("mob_id", soundId)
+                            }
+                        }.run {
+                            findNavController().navigate(
+                                R.id.audioPlayerBottomSheetDialog,
+                                args = this
+                            )
+                        }
                     }
-                }.run {
-                    findNavController().navigate(
-                        R.id.audioPlayerBottomSheetDialog,
-                        args = this
-                    )
                 }
             }
 
+
         }
     }
 
-    private fun execSearch(sequence: Int? = 0) {
-        val query = MutableStateFlow(0)
-        if (sequence != null) {
-            query.value = sequence
-            audioViewModel.getSoundById(query.value)
+    private fun execSearch(sequence: Int = 0): Boolean =
+        when (sequence) {
+            null -> {
+                false
+            }
+            else -> {
+                val query = MutableStateFlow(0)
+                query.value = sequence
+                audioViewModel.getSoundById(query.value)
+                true
+            }
         }
-        Log.d(TAG, "execSearch: $sequence")
-    }
 
     override fun onDestroy() {
         super.onDestroy()
