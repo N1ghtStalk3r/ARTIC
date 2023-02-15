@@ -2,11 +2,10 @@ package com.nightstalker.artic.features.audio.presentation.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.nightstalker.artic.R
 import com.nightstalker.artic.core.presentation.ext.ui.onDone
 import com.nightstalker.artic.core.presentation.model.ContentResultState
@@ -24,23 +23,13 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  *
  * @author Tamerlan Mamukhov on 2022-11-01
  */
-class AudioLookupFragment : Fragment() {
+class AudioLookupFragment : Fragment(R.layout.fragment_audio_lookup) {
 
     private val audioViewModel: AudioViewModel by viewModel()
-    private var _binding: FragmentAudioLookupBinding? = null
-    private val binding get() = _binding
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        return inflater.inflate(R.layout.fragment_audio_lookup, container, false)
-    }
+    private val binding: FragmentAudioLookupBinding by viewBinding(FragmentAudioLookupBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentAudioLookupBinding.bind(view)
         setupView()
         initObservers()
     }
@@ -62,7 +51,7 @@ class AudioLookupFragment : Fragment() {
         )
 
     private fun setupView() {
-        with(_binding) {
+        with(binding) {
             val inputLayout = this?.audioNumber
             val tv = inputLayout?.editText
 
@@ -105,11 +94,6 @@ class AudioLookupFragment : Fragment() {
                 true
             }
         }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
 
     companion object {
         private const val TAG = "AudioLookupFragment"

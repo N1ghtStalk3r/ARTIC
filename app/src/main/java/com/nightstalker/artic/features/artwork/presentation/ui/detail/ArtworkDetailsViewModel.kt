@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.nightstalker.artic.core.presentation.ext.viewModelCall
 import com.nightstalker.artic.core.presentation.model.ContentResultState
+import com.nightstalker.artic.features.ImageLinkCreator
 import com.nightstalker.artic.features.artwork.domain.usecase.ArtworksUseCase
 
 /**
@@ -16,11 +17,17 @@ class ArtworkDetailsViewModel(
     private val useCase: ArtworksUseCase,
 ) : ViewModel() {
 
-    private val _artworkContentState = MutableLiveData<ContentResultState>()
+    private val _artworkContentState =
+        MutableLiveData<ContentResultState>(ContentResultState.Loading)
     val artworkContentState get() = _artworkContentState
 
-    private val _artworkDescriptionState = MutableLiveData<ContentResultState>()
+    private val _artworkDescriptionState =
+        MutableLiveData<ContentResultState>(ContentResultState.Loading)
     val artworkDescriptionState get() = _artworkDescriptionState
+
+    private val _detailedArtworkImageId =
+        MutableLiveData<ContentResultState>(ContentResultState.Loading)
+    val detailedArtworkImageId get() = _detailedArtworkImageId
 
     fun getArtwork(id: Int) =
         viewModelCall(
@@ -33,4 +40,9 @@ class ArtworkDetailsViewModel(
             call = { useCase.getArtworkInformation(id) },
             contentResultState = _artworkDescriptionState
         )
+
+    fun setDetailedArtworkImageId(imageId: String) {
+        _detailedArtworkImageId.value =
+            ContentResultState.Content(ImageLinkCreator.createImageHighQualityLink(imageId))
+    }
 }

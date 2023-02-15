@@ -1,14 +1,14 @@
 package com.nightstalker.artic.features.ticket.presentation.ui.list
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.nightstalker.artic.R
 import com.nightstalker.artic.core.presentation.model.ContentResultState
-import com.nightstalker.artic.core.presentation.model.handleContents
+import com.nightstalker.artic.core.presentation.model.refreshPage
 import com.nightstalker.artic.databinding.FragmentTicketsListBinding
 import com.nightstalker.artic.features.ticket.domain.model.ExhibitionTicket
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -19,32 +19,26 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  * @author Maxim Zimin
  * @created 2022-10-13
  */
-
-class TicketsListFragment : Fragment() {
+class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
     private lateinit var adapter: TicketsListAdapter
     private val ticketsViewModel by viewModel<TicketsViewModel>()
-    private lateinit var binding: FragmentTicketsListBinding
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentTicketsListBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    private val binding: FragmentTicketsListBinding by viewBinding(FragmentTicketsListBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(binding) {
-            rvTickets.layoutManager =
-                LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-            adapter = TicketsListAdapter { id -> onItemClicked(id) }
-            rvTickets.adapter = adapter
+        initObserver()
+        prepareAdapter()
+        ticketsViewModel.getAllTickets()
 
-            ticketsViewModel.getAllTickets()
-            initObserver()
-        }
+    }
+
+    private fun prepareAdapter() = with(binding) {
+        rvTickets.layoutManager =
+            LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        adapter = TicketsListAdapter { id -> onItemClicked(id) }
+        rvTickets.adapter = adapter
+
     }
 
     private fun initObserver() {
@@ -52,13 +46,13 @@ class TicketsListFragment : Fragment() {
     }
 
     private fun handleTickets(contentResultState: ContentResultState) =
-        contentResultState.handleContents(
+        contentResultState.refreshPage(
+            viewToShow = binding.content,
+            progressBar = binding.progressBar,
             onStateSuccess = {
                 adapter.setData(it as List<ExhibitionTicket>)
             },
-            onStateError = {
-
-            }
+            errorLayout = binding.errorLayout
         )
 
     private fun onItemClicked(id: Long) {

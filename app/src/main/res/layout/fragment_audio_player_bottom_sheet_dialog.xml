@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
     style="?attr/bottomSheetStyle"
-    app:layout_behavior="@string/bottom_sheet_behavior"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_behavior="@string/bottom_sheet_behavior"
     tools:layout_height="wrap_content">
 
     <androidx.core.widget.NestedScrollView
@@ -15,8 +15,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <com.google.android.exoplayer2.ui.PlayerView
                 android:id="@+id/audioPlayer"
@@ -25,22 +25,19 @@
                 app:auto_show="true"
                 app:controller_layout_id="@layout/exo_playback_control_view"
                 app:hide_on_touch="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/trackTitle"
                 app:show_timeout="0"
                 app:use_artwork="false"
                 app:use_controller="true" />
 
             <TextView
-                android:layout_width="match_parent"
                 android:id="@+id/audioDescription"
                 style="@style/TextAppearance.AppCompat.Body2"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="@tools:sample/lorem"/>
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="@tools:sample/lorem" />
 
         </LinearLayout>
 

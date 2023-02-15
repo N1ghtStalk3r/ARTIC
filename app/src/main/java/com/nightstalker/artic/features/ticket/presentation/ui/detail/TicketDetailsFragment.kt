@@ -2,17 +2,14 @@ package com.nightstalker.artic.features.ticket.presentation.ui.detail
 
 
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.nightstalker.artic.MainActivity
 import com.nightstalker.artic.R
 import com.nightstalker.artic.core.presentation.ext.reformatIso8601
 import com.nightstalker.artic.core.presentation.model.ContentResultState
-import com.nightstalker.artic.core.presentation.model.handleContents
 import com.nightstalker.artic.core.presentation.model.refreshPage
 import com.nightstalker.artic.databinding.FragmentTicketDetailsBinding
 import com.nightstalker.artic.features.ApiConstants
@@ -22,36 +19,24 @@ import com.nightstalker.artic.features.exhibition.presentation.ui.detail.Exhibit
 import com.nightstalker.artic.features.qrcode.QrCodeGenerator
 import com.nightstalker.artic.features.ticket.data.mappers.toCalendarEvent
 import com.nightstalker.artic.features.ticket.domain.model.ExhibitionTicket
+import kotlinx.android.synthetic.main.fragment_ticket_details.addCalendarEventButton
 import kotlinx.android.synthetic.main.fragment_ticket_details.deleteTicketButton
 import kotlinx.android.synthetic.main.fragment_ticket_details.undoTicketButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class TicketDetailsFragment : Fragment() {
+class TicketDetailsFragment : Fragment(R.layout.fragment_ticket_details) {
     private val args: TicketDetailsFragmentArgs by navArgs()
     private val exhibitionsViewModel by viewModel<ExhibitionDetailsViewModel>()
     private val ticketViewModel by viewModel<TicketDetailsViewModel>()
-    private lateinit var binding: FragmentTicketDetailsBinding
+    private val binding: FragmentTicketDetailsBinding by viewBinding(FragmentTicketDetailsBinding::bind)
 
     private lateinit var undoExhibitionTicket: ExhibitionTicket
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_ticket_details, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentTicketDetailsBinding.bind(view)
 
         initTicketDetailsFragment()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
     }
 
     // 2023-01-10 Не могу пока разобраться с логикой здесь. Этот код писал не я
@@ -66,22 +51,17 @@ class TicketDetailsFragment : Fragment() {
 
         // exhibition_id получаем из ExhibitionDetailsFragment через bundle
         arguments?.getInt(ApiConstants.BUNDLE_EXHIBITION_ID)?.let {
-            if (it > 0) {
-                exhibitionId = it
-                exhibitionsViewModel.getExhibition(exhibitionId)
-                initExhibitionObserver()
-            }
+            exhibitionId = it
+            exhibitionsViewModel.getExhibition(exhibitionId)
+            initExhibitionObserver()
         }
 
         // ticket_id получаем из TicketsListFragment как аргумент фрагмента
         args.ticketId.toLong().let {
-            if (it > 0L) {
-                ticketId = it
-                ticketViewModel.getTicket(it)
-                initTicketObserver()
-            }
+            ticketId = it
+            ticketViewModel.getTicket(it)
+            initTicketObserver()
         }
-
 
         // удаление билета
         binding.deleteTicketButton.setOnClickListener {
@@ -91,16 +71,18 @@ class TicketDetailsFragment : Fragment() {
                 exhibitionId = exhibitionId.toString()
             )
 
-            this.deleteTicketButton.visibility = View.INVISIBLE
-            this.undoTicketButton.visibility = View.VISIBLE
+            deleteTicketButton.visibility = View.INVISIBLE
+            addCalendarEventButton.visibility = View.INVISIBLE
+            undoTicketButton.visibility = View.VISIBLE
         }
         // восстановление билета
         binding.undoTicketButton.setOnClickListener {
 
             ticketViewModel.saveTicket(undoExhibitionTicket)
 
-            this.deleteTicketButton.visibility = View.VISIBLE
-            this.undoTicketButton.visibility = View.INVISIBLE
+            deleteTicketButton.visibility = View.VISIBLE
+            addCalendarEventButton.visibility = View.VISIBLE
+            undoTicketButton.visibility = View.INVISIBLE
         }
     }
 
@@ -113,55 +95,55 @@ class TicketDetailsFragment : Fragment() {
         exhibitionsViewModel.exhibitionContentState.observe(viewLifecycleOwner, ::handleTicket)
     }
 
-    private fun handleTicket(contentResultState: ContentResultState) {
+    private fun handleTicket(contentResultState: ContentResultState) =
         contentResultState.refreshPage(
-            binding.content, binding.progressBar
-        )
-        contentResultState.handleContents(
+            viewToShow = binding.content,
+            progressBar = binding.progressBar,
             onStateSuccess = {
                 when (it) {
                     is Exhibition -> setViews(it)
                     is ExhibitionTicket -> setData(it)
                 }
-            },
-            onStateError = {
             }
         )
+
+    private fun setViews(exhibition: Exhibition) {
+        ticketViewModel.saveTicket(exhibition.toExhibitionTicket())
+        setData(exhibition.toExhibitionTicket())
     }
 
-    private fun setViews(exhibition: Exhibition?) {
-        if (exhibition != null) {
-            ticketViewModel.saveTicket(exhibition.toExhibitionTicket())
-            setData(exhibition.toExhibitionTicket())
-        }
-    }
+    private fun setData(ticket: ExhibitionTicket) = with(binding) {
+        undoExhibitionTicket = ticket
 
-    private fun setData(ticket: ExhibitionTicket?) = with(binding) {
-        undoExhibitionTicket = ticket ?: ExhibitionTicket()
+        titleTextView.text = ticket.title
+        exhibitionIdTextView.text = ticket.galleryTitle
 
-        this.titleTextView.text = ticket?.title.orEmpty()
-        this.exhibitionIdTextView.text = ticket?.galleryTitle.toString()
-
-        this.aicStartAtTextView.text =
+        aicStartAtTextView.text =
             "${getString(R.string.exhibition_start)} : ${
-                ticket?.aicStartAt.toString().reformatIso8601()
-            }"
-        this.aicEndAtTextView.text =
-            "${getString(R.string.exhibition_end)} : ${
-                ticket?.aicEndAt.toString().reformatIso8601()
+                ticket.aicStartAt.reformatIso8601()
             }"
 
+        aicEndAtTextView.text =
+            "${getString(R.string.exhibition_end)} : ${
+                ticket.aicEndAt.reformatIso8601()
+            }"
 
         //QRCode
-        this.qrCodeImageView.setImageBitmap(
-            QrCodeGenerator().makeImage("ЭПИК и ARTIC представляют: ${ticket?.title} в ${ticket?.galleryTitle}")
+        qrCodeImageView.setImageBitmap(
+            QrCodeGenerator.makeImage(
+                String.format(
+                    getString(
+                        R.string.qr_code_msg,
+                        ticket.title,
+                        ticket.galleryTitle
+                    )
+                )
+            )
         )
 
         // Регистрация нового события в календаре Google
-        binding.addCalendarEventButton.setOnClickListener {
-            Log.d("addCalendarEventButton", " was clicked")
-            if (ticket != null)
-                (activity as MainActivity).addCalendarEvent(ticket.toCalendarEvent())
+        addCalendarEventButton.setOnClickListener {
+            (activity as MainActivity).addCalendarEvent(ticket.toCalendarEvent())
         }
     }
 }

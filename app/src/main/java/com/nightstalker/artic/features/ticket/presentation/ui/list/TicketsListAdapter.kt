@@ -1,10 +1,9 @@
 package com.nightstalker.artic.features.ticket.presentation.ui.list
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import coil.load
 import com.nightstalker.artic.R
 import com.nightstalker.artic.databinding.ItemTicketBinding
 import com.nightstalker.artic.features.ticket.domain.model.ExhibitionTicket
@@ -29,16 +28,10 @@ class TicketsListAdapter(private val onItemClicked: (id: Long) -> Unit) :
         )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val context = holder.binding.placeImage.context
         val item = _data[position]
         with(holder.binding) {
             textTitle.text = item.title
-            val imageUrl = item.imageUrl
-            Glide.with(context)
-                .load(imageUrl)
-                .onlyRetrieveFromCache(true)
-                .into(placeImage)
-
+            placeImage.load(item.imageUrl)
             root.setOnClickListener {
                 onItemClicked(item.id)
             }
@@ -48,12 +41,10 @@ class TicketsListAdapter(private val onItemClicked: (id: Long) -> Unit) :
     override fun getItemCount(): Int = _data.size
 
     fun setData(data: List<ExhibitionTicket>) {
-        Log.d("TicketListAdapter", "list size = ${data.size} -- getItemCount() = ${getItemCount()}")
         if (data.isNotEmpty()) {
             this._data = data
             notifyDataSetChanged()
         }
-        Log.d("TicketListAdapter", "list size = ${data.size} -- getItemCount() = ${getItemCount()}")
     }
 
     class ViewHolder(val binding: ItemTicketBinding) :

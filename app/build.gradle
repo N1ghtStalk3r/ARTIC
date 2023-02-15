@@ -102,6 +102,9 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
     implementation 'me.dm7.barcodescanner:zbar:1.9.4'
 
+    def vb_delegate = "1.5.8"
+    implementation "com.github.kirich1409:viewbindingpropertydelegate-noreflection:$vb_delegate"
+
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0'
 

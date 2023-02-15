@@ -6,15 +6,15 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
 
-class QrCodeGenerator {
+object QrCodeGenerator {
 
     fun makeImage(text: String): Bitmap {
-        val size = QrConstants.QR_IMAGE_SIZE
+        val size = QR_IMAGE_SIZE
         val hints = hashMapOf<EncodeHintType, Any>()
         hints[EncodeHintType.CHARACTER_SET] =
-            QrConstants.QR_CHARACTER_SET // Make the QR code support Cyrillic symbols
+            QR_CHARACTER_SET // Make the QR code support Cyrillic symbols
         hints[EncodeHintType.MARGIN] =
-            QrConstants.QR_MARGIN  // Make the QR code buffer border narrower
+            QR_MARGIN  // Make the QR code buffer border narrower
 
         Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565).run {
             if (text.isNotEmpty()) {
@@ -28,4 +28,10 @@ class QrCodeGenerator {
             return this
         }
     }
+
+
+    private const val QR_IMAGE_SIZE = 256
+    private const val QR_CHARACTER_SET = "UTF-8"  // Make the QR code support Cyrillic symbols
+    private const val QR_MARGIN = 1  // Make the QR code buffer border narrower
+    const val QR_BORDER_STROKE_WIDTH = 10
 }

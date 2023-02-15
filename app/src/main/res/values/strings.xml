@@ -6,50 +6,34 @@
     <string name="label_frag_exi_list">Выставки</string>
     <string name="label_frag_exi_det">Выставка</string>
     <string name="label_frag_artwork_full">Полное фото</string>
+    <string name="label_frag_ticket_list">Билеты</string>
+    <string name="label_frag_ticket_det">Билет</string>
 
     <string name="fab_scan_qr_tooltip">Сканировать QR-код</string>
     <string name="iv_filter">Фильтровать</string>
     <string name="btn_buy_ticket">Купить билет</string>
-    <string name="filter_content_recent">Недавное появившееся</string>
-    <string name="filter_content_pub_dom">Public domain</string>
-    <string name="filter_content_has_materials">Есть материалы</string>
-    <string name="hint_search">Search ...</string>
+    <string name="hint_search">Поиск</string>
 
+    <!--    Сообщения-->
     <string name="network_error_title">Ошибка подключения</string>
     <string name="network_error_description">Проверьте соединение с сетью и обновите страницу</string>
     <string name="loading_error_title">Ошибка</string>
     <string name="loading_error_description">Повторите запрос или попробуйте позднее</string>
     <string name="refresh">Обновить</string>
-    <string name="label_frag_ticket_list">Билеты</string>
-    <string name="label_frag_ticket_det">Билет</string>
     <string name="qrscanner">QRScanner</string>
-    <string name="qr_code_url">get QR-code from poster URL</string>
-    <string name="qr_code_ticket">get QR-code from title</string>
-    <string name="get_enjoy">Get enjoy</string>
-    <string name="undo_label_button">Restore the deleted ticket</string>
 
-    <string name="cancel">Cancel</string>
-    <string name="favourites_scanned_results">Favourite Scanned Results</string>
-    <string name="grant_permissions">Grant Permissions</string>
-    <string name="we_need_permission">We need camera permission to scan QR codes. Go to App Settings and manage
-        permissions
-    </string>
-    <string name="grant">Grant</string>
-    <string name="exo_controls_play_description">Play</string>
+    <string name="get_enjoy">Get enjoy</string>
     <string name="audio_player_cancel_audio_content_description">Close</string>
-    <string name="exo_controls_pause_description">Pause</string>
-    <string name="place_of_origin">Place of origin</string>
-    <string name="date_start">Date start</string>
-    <string name="kind_of_object">Kind of object</string>
-    <string name="close">Закрыть</string>
-    <string name="filter">Фильтр</string>
-    <string name="enter_place_of_origin">Enter place of origin</string>
-    <string name="enter_type">Enter type</string>
-    <string name="query_result">По запросу ... найдено ... экспонатов</string>
+    <string name="undo_label_button">Отменить</string>
+
+    <string name="cancel">Отмена</string>
+    <string name="grant_permissions">Предоставьте разрешение</string>
+    <string name="we_need_permission">Приложению требуется разрашение на использование камеры. Пожалуйста, предоставьте его.</string>
+    <string name="grant">Да</string>
 
     <string name="intent_calendar_event">vnd.android.cursor.item/event</string>
     <string name="event_location">The Art Institute of Chicago</string>
-    <string name="db_table_tickets">tickets</string>
+
     <string name="exhibition_start">Дата открытия</string>
     <string name="exhibition_end">Дата закрытия</string>
     <string name="audio_channel_name">Аудио</string>
@@ -60,13 +44,12 @@
     <string name="label_frag_scanner">Сканер</string>
     <string name="label_frag_audio_lookup">Поиск аудио</string>
     <string name="label_frag_audio_player_bottom_sheet">Плеер</string>
-    <string name="load_error">Error</string>
-    <string name="try_again">try</string>
 
     <!--    Экран поиска аудио-->
     <string name="audio_not_found">Нет такого аудио</string>
     <string name="enter_num_from_art_table">Введите номер аудио файла из таблички</string>
     <string name="enter_num_val">Введите значение!</string>
+    <string name="qr_code_msg">ЭПИК и ARTIC представляют: %s в %s</string>
 
     <string-array name="artwork_types">
         <item>Print</item>

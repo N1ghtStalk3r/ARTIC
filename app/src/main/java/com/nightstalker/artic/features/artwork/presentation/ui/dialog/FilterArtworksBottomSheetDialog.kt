@@ -5,12 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.nightstalker.artic.R
 import com.nightstalker.artic.core.presentation.model.ContentResultState
-import com.nightstalker.artic.core.presentation.model.handleContents
 import com.nightstalker.artic.core.presentation.model.refreshPage
 import com.nightstalker.artic.databinding.FragmentFilterArtworksBottomSheetDialogBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -88,19 +86,13 @@ class FilterArtworksBottomSheetDialog : BottomSheetDialogFragment() {
     }
 
     private fun handleFilterResult(contentResultState: ContentResultState) {
-        contentResultState.refreshPage(binding.content, binding.progressBar)
-        contentResultState.handleContents(
+        contentResultState.refreshPage(
+            viewToShow = binding.content,
+            progressBar = binding.progressBar,
             onStateSuccess = {
-                Log.d(TAG, "numberOfArts: $it")
                 binding.btnApply.text = resources.getString(R.string.text_found_artworks, it)
-            },
-            onStateError = {
+            })
 
-            },
-            onStateLoading = {
-                Toast.makeText(activity, "Найдено: ", Toast.LENGTH_SHORT).show()
-            }
-        )
     }
 
 

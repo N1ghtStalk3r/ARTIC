@@ -13,19 +13,13 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="ListItemsTitle" parent="BaseHeaderTextStyle">
-        <!--        <item name="android:textSize">18sp</item>-->
-        <!--        <item name="android:textAlignment">center</item>-->
-    </style>
+    <style name="ListItemsTitle" parent="BaseHeaderTextStyle"></style>
 
     <style name="ListItemsShortDescription" parent="BaseTextStyle">
         <item name="android:textSize">16sp</item>
     </style>
 
     <style name="DetailOfListItemTitle" parent="BaseHeaderTextStyle">
-        <!--        <item name="android:textSize">24sp</item>-->
-        <!--        <item name="android:textAlignment">center</item>-->
-        <!--        <item name="android:textStyle">bold</item>-->
     </style>
 
     <style name="DetailOfListItemDescription" parent="BaseTextStyle">
@@ -48,12 +42,6 @@
     </style>
 
     <style name="SpinnerStyle">
-        <!--        <item name="android:clickable">false</item>-->
-        <!--        <item name="android:cursorVisible">false</item>-->
-        <!--        <item name="android:focusable">false</item>-->
-        <!--        <item name="android:inputType">text</item>-->
-        <!--        <item name="maxLines">1</item>-->
-        <!--        <item name="android:focusableInTouchMode">false</item>-->
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
