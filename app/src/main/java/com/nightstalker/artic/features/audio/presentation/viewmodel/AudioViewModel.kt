@@ -19,10 +19,23 @@ class AudioViewModel(
     private val _audioFileContentState = MutableLiveData<ContentResultState>()
     val audioFileContentState get() = _audioFileContentState
 
+    private var _audioNumber = MutableLiveData<Int>(0)
+    val audioNumber get() = _audioNumber
+
+    fun performSearchById(id: Int) {
+        _audioNumber.value = id
+        getSoundById(id)
+    }
+
     fun getSoundById(id: Int) =
-        viewModelCall(call = { audioUseCase.getAudioById(id) }, contentResultState = _audioFileContentState)
+        viewModelCall(
+            call = { audioUseCase.getAudioById(id) },
+            contentResultState = _audioFileContentState
+        )
 
     fun getSoundByTitle(title: String) =
-        viewModelCall(call = { audioUseCase.getSoundByArtworkTitle(title) },
-            contentResultState = _audioFileContentState)
+        viewModelCall(
+            call = { audioUseCase.getSoundByArtworkTitle(title) },
+            contentResultState = _audioFileContentState
+        )
 }

@@ -9,8 +9,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.nightstalker.artic.MainActivity
 import com.nightstalker.artic.R
 import com.nightstalker.artic.core.presentation.ext.reformatIso8601
+import com.nightstalker.artic.core.presentation.ext.refreshPage
 import com.nightstalker.artic.core.presentation.model.ContentResultState
-import com.nightstalker.artic.core.presentation.model.refreshPage
 import com.nightstalker.artic.databinding.FragmentTicketDetailsBinding
 import com.nightstalker.artic.features.ApiConstants
 import com.nightstalker.artic.features.exhibition.data.mappers.toExhibitionTicket
@@ -22,12 +22,13 @@ import com.nightstalker.artic.features.ticket.domain.model.ExhibitionTicket
 import kotlinx.android.synthetic.main.fragment_ticket_details.addCalendarEventButton
 import kotlinx.android.synthetic.main.fragment_ticket_details.deleteTicketButton
 import kotlinx.android.synthetic.main.fragment_ticket_details.undoTicketButton
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class TicketDetailsFragment : Fragment(R.layout.fragment_ticket_details) {
     private val args: TicketDetailsFragmentArgs by navArgs()
-    private val exhibitionsViewModel by viewModel<ExhibitionDetailsViewModel>()
+    private val exhibitionsViewModel: ExhibitionDetailsViewModel by sharedViewModel()
     private val ticketViewModel by viewModel<TicketDetailsViewModel>()
     private val binding: FragmentTicketDetailsBinding by viewBinding(FragmentTicketDetailsBinding::bind)
 

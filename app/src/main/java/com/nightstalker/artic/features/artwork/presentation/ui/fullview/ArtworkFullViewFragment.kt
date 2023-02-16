@@ -8,11 +8,11 @@ import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.load
 import com.nightstalker.artic.R
-import com.nightstalker.artic.core.presentation.model.refreshPage
+import com.nightstalker.artic.core.presentation.ext.refreshPage
 import com.nightstalker.artic.databinding.FragmentArtworkFullViewBinding
 import com.nightstalker.artic.features.artwork.presentation.ui.detail.ArtworkDetailsViewModel
 import kotlinx.android.synthetic.main.fragment_artwork_full_view.ivFullArtwork
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
  * Фрагмент для отображения полного изображения экспоната
@@ -27,7 +27,7 @@ class ArtworkFullViewFragment : Fragment(R.layout.fragment_artwork_full_view) {
 
     private val args: ArtworkFullViewFragmentArgs by navArgs()
 
-    private val artworkViewModel by viewModel<ArtworkDetailsViewModel>()
+    private val artworkViewModel: ArtworkDetailsViewModel by sharedViewModel()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

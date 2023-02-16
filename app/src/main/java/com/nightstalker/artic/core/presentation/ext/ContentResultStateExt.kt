@@ -1,8 +1,10 @@
-package com.nightstalker.artic.core.presentation.model
+package com.nightstalker.artic.core.presentation.ext
 
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
+import com.nightstalker.artic.core.presentation.model.ContentResultState
+import com.nightstalker.artic.core.presentation.model.ErrorModel
 import com.nightstalker.artic.databinding.LayoutErrorBinding
 
 typealias SuccessStateAction = (content: Any?) -> Unit

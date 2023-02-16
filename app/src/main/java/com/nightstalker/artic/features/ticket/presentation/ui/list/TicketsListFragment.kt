@@ -7,8 +7,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.nightstalker.artic.R
+import com.nightstalker.artic.core.presentation.ext.refreshPage
 import com.nightstalker.artic.core.presentation.model.ContentResultState
-import com.nightstalker.artic.core.presentation.model.refreshPage
 import com.nightstalker.artic.databinding.FragmentTicketsListBinding
 import com.nightstalker.artic.features.ticket.domain.model.ExhibitionTicket
 import org.koin.androidx.viewmodel.ext.android.viewModel

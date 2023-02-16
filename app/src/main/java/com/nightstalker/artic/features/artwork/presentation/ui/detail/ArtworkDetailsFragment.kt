@@ -1,25 +1,20 @@
 package com.nightstalker.artic.features.artwork.presentation.ui.detail
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
-import by.kirich1409.viewbindingdelegate.viewBindingLazy
 import coil.load
 import com.nightstalker.artic.R
+import com.nightstalker.artic.core.presentation.ext.refreshPage
 import com.nightstalker.artic.core.presentation.model.ContentResultState
-import com.nightstalker.artic.core.presentation.model.handleContents
-import com.nightstalker.artic.core.presentation.model.refreshPage
 import com.nightstalker.artic.databinding.FragmentArtworkDetailsBinding
-import com.nightstalker.artic.databinding.LayoutErrorBinding
 import com.nightstalker.artic.features.ImageLinkCreator
 import com.nightstalker.artic.features.artwork.domain.model.Artwork
 import com.nightstalker.artic.features.artwork.domain.model.ArtworkInformation
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
  * Фрагмент для отображения деталей эскпоната
@@ -30,7 +25,7 @@ class ArtworkDetailsFragment : Fragment(R.layout.fragment_artwork_details) {
 
     private val args: ArtworkDetailsFragmentArgs by navArgs()
     private val binding: FragmentArtworkDetailsBinding by viewBinding(FragmentArtworkDetailsBinding::bind)
-    private val artworkViewModel by viewModel<ArtworkDetailsViewModel>()
+    private val artworkViewModel: ArtworkDetailsViewModel by sharedViewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
