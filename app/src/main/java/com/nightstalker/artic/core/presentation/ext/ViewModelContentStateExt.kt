@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nightstalker.artic.core.domain.model.ResultState
 import com.nightstalker.artic.core.presentation.model.ContentResultState
-import com.nightstalker.artic.core.presentation.model.parseError
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

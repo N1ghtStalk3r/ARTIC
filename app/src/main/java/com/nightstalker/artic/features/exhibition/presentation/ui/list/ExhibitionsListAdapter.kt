@@ -9,6 +9,7 @@ import com.nightstalker.artic.databinding.ItemExhibitionBinding
 import com.nightstalker.artic.features.exhibition.domain.model.Exhibition
 
 /**
+ * Адаптер для отображения списка выставок
  * @author Tamerlan Mamukhov
  * @created 2022-09-18
  */
@@ -30,11 +31,7 @@ class ExhibitionsListAdapter(
         val item = _data[position]
         with(holder.binding) {
             textTitle.text = item.title
-
-            val imageUrl = item.imageUrl
-
-            placeImage.load(imageUrl)
-
+            placeImage.load(item.imageUrl)
             root.setOnClickListener {
                 onItemClicked(item.id)
             }

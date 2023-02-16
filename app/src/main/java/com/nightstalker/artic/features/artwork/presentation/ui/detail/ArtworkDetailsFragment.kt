@@ -1,109 +1,92 @@
 package com.nightstalker.artic.features.artwork.presentation.ui.detail
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.load
 import com.nightstalker.artic.R
+import com.nightstalker.artic.core.presentation.ext.refreshPage
 import com.nightstalker.artic.core.presentation.model.ContentResultState
-import com.nightstalker.artic.core.presentation.model.handleContents
-import com.nightstalker.artic.core.presentation.model.refreshPage
 import com.nightstalker.artic.databinding.FragmentArtworkDetailsBinding
 import com.nightstalker.artic.features.ImageLinkCreator
 import com.nightstalker.artic.features.artwork.domain.model.Artwork
 import com.nightstalker.artic.features.artwork.domain.model.ArtworkInformation
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
  * Фрагмент для отображения деталей эскпоната
  * @author Tamerlan Mamukhov
  * @created 2022-09-18
  */
-class ArtworkDetailsFragment : Fragment() {
-    private val args: ArtworkDetailsFragmentArgs by navArgs()
-    private var _binding: FragmentArtworkDetailsBinding? = null
-    private val binding get() = _binding
-    private val artworkViewModel by viewModel<ArtworkDetailsViewModel>()
+class ArtworkDetailsFragment : Fragment(R.layout.fragment_artwork_details) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        return inflater.inflate(R.layout.fragment_artwork_details, container, false)
-    }
+    private val args: ArtworkDetailsFragmentArgs by navArgs()
+    private val binding: FragmentArtworkDetailsBinding by viewBinding(FragmentArtworkDetailsBinding::bind)
+    private val artworkViewModel: ArtworkDetailsViewModel by sharedViewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        _binding = FragmentArtworkDetailsBinding.bind(view)
-        val id = args.posterId
+        args.posterId.run {
+            artworkViewModel.getArtwork(this)
+            artworkViewModel.getArtworkInformation(this)
+        }
+
         initObserver()
-
-        artworkViewModel.getArtwork(id)
-        artworkViewModel.getArtworkInformation(id)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    private fun initObserver() {
+    private fun initObserver() =
         with(artworkViewModel) {
             artworkContentState.observe(viewLifecycleOwner, ::handle)
             artworkDescriptionState.observe(viewLifecycleOwner, ::handle)
         }
-    }
 
-    private fun handle(contentResultState: ContentResultState) {
-        contentResultState.refreshPage(binding?.content!!, binding?.progressBar!!)
-        contentResultState.handleContents(
-            onStateSuccess = { content ->
-                when (content) {
-                    is Artwork -> setArtworkViews(content)
-                    is ArtworkInformation -> setDescriptionView(content)
+    private fun handle(contentResultState: ContentResultState) =
+        contentResultState.refreshPage(
+            viewToShow = binding.content,
+            progressBar = binding.progressBar,
+            onStateSuccess = {
+                when (it) {
+                    is Artwork -> setArtworkViews(it)
+                    is ArtworkInformation -> setDescriptionView(it)
                 }
             },
-            onStateError = {
-
-            }
+            errorLayout = binding.errorLayout
         )
-    }
 
-    private fun setDescriptionView(artworkInformation: ArtworkInformation?) {
+
+    private fun setDescriptionView(artworkInformation: ArtworkInformation) =
         with(binding) {
-            this?.tvDescription?.text = artworkInformation?.description
+            tvDescription.text = artworkInformation.description
         }
-    }
 
     private fun setArtworkViews(artwork: Artwork) {
         with(binding) {
-            val place = binding?.placeImage
 
-            this?.titleTextView?.text = artwork.title
-            this?.tvAuthor?.text = artwork.artist
+            titleTextView.text = artwork.title
+            tvAuthor.text = artwork.artist
 
             val imageUrl = artwork.imageId?.let { ImageLinkCreator.createImageDefaultLink(it) }
 
-            place?.load(imageUrl)
+            with(placeImage) {
+                load(imageUrl)
 
-            place?.setOnClickListener {
-                artwork.imageId?.let { it1 ->
-                    ArtworkDetailsFragmentDirections.actionArtworkDetailsFragmentToArtworkFullViewFragment(
-                        it1
-                    )
-                }
-                    .run {
-                        findNavController().navigate(this!!)
+                setOnClickListener {
+                    artwork.imageId?.let { it1 ->
+                        ArtworkDetailsFragmentDirections.actionArtworkDetailsFragmentToArtworkFullViewFragment(
+                            it1
+                        )
+                    }.run {
+                        this?.let { it1 -> findNavController().navigate(it1) }
                     }
-            }
+                }
 
+            }
         }
+
     }
 
     companion object {

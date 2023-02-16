@@ -16,12 +16,19 @@ class ExhibitionsListViewModel(
     private val useCase: ExhibitionsUseCase
 ) : ViewModel() {
 
-    private var _exhibitionsContentState = MutableLiveData<ContentResultState>()
+    private var _exhibitionsContentState =
+        MutableLiveData<ContentResultState>(ContentResultState.Loading)
     val exhibitionsContentState get() = _exhibitionsContentState
 
     fun getExhibitions() = viewModelCall(
         call = { useCase.getExhibitions() },
         contentResultState = _exhibitionsContentState
     )
+
+    fun loadExhibitions() {
+        if (_exhibitionsContentState.value is ContentResultState.Loading) {
+            getExhibitions()
+        }
+    }
 
 }

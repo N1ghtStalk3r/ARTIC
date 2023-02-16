@@ -13,16 +13,16 @@ import com.nightstalker.artic.features.ApiConstants.CalendarEventConstants.EVENT
 import com.nightstalker.artic.features.ApiConstants.CalendarEventConstants.EVENT_CALENDAR_TYPE
 import com.nightstalker.artic.features.ApiConstants.CalendarEventConstants.EVENT_END
 import com.nightstalker.artic.features.ApiConstants.CalendarEventConstants.EVENT_RULE
+import com.nightstalker.artic.features.artwork.presentation.ui.detail.ArtworkDetailsViewModel
 import com.nightstalker.artic.features.audio.presentation.viewmodel.AudioViewModel
 import com.nightstalker.artic.features.exhibition.presentation.ui.detail.ExhibitionDetailsViewModel
-import com.nightstalker.artic.features.ticket.presentation.ui.list.TicketsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val audioViewModel by viewModel<AudioViewModel>()
+    private val artworkDetailsViewModel by viewModel<ArtworkDetailsViewModel>()
     private val exhibitionsViewModel by viewModel<ExhibitionDetailsViewModel>()
-    private val ticketsViewModel by viewModel<TicketsViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

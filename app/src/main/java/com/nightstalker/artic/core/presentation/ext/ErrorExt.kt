@@ -1,6 +1,7 @@
-package com.nightstalker.artic.core.presentation.model
+package com.nightstalker.artic.core.presentation.ext
 
 import com.nightstalker.artic.R
+import com.nightstalker.artic.core.presentation.model.ErrorModel
 
 /**
  * Функция, которой задает [ErrorModel] в зависимости от наличия ошибки из-за Сети
